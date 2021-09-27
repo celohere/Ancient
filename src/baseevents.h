@@ -1,92 +1,124 @@
 /*
 * OpenTibia - an opensource roleplaying game.
-* This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-* This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-* You should have received a copy of the GNU General Public License along with this program. If not, see <http:// www.gnu.org/licenses/>.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along
+* with this program; if not, see <http://www.gnu.org/licenses/>.
 */
 
 #ifndef __BASEEVENTS__
-#define __BASEEVENTS__
-#include "otsystem.h"
+	#define __BASEEVENTS__
 
-#include "luascript.h"
-#include <libxml/parser.h>
+	#include "otsystem.h"
 
-class Event;
-class BaseEvents
-{
-	public:
-		BaseEvents(): m_loaded(false) {}
-		virtual ~BaseEvents() {}
+	#include "luascript.h"
+	#include <libxml/parser.h>
 
-		bool loadFromXml();
-		bool reload();
+	class Event;
 
-		bool parseEventNode(xmlNodePtr p, std::string scriptsPath, bool override);
-		bool isLoaded() const {return m_loaded;}
+	class BaseEvents {
+		public:
+			BaseEvents():
+				m_loaded(false) {}
+			virtual ~BaseEvents() {}
 
-	protected:
-		virtual std::string getScriptBaseName() const = 0;
-		virtual void clear() = 0;
+			bool loadFromXml();
+			bool reload();
 
-		virtual bool registerEvent(Event* event, xmlNodePtr p, bool override) = 0;
-		virtual Event* getEvent(const std::string& nodeName) = 0;
+			bool parseEventNode(
+				xmlNodePtr p,
+				std::string scriptsPath,
+				bool override
+			);
+			bool isLoaded() const {
+				return m_loaded;
+			}
 
-		virtual LuaInterface& getInterface() = 0;
+		protected:
+			virtual std::string getScriptBaseName() const = 0;
+			virtual void clear() = 0;
 
-		bool m_loaded;
-};
+			virtual bool registerEvent(
+				Event* event,
+				xmlNodePtr p,
+				bool override
+			) = 0;
+			virtual Event* getEvent(const std::string& nodeName) = 0;
 
-enum EventScript_t
-{
-	EVENT_SCRIPT_FALSE,
-	EVENT_SCRIPT_BUFFER,
-	EVENT_SCRIPT_TRUE
-};
+			virtual LuaInterface& getInterface() = 0;
 
-class Event
-{
-	public:
-		Event(LuaInterface* _interface): m_interface(_interface),
-			m_scripted(EVENT_SCRIPT_FALSE), m_scriptId(0) {}
-		Event(const Event* copy);
-		virtual ~Event() {}
+			bool m_loaded;
+	};
 
-		virtual bool configureEvent(xmlNodePtr p) = 0;
-		virtual bool isScripted() const {return m_scripted != EVENT_SCRIPT_FALSE;}
+	enum EventScript_t {
+		EVENT_SCRIPT_FALSE,
+		EVENT_SCRIPT_BUFFER,
+		EVENT_SCRIPT_TRUE
+	};
 
-		bool loadBuffer(const std::string& buffer);
-		bool checkBuffer(const std::string& buffer);
+	class Event {
+		public:
+			Event(LuaInterface* _interface):
+				m_interface(_interface), m_scripted(EVENT_SCRIPT_FALSE), m_scriptId(0) {}
+			Event(const Event* copy);
+			virtual ~Event() {}
 
-		bool loadScript(const std::string& script, bool file);
-		bool checkScript(const std::string& script, bool file);
+			virtual bool configureEvent(xmlNodePtr p) = 0;
+			virtual bool isScripted() const {
+				return m_scripted != EVENT_SCRIPT_FALSE;
+			}
 
-		virtual bool loadFunction(const std::string&) {return false;}
+			bool loadBuffer(const std::string& buffer);
+			bool checkBuffer(const std::string& buffer);
 
-	protected:
-		virtual std::string getScriptEventName() const = 0;
-		virtual std::string getScriptEventParams() const = 0;
+			bool loadScript(
+				const std::string& script,
+				bool file
+			);
+			bool checkScript(
+				const std::string& script,
+				bool file
+			);
 
-		LuaInterface* m_interface;
-		EventScript_t m_scripted;
+			virtual bool loadFunction(const std::string&) {
+				return false;
+			}
 
-		int32_t m_scriptId;
-		std::string m_scriptData;
-};
+		protected:
+			virtual std::string getScriptEventName() const = 0;
+			virtual std::string getScriptEventParams() const = 0;
 
-class CallBack
-{
-	public:
-		CallBack();
-		virtual ~CallBack() {}
+			LuaInterface* m_interface;
+			EventScript_t m_scripted;
 
-		bool loadCallBack(LuaInterface* _interface, std::string name);
+			int32_t m_scriptId;
+			std::string m_scriptData;
+	};
 
-	protected:
-		int32_t m_scriptId;
-		LuaInterface* m_interface;
+	class CallBack {
+		public:
+			CallBack();
+			virtual ~CallBack() {}
 
-		bool m_loaded;
-		std::string m_callbackName;
-};
+			bool loadCallBack(
+				LuaInterface* _interface,
+				std::string name
+			);
+
+		protected:
+			int32_t m_scriptId;
+			LuaInterface* m_interface;
+
+			bool m_loaded;
+			std::string m_callbackName;
+	};
 #endif

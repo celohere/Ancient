@@ -1,70 +1,105 @@
 /*
 * OpenTibia - an opensource roleplaying game.
-* This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-* This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-* You should have received a copy of the GNU General Public License along with this program. If not, see <http:// www.gnu.org/licenses/>.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along
+* with this program; if not, see <http://www.gnu.org/licenses/>.
 */
 
 #ifndef __BEDS__
-#define __BEDS__
-#include "item.h"
+	#define __BEDS__
 
-class House;
-class Player;
+	#include "item.h"
 
-class BedItem : public Item
-{
-	public:
-		BedItem(uint16_t _type): Item(_type), house(NULL) {internalRemoveSleeper();}
-		virtual ~BedItem() {}
+	class House;
+	class Player;
 
-		virtual BedItem* getBed() {return this;}
-		virtual const BedItem* getBed() const {return this;}
+	class BedItem : public Item {
+		public:
+			BedItem(uint16_t _type):
+				Item(_type), house(NULL) {
+					internalRemoveSleeper();
+				}
+			virtual ~BedItem() {}
 
-		virtual Attr_ReadValue readAttr(AttrTypes_t attr, PropStream& propStream);
-		virtual bool serializeAttr(PropWriteStream& propWriteStream) const;
+			virtual BedItem* getBed() {
+				return this;
+			}
+			virtual const BedItem* getBed() const {
+				return this;
+			}
 
-		virtual bool canRemove() const {return house;}
+			virtual Attr_ReadValue readAttr(
+				AttrTypes_t attr,
+				PropStream& propStream
+			);
+			virtual bool serializeAttr(PropWriteStream& propWriteStream) const;
 
-		uint32_t getSleeper() const {return sleeper;}
-		void setSleeper(uint32_t guid) {sleeper = guid;}
+			virtual bool canRemove() const {
+				return house;
+			}
 
-		House* getHouse() const {return house;}
-		void setHouse(House* h) {house = h;}
+			uint32_t getSleeper() const {
+				return sleeper;
+			}
+			void setSleeper(uint32_t guid) {
+				sleeper = guid;
+			}
 
-		bool canUse(Player* player);
+			House* getHouse() const {
+				return house;
+			}
+			void setHouse(House* h) {
+				house = h;
+			}
 
-		void sleep(Player* player);
-		void wakeUp();
+			bool canUse(Player* player);
 
-		BedItem* getNextBedItem();
+			void sleep(Player* player);
+			void wakeUp();
 
-	protected:
-		void updateAppearance(const Player* player);
-		void regeneratePlayer(Player* player) const;
+			BedItem* getNextBedItem();
 
-		void internalSetSleeper(const Player* player);
-		void internalRemoveSleeper();
+		protected:
+			void updateAppearance(const Player* player);
+			void regeneratePlayer(Player* player) const;
 
-		uint32_t sleeper;
-		House* house;
-};
+			void internalSetSleeper(const Player* player);
+			void internalRemoveSleeper();
 
-class Beds
-{
-	public:
-		virtual ~Beds() {}
-		static Beds* getInstance()
-		{
-			static Beds instance;
-			return &instance;
-		}
+			uint32_t sleeper;
+			House* house;
+	};
 
-		BedItem* getBedBySleeper(uint32_t guid);
-		void setBedSleeper(BedItem* bed, uint32_t guid) {BedSleepersMap[guid] = bed;}
+	class Beds {
+		public:
+			virtual ~Beds() {}
+			static Beds* getInstance() {
+				static Beds instance;
+				return &instance;
+			}
 
-	protected:
-		Beds() {BedSleepersMap.clear();}
-		std::map<uint32_t, BedItem*> BedSleepersMap;
-};
+			BedItem* getBedBySleeper(uint32_t guid);
+			void setBedSleeper(
+				BedItem* bed,
+				uint32_t guid
+			) {
+				BedSleepersMap[guid] = bed;
+			}
+
+		protected:
+			Beds() {
+				BedSleepersMap.clear();
+			}
+			std::map<uint32_t, BedItem*> BedSleepersMap;
+	};
 #endif

@@ -1,85 +1,112 @@
 /*
 * OpenTibia - an opensource roleplaying game.
-* This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-* This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-* You should have received a copy of the GNU General Public License along with this program. If not, see <http:// www.gnu.org/licenses/>.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along
+* with this program; if not, see <http://www.gnu.org/licenses/>.
 */
 
 #ifndef __SCHEDULER__
-#define __SCHEDULER__
-#include "otsystem.h"
+	#define __SCHEDULER__
 
-#include "dispatcher.h"
-#define SCHEDULER_MINTICKS 50
+	#include "otsystem.h"
 
-class SchedulerTask : public Task
-{
-	public:
-		virtual ~SchedulerTask() {}
+	#include "dispatcher.h"
+	#define SCHEDULER_MINTICKS 50
 
-		void setEventId(uint32_t eventId) {m_eventId = eventId;}
-		uint32_t getEventId() const {return m_eventId;}
+	class SchedulerTask : public Task {
+		public:
+			virtual ~SchedulerTask() {}
 
-		boost::system_time getCycle() const {return m_expiration;}
-		bool operator<(const SchedulerTask& other) const {return getCycle() > other.getCycle();}
+			void setEventId(uint32_t eventId) {
+				m_eventId = eventId;
+			}
+			uint32_t getEventId() const {
+				return m_eventId;
+			}
 
-	protected:
-		uint32_t m_eventId;
+			boost::system_time getCycle() const {
+				return m_expiration;
+			}
+			bool operator<(const SchedulerTask& other) const {
+				return getCycle() > other.getCycle();
+			}
 
-		SchedulerTask(uint32_t delay, const boost::function<void (void)>& f):
-			Task(delay, f), m_eventId(0) {}
-		friend SchedulerTask* createSchedulerTask(uint32_t, const boost::function<void (void)>&);
-};
+		protected:
+			uint32_t m_eventId;
 
-inline SchedulerTask* createSchedulerTask(uint32_t delay, const boost::function<void (void)>& f)
-{
-	if(delay < SCHEDULER_MINTICKS)
-		delay = SCHEDULER_MINTICKS;
+			SchedulerTask(
+				uint32_t delay,
+				const boost::function<void (void)>& f
+			):Task(delay, f), m_eventId(0) {}
 
-	return new SchedulerTask(delay, f);
-}
+			friend SchedulerTask* createSchedulerTask(
+				uint32_t,
+				const boost::function<void (void)>&
+			);
+	};
 
-class lessTask : public std::binary_function<SchedulerTask*&, SchedulerTask*&, bool>
-{
-	public:
-		bool operator()(SchedulerTask*& t1, SchedulerTask*& t2) {return (*t1) < (*t2);}
-};
-
-typedef std::set<uint32_t> EventIds;
-class Scheduler
-{
-	public:
-		virtual ~Scheduler() {}
-		static Scheduler& getInstance()
-		{
-			static Scheduler scheduler;
-			return scheduler;
+	inline SchedulerTask* createSchedulerTask(
+		uint32_t delay,
+		const boost::function<void (void)>& f
+	) {
+		if (delay < SCHEDULER_MINTICKS) {
+			delay = SCHEDULER_MINTICKS;
 		}
+		return new SchedulerTask(delay, f);
+	}
 
-		uint32_t addEvent(SchedulerTask* task);
-		bool stopEvent(uint32_t eventId);
+	class lessTask : public std::binary_function<SchedulerTask*&, SchedulerTask*&, bool> {
+		public:
+			bool operator()(
+				SchedulerTask*& t1,
+				SchedulerTask*& t2
+			) {
+				return (*t1) < (*t2);
+			}
+	};
 
-		void stop();
-		void shutdown();
+	typedef std::set<uint32_t> EventIds;
+	class Scheduler {
+		public:
+			virtual ~Scheduler() {}
+			static Scheduler& getInstance() {
+				static Scheduler scheduler;
+				return scheduler;
+			}
 
-		static void schedulerThread(void* p);
+			uint32_t addEvent(SchedulerTask* task);
+			bool stopEvent(uint32_t eventId);
 
-	protected:
-		Scheduler();
-		enum SchedulerState
-		{
-			STATE_RUNNING,
-			STATE_CLOSING,
-			STATE_TERMINATED
-		};
+			void stop();
+			void shutdown();
 
-		uint32_t m_lastEvent;
-		EventIds m_eventIds;
+			static void schedulerThread(void* p);
 
-		boost::mutex m_eventLock;
-		boost::condition_variable m_eventSignal;
+		protected:
+			Scheduler();
+			enum SchedulerState {
+				STATE_RUNNING,
+				STATE_CLOSING,
+				STATE_TERMINATED
+			};
 
-		std::priority_queue<SchedulerTask*, std::vector<SchedulerTask*>, lessTask > m_eventList;
-		static SchedulerState m_threadState;
-};
+			uint32_t m_lastEvent;
+			EventIds m_eventIds;
+
+			boost::mutex m_eventLock;
+			boost::condition_variable m_eventSignal;
+
+			std::priority_queue<SchedulerTask*, std::vector<SchedulerTask*>, lessTask > m_eventList;
+			static SchedulerState m_threadState;
+	};
 #endif

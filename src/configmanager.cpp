@@ -1,8 +1,18 @@
 /*
 * OpenTibia - an opensource roleplaying game.
-* This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-* This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-* You should have received a copy of the GNU General Public License along with this program. If not, see <http:// www.gnu.org/licenses/>.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along
+* with this program; if not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "otpch.h"
@@ -12,8 +22,7 @@
 #include "house.h"
 #include "tools.h"
 
-ConfigManager::ConfigManager()
-{
+ConfigManager::ConfigManager() {
 	L = NULL;
 	m_loaded = false;
 	m_startup = true;
@@ -27,70 +36,81 @@ ConfigManager::ConfigManager()
 	m_confBool[SCRIPT_SYSTEM] = true;
 }
 
-bool ConfigManager::load()
-{
-	if(L)
+bool ConfigManager::load() {
+	if (L) {
 		lua_close(L);
+	}
 
 	L = lua_open();
-	if(!L)
+	if (!L) {
 		return false;
+	}
 
 	luaL_openlibs(L);
-	if(luaL_dofile(L, m_confString[CONFIG_FILE].c_str()))
-	{
+	if (luaL_dofile(L, m_confString[CONFIG_FILE].c_str())) {
 		lua_close(L);
 		L = NULL;
 		return false;
 	}
 
-	if(!m_loaded) //info that must be loaded one time- unless we reset the modules involved
-	{
-		if(m_confString[DATA_DIRECTORY] == "")
+	if (!m_loaded) { // info that must be loaded one time- unless we reset the modules involved
+		if (m_confString[DATA_DIRECTORY] == "") {
 			m_confString[DATA_DIRECTORY] = getGlobalString("dataDirectory", "data/");
+		}
 
-		if(m_confString[LOGS_DIRECTORY] == "")
+		if (m_confString[LOGS_DIRECTORY] == "") {
 			m_confString[LOGS_DIRECTORY] = getGlobalString("logsDirectory", "logs/");
+		}
 
-		if(m_confString[IP] == "")
+		if (m_confString[IP] == "") {
 			m_confString[IP] = getGlobalString("ip", "127.0.0.1");
+		}
 
-		if(m_confNumber[LOGIN_PORT] == 0)
+		if (m_confNumber[LOGIN_PORT] == 0) {
 			m_confNumber[LOGIN_PORT] = getGlobalNumber("loginPort", 7171);
+		}
 
-		if(m_confNumber[GAME_PORT] == 0)
+		if (m_confNumber[GAME_PORT] == 0) {
 			m_confNumber[GAME_PORT] = getGlobalNumber("gamePort", 7172);
+		}
 
-		if(m_confNumber[ADMIN_PORT] == 0)
+		if (m_confNumber[ADMIN_PORT] == 0) {
 			m_confNumber[ADMIN_PORT] = getGlobalNumber("adminPort", 7171);
+		}
 
-		if(m_confNumber[MANAGER_PORT] == 0)
+		if (m_confNumber[MANAGER_PORT] == 0) {
 			m_confNumber[MANAGER_PORT] = getGlobalNumber("managerPort", 7171);
+		}
 
-		if(m_confNumber[STATUS_PORT] == 0)
+		if (m_confNumber[STATUS_PORT] == 0) {
 			m_confNumber[STATUS_PORT] = getGlobalNumber("statusPort", 7171);
+		}
 
-		if(m_confString[RUNFILE] == "")
+		if (m_confString[RUNFILE] == "") {
 			m_confString[RUNFILE] = getGlobalString("runFile", "");
+		}
 
-		if(m_confString[OUTPUT_LOG] == "")
+		if (m_confString[OUTPUT_LOG] == "") {
 			m_confString[OUTPUT_LOG] = getGlobalString("outputLog", "");
+		}
 
 		m_confBool[TRUNCATE_LOG] = getGlobalBool("truncateLogOnStartup", true);
+
 		#ifdef MULTI_SQL_DRIVERS
-		m_confString[SQL_TYPE] = getGlobalString("sqlType", "sqlite");
+			m_confString[SQL_TYPE] = getGlobalString("sqlType", "sqlite");
 		#endif
+
 		m_confString[SQL_HOST] = getGlobalString("sqlHost", "localhost");
 		m_confNumber[SQL_PORT] = getGlobalNumber("sqlPort", 3306);
 		m_confString[SQL_DB] = getGlobalString("sqlDatabase", "Ancient");
 		m_confString[SQL_USER] = getGlobalString("sqlUser", "root");
 		m_confString[SQL_PASS] = getGlobalString("sqlPass", "");
-		m_confString[SQL_FILE] = getGlobalString("sqlFile", "Ancient.s3db");
+		m_confString[SQL_FILE] = getGlobalString("sqlFile", "forgottenserver.s3db");
 		m_confNumber[SQL_KEEPALIVE] = getGlobalNumber("sqlKeepAlive", 0);
 		m_confNumber[MYSQL_READ_TIMEOUT] = getGlobalNumber("mysqlReadTimeout", 10);
 		m_confNumber[MYSQL_WRITE_TIMEOUT] = getGlobalNumber("mysqlWriteTimeout", 10);
 		m_confBool[OPTIMIZE_DATABASE] = getGlobalBool("startupDatabaseOptimization", true);
-		m_confString[MAP_NAME] = getGlobalString("mapName", "Ancient.otbm.gz");
+		m_confString[MAP_NAME] = getGlobalString("mapName", "forgotten.otbm.gz");
 		m_confBool[GLOBALSAVE_ENABLED] = getGlobalBool("globalSaveEnabled", true);
 		m_confNumber[GLOBALSAVE_H] = getGlobalNumber("globalSaveHour", 8);
 		m_confNumber[GLOBALSAVE_M] = getGlobalNumber("globalSaveMinute", 0);
@@ -101,9 +121,11 @@ bool ConfigManager::load()
 		m_confBool[EXPERIENCE_STAGES] = getGlobalBool("experienceStages", false);
 		m_confString[DEFAULT_PRIORITY] = getGlobalString("defaultPriority", "high");
 		m_confBool[GUILD_HALLS] = getGlobalBool("guildHalls", false);
+
 		#ifndef __LOGIN_SERVER__
-		m_confBool[LOGIN_ONLY_LOGINSERVER] = getGlobalBool("loginOnlyWithLoginServer", false);
+			m_confBool[LOGIN_ONLY_LOGINSERVER] = getGlobalBool("loginOnlyWithLoginServer", false);
 		#endif
+
 		m_confString[ENCRYPTION_TYPE] = getGlobalString("encryptionType", "sha1");
 		m_confString[RSA_PRIME1] = getGlobalString("rsaPrime1", "14299623962416399520070177382898895550795403345466153217470516082934737582776038882967213386204600674145392845853859217990626450972452084065728686565928113");
 		m_confString[RSA_PRIME2] = getGlobalString("rsaPrime2", "7630979195970404721891201847792002125535401292779123937207447574596692788513647179235335529307251350570728407373705564708871762033017096809910315212884101");
@@ -305,9 +327,11 @@ bool ConfigManager::load()
 	m_confString[ADMIN_ENCRYPTION_DATA] = getGlobalString("adminEncryptionData", "");
 	m_confBool[ADDONS_PREMIUM] = getGlobalBool("addonsOnlyPremium", true);
 	m_confBool[UNIFIED_SPELLS] = getGlobalBool("unifiedSpells", true);
-#ifdef __WAR_SYSTEM__
-	m_confBool[OPTIONAL_WAR_ATTACK_ALLY] = getGlobalBool("optionalWarAttackableAlly", false);
-#endif
+
+	#ifdef __WAR_SYSTEM__
+		m_confBool[OPTIONAL_WAR_ATTACK_ALLY] = getGlobalBool("optionalWarAttackableAlly", false);
+	#endif
+
 	m_confNumber[VIPLIST_DEFAULT_LIMIT] = getGlobalNumber("vipListDefaultLimit", 20);
 	m_confNumber[VIPLIST_DEFAULT_PREMIUM_LIMIT] = getGlobalNumber("vipListDefaultPremiumLimit", 100);
 	m_confNumber[STAMINA_DESTROY_LOOT] = getGlobalNumber("staminaLootLimit", 14 * 60);
@@ -317,88 +341,90 @@ bool ConfigManager::load()
 	return true;
 }
 
-bool ConfigManager::reload()
-{
-	if(!m_loaded)
+bool ConfigManager::reload() {
+	if (!m_loaded) {
 		return false;
+	}
 
 	uint32_t tmp = m_confNumber[HOUSE_PRICE];
-	if(!load())
+	if (!load()) {
 		return false;
+	}
 
-	if((uint32_t)m_confNumber[HOUSE_PRICE] == tmp)
+	if ((uint32_t)m_confNumber[HOUSE_PRICE] == tmp) {
 		return true;
+	}
 
-	for(HouseMap::iterator it = Houses::getInstance()->getHouseBegin();
-		it != Houses::getInstance()->getHouseEnd(); ++it)
-	{
+	for (HouseMap::iterator it = Houses::getInstance()->getHouseBegin(); it != Houses::getInstance()->getHouseEnd(); ++it) {
 		uint32_t price = it->second->getTilesCount() * m_confNumber[HOUSE_PRICE];
-		if(m_confBool[HOUSE_RENTASPRICE])
-		{
+		if (m_confBool[HOUSE_RENTASPRICE]) {
 			uint32_t rent = it->second->getRent();
-			if(!m_confBool[HOUSE_PRICEASRENT] && it->second->getPrice() != rent)
+			if (!m_confBool[HOUSE_PRICEASRENT] && it->second->getPrice() != rent) {
 				price = rent;
+			}
 		}
 
 		it->second->setPrice(price);
-		if(m_confBool[HOUSE_PRICEASRENT])
+		if (m_confBool[HOUSE_PRICEASRENT]) {
 			it->second->setRent(price);
+		}
 
-		if(!it->second->getOwner())
+		if (!it->second->getOwner()) {
 			it->second->updateDoorDescription();
+		}
 	}
-
 	return true;
 }
 
-const std::string& ConfigManager::getString(uint32_t _what) const
-{
-	if((m_loaded && _what < LAST_STRING_CONFIG) || _what <= CONFIG_FILE)
+const std::string& ConfigManager::getString(uint32_t _what) const {
+	if ((m_loaded && _what < LAST_STRING_CONFIG) || _what <= CONFIG_FILE) {
 		return m_confString[_what];
+	}
 
-	if(!m_startup)
+	if (!m_startup) {
 		std::clog << "[Warning - ConfigManager::getString] " << _what << std::endl;
-
+	}
 	return m_confString[DUMMY_STR];
 }
 
-bool ConfigManager::getBool(uint32_t _what) const
-{
-	if(m_loaded && _what < LAST_BOOL_CONFIG)
+bool ConfigManager::getBool(uint32_t _what) const {
+	if (m_loaded && _what < LAST_BOOL_CONFIG) {
 		return m_confBool[_what];
+	}
 
-	if(!m_startup)
+	if (!m_startup) {
 		std::clog << "[Warning - ConfigManager::getBool] " << _what << std::endl;
-
+	}
 	return false;
 }
 
-int32_t ConfigManager::getNumber(uint32_t _what) const
-{
-	if(m_loaded && _what < LAST_NUMBER_CONFIG)
+int32_t ConfigManager::getNumber(uint32_t _what) const {
+	if (m_loaded && _what < LAST_NUMBER_CONFIG) {
 		return m_confNumber[_what];
+	}
 
-	if(!m_startup)
+	if (!m_startup) {
 		std::clog << "[Warning - ConfigManager::getNumber] " << _what << std::endl;
-
+	}
 	return 0;
 }
 
-double ConfigManager::getDouble(uint32_t _what) const
-{
-	if(m_loaded && _what < LAST_DOUBLE_CONFIG)
+double ConfigManager::getDouble(uint32_t _what) const {
+	if (m_loaded && _what < LAST_DOUBLE_CONFIG) {
 		return m_confDouble[_what];
+	}
 
-	if(!m_startup)
+	if (!m_startup) {
 		std::clog << "[Warning - ConfigManager::getDouble] " << _what << std::endl;
-
+	}
 	return 0;
 }
 
-bool ConfigManager::setString(uint32_t _what, const std::string& _value)
-{
-	if(_what < LAST_STRING_CONFIG)
-	{
+bool ConfigManager::setString(
+	uint32_t _what,
+	const std::string& _value
+) {
+	if (_what < LAST_STRING_CONFIG) {
 		m_confString[_what] = _value;
 		return true;
 	}
@@ -407,10 +433,11 @@ bool ConfigManager::setString(uint32_t _what, const std::string& _value)
 	return false;
 }
 
-bool ConfigManager::setNumber(uint32_t _what, int32_t _value)
-{
-	if(_what < LAST_NUMBER_CONFIG)
-	{
+bool ConfigManager::setNumber(
+	uint32_t _what,
+	int32_t _value
+) {
+	if (_what < LAST_NUMBER_CONFIG) {
 		m_confNumber[_what] = _value;
 		return true;
 	}
@@ -419,10 +446,11 @@ bool ConfigManager::setNumber(uint32_t _what, int32_t _value)
 	return false;
 }
 
-bool ConfigManager::setBool(uint32_t _what, bool _value)
-{
-	if(_what < LAST_BOOL_CONFIG)
-	{
+bool ConfigManager::setBool(
+	uint32_t _what,
+	bool _value
+) {
+	if (_what < LAST_BOOL_CONFIG) {
 		m_confBool[_what] = _value;
 		return true;
 	}

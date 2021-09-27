@@ -1,79 +1,103 @@
 /*
 * OpenTibia - an opensource roleplaying game.
-* This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-* This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-* You should have received a copy of the GNU General Public License along with this program. If not, see <http:// www.gnu.org/licenses/>.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along
+* with this program; if not, see <http://www.gnu.org/licenses/>.
 */
 
 #ifndef __TOWN__
-#define __TOWN__
-#include "otsystem.h"
+	#define __TOWN__
 
-class Position;
-class Town
-{
-	public:
-		Town(uint32_t townId) {id = townId;}
-		virtual ~Town() {}
+	#include "otsystem.h"
 
-		Position getPosition() const {return position;}
-		std::string getName() const {return name;}
+	class Position;
+	class Town {
+		public:
+			Town(uint32_t townId) {
+				id = townId;
+			}
+			virtual ~Town() {}
 
-		void setPosition(const Position& pos) {position = pos;}
-		void setName(const std::string& townName) {name = townName;}
-
-		uint32_t getID() const {return id;}
-
-	private:
-		uint32_t id;
-		std::string name;
-		Position position;
-};
-
-typedef std::map<uint32_t, Town*> TownMap;
-class Towns
-{
-	public:
-		static Towns* getInstance()
-		{
-			static Towns instance;
-			return &instance;
-		}
-
-		bool addTown(uint32_t townId, Town* town)
-		{
-			TownMap::iterator it = townMap.find(townId);
-			if(it != townMap.end())
-				return false;
-
-			townMap[townId] = town;
-			return true;
-		}
-
-		Town* getTown(const std::string& townName)
-		{
-			for(TownMap::iterator it = townMap.begin(); it != townMap.end(); ++it)
-			{
-				if(!strcasecmp(it->second->getName().c_str(), townName.c_str()))
-					return it->second;
+			Position getPosition() const {
+				return position;
+			}
+			std::string getName() const {
+				return name;
 			}
 
-			return NULL;
-		}
+			void setPosition(const Position& pos) {
+				position = pos;
+			}
+			void setName(const std::string& townName) {
+				name = townName;
+			}
 
-		Town* getTown(uint32_t townId)
-		{
-			TownMap::iterator it = townMap.find(townId);
-			if(it != townMap.end())
-				return it->second;
+			uint32_t getID() const {
+				return id;
+			}
 
-			return NULL;
-		}
+		private:
+			uint32_t id;
+			std::string name;
+			Position position;
+	};
 
-		TownMap::const_iterator getFirstTown() const {return townMap.begin();}
-		TownMap::const_iterator getLastTown() const {return townMap.end();}
+	typedef std::map<uint32_t, Town*> TownMap;
+	class Towns {
+		public:
+			static Towns* getInstance() {
+				static Towns instance;
+				return &instance;
+			}
 
-	private:
-		TownMap townMap;
-};
+			bool addTown(
+				uint32_t townId,
+				Town* town
+			) {
+				TownMap::iterator it = townMap.find(townId);
+				if (it != townMap.end()) {
+					return false;
+				}
+
+				townMap[townId] = town;
+				return true;
+			}
+
+			Town* getTown(const std::string& townName) {
+				for (TownMap::iterator it = townMap.begin(); it != townMap.end(); ++it) {
+					if (!strcasecmp(it->second->getName().c_str(), townName.c_str())) {
+						return it->second;
+					}
+				}
+				return NULL;
+			}
+
+			Town* getTown(uint32_t townId) {
+				TownMap::iterator it = townMap.find(townId);
+				if (it != townMap.end()) {
+					return it->second;
+				}
+				return NULL;
+			}
+
+			TownMap::const_iterator getFirstTown() const {
+				return townMap.begin();
+			}
+			TownMap::const_iterator getLastTown() const {
+				return townMap.end();
+			}
+
+		private:
+			TownMap townMap;
+	};
 #endif

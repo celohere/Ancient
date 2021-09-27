@@ -1,8 +1,18 @@
 /*
 * OpenTibia - an opensource roleplaying game.
-* This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-* This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-* You should have received a copy of the GNU General Public License along with this program. If not, see <http:// www.gnu.org/licenses/>.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along
+* with this program; if not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "otpch.h"
@@ -23,36 +33,30 @@ extern ConfigManager g_config;
 extern Game g_game;
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
-uint32_t ProtocolStatus::protocolStatusCount = 0;
+	uint32_t ProtocolStatus::protocolStatusCount = 0;
 #endif
+
 IpConnectMap ProtocolStatus::ipConnectMap;
 
-void ProtocolStatus::onRecvFirstMessage(NetworkMessage& msg)
-{
+void ProtocolStatus::onRecvFirstMessage(NetworkMessage& msg) {
 	IpConnectMap::const_iterator it = ipConnectMap.find(getIP());
-	if(it != ipConnectMap.end() && OTSYS_TIME() < it->second + g_config.getNumber(ConfigManager::STATUSQUERY_TIMEOUT))
-	{
+	if (it != ipConnectMap.end() && OTSYS_TIME() < it->second + g_config.getNumber(ConfigManager::STATUSQUERY_TIMEOUT)) {
 		getConnection()->close();
 		return;
 	}
 
 	ipConnectMap[getIP()] = OTSYS_TIME();
 	uint8_t type = msg.get<char>();
-	switch(type)
-	{
-		case 0xFF:
-		{
-			if(msg.getString(false, 4) == "info")
-			{
-				if(OutputMessage_ptr output = OutputMessagePool::getInstance()->getOutputMessage(this, false))
-				{
+	switch (type) {
+		case 0xFF: {
+			if (msg.getString(false, 4) == "info") {
+				if (OutputMessage_ptr output = OutputMessagePool::getInstance()->getOutputMessage(this, false)) {
 					TRACK_MESSAGE(output);
-					if(Status* status = Status::getInstance())
-					{
+					if (Status* status = Status::getInstance()) {
 						bool sendPlayers = false;
-						if(msg.size() > msg.position())
+						if (msg.size() > msg.position()) {
 							sendPlayers = msg.get<char>() == 0x01;
-
+						}
 						output->putString(status->getStatusString(sendPlayers), false);
 					}
 
@@ -60,42 +64,37 @@ void ProtocolStatus::onRecvFirstMessage(NetworkMessage& msg)
 					OutputMessagePool::getInstance()->send(output);
 				}
 			}
-
 			break;
 		}
 
-		case 0x01:
-		{
-			uint32_t requestedInfo = msg.get<uint16_t>(); //Only a Byte is necessary, though we could add new infos here
-			if(OutputMessage_ptr output = OutputMessagePool::getInstance()->getOutputMessage(this, false))
-			{
+		case 0x01: {
+			uint32_t requestedInfo = msg.get<uint16_t>(); // Only a Byte is necessary, though we could add new infos here
+			if (OutputMessage_ptr output = OutputMessagePool::getInstance()->getOutputMessage(this, false)) {
 				TRACK_MESSAGE(output);
-				if(Status* status = Status::getInstance())
+				if (Status* status = Status::getInstance()) {
 					status->getInfo(requestedInfo, output, msg);
-
+				}
 				OutputMessagePool::getInstance()->send(output);
 			}
-
 			break;
 		}
 
-		default:
+		default: {
 			break;
+		}
 	}
-
 	getConnection()->close();
 }
 
-void ProtocolStatus::deleteProtocolTask()
-{
-#ifdef __DEBUG_NET_DETAIL__
-	std::clog << "Deleting ProtocolStatus" << std::endl;
-#endif
+void ProtocolStatus::deleteProtocolTask() {
+	#ifdef __DEBUG_NET_DETAIL__
+		std::clog << "Deleting ProtocolStatus" << std::endl;
+	#endif
+
 	Protocol::deleteProtocolTask();
 }
 
-std::string Status::getStatusString(bool sendPlayers) const
-{
+std::string Status::getStatusString(bool sendPlayers) const {
 	char buffer[90];
 	xmlDocPtr doc;
 	xmlNodePtr p, root;
@@ -132,20 +131,18 @@ std::string Status::getStatusString(bool sendPlayers) const
 	xmlSetProp(p, (const xmlChar*)"max", (const xmlChar*)buffer);
 	sprintf(buffer, "%d", g_game.getPlayersRecord());
 	xmlSetProp(p, (const xmlChar*)"peak", (const xmlChar*)buffer);
-	if(sendPlayers)
-	{
+	if (sendPlayers) {
 		std::stringstream ss;
-		for(AutoList<Player>::iterator it = Player::autoList.begin(); it != Player::autoList.end(); ++it)
-		{
-			if(it->second->isRemoved() || it->second->isGhost())
+		for (AutoList<Player>::iterator it = Player::autoList.begin(); it != Player::autoList.end(); ++it) {
+			if (it->second->isRemoved() || it->second->isGhost()) {
 				continue;
+			}
 
-			if(!ss.str().empty())
+			if (!ss.str().empty()) {
 				ss << ";";
-
+			}
 			ss << it->second->getName() << "," << it->second->getVocationId() << "," << it->second->getLevel();
 		}
-
 		xmlNodeSetContent(p, (const xmlChar*)ss.str().c_str());
 	}
 
@@ -181,18 +178,21 @@ std::string Status::getStatusString(bool sendPlayers) const
 	xmlDocDumpMemory(doc, (xmlChar**)&s, &len);
 
 	std::string xml;
-	if(s)
+	if (s) {
 		xml = std::string((char*)s, len);
+	}
 
 	xmlFree(s);
 	xmlFreeDoc(doc);
 	return xml;
 }
 
-void Status::getInfo(uint32_t requestedInfo, OutputMessage_ptr output, NetworkMessage& msg) const
-{
-	if(requestedInfo & REQUEST_BASIC_SERVER_INFO)
-	{
+void Status::getInfo(
+	uint32_t requestedInfo,
+	OutputMessage_ptr output,
+	NetworkMessage& msg
+) const {
+	if (requestedInfo & REQUEST_BASIC_SERVER_INFO) {
 		output->put<char>(0x10);
 		output->putString(g_config.getString(ConfigManager::SERVER_NAME).c_str());
 		output->putString(g_config.getString(ConfigManager::IP).c_str());
@@ -202,15 +202,13 @@ void Status::getInfo(uint32_t requestedInfo, OutputMessage_ptr output, NetworkMe
 		output->putString(buffer);
 	}
 
-	if(requestedInfo & REQUEST_SERVER_OWNER_INFO)
-	{
+	if (requestedInfo & REQUEST_SERVER_OWNER_INFO) {
 		output->put<char>(0x11);
 		output->putString(g_config.getString(ConfigManager::OWNER_NAME).c_str());
 		output->putString(g_config.getString(ConfigManager::OWNER_EMAIL).c_str());
 	}
 
-	if(requestedInfo & REQUEST_MISC_SERVER_INFO)
-	{
+	if (requestedInfo & REQUEST_MISC_SERVER_INFO) {
 		output->put<char>(0x12);
 		output->putString(g_config.getString(ConfigManager::MOTD).c_str());
 		output->putString(g_config.getString(ConfigManager::LOCATION).c_str());
@@ -221,16 +219,14 @@ void Status::getInfo(uint32_t requestedInfo, OutputMessage_ptr output, NetworkMe
 		output->put<uint32_t>((uint32_t)(uptime));
 	}
 
-	if(requestedInfo & REQUEST_PLAYERS_INFO)
-	{
+	if (requestedInfo & REQUEST_PLAYERS_INFO) {
 		output->put<char>(0x20);
 		output->put<uint32_t>(g_game.getPlayersOnline());
 		output->put<uint32_t>(g_config.getNumber(ConfigManager::MAX_PLAYERS));
 		output->put<uint32_t>(g_game.getPlayersRecord());
 	}
 
-	if(requestedInfo & REQUEST_SERVER_MAP_INFO)
-	{
+	if (requestedInfo & REQUEST_SERVER_MAP_INFO) {
 		output->put<char>(0x30);
 		output->putString(g_config.getString(ConfigManager::MAP_NAME).c_str());
 		output->putString(g_config.getString(ConfigManager::MAP_AUTHOR).c_str());
@@ -241,38 +237,35 @@ void Status::getInfo(uint32_t requestedInfo, OutputMessage_ptr output, NetworkMe
 		output->put<uint16_t>(mapHeight);
 	}
 
-	if(requestedInfo & REQUEST_EXT_PLAYERS_INFO)
-	{
+	if (requestedInfo & REQUEST_EXT_PLAYERS_INFO) {
 		output->put<char>(0x21);
 		std::list<std::pair<std::string, uint32_t> > players;
-		for(AutoList<Player>::iterator it = Player::autoList.begin(); it != Player::autoList.end(); ++it)
-		{
-			if(!it->second->isRemoved() && !it->second->isGhost())
+		for (AutoList<Player>::iterator it = Player::autoList.begin(); it != Player::autoList.end(); ++it) {
+			if (!it->second->isRemoved() && !it->second->isGhost()) {
 				players.push_back(std::make_pair(it->second->getName(), it->second->getLevel()));
+			}
 		}
 
 		output->put<uint32_t>(players.size());
-		for(std::list<std::pair<std::string, uint32_t> >::iterator it = players.begin(); it != players.end(); ++it)
-		{
+		for (std::list<std::pair<std::string, uint32_t> >::iterator it = players.begin(); it != players.end(); ++it) {
 			output->putString(it->first);
 			output->put<uint32_t>(it->second);
 		}
 	}
 
-	if(requestedInfo & REQUEST_PLAYER_STATUS_INFO)
-	{
+	if (requestedInfo & REQUEST_PLAYER_STATUS_INFO) {
 		output->put<char>(0x22);
 		const std::string name = msg.getString();
 
 		Player* p = NULL;
-		if(g_game.getPlayerByNameWildcard(name, p) == RET_NOERROR && !p->isGhost())
+		if (g_game.getPlayerByNameWildcard(name, p) == RET_NOERROR && !p->isGhost()) {
 			output->put<char>(0x01);
-		else
+		} else {
 			output->put<char>(0x00);
+		}
 	}
 
-	if(requestedInfo & REQUEST_SERVER_SOFTWARE_INFO)
-	{
+	if (requestedInfo & REQUEST_SERVER_SOFTWARE_INFO) {
 		output->put<char>(0x23);
 		output->putString(SOFTWARE_NAME);
 		output->putString(SOFTWARE_VERSION);
