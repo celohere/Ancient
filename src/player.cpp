@@ -1518,9 +1518,10 @@ void Player::onCreatureDisappear(
 		return;
 	}
 
+	lastLogout = time(NULL);
+
 	if (isLogout) {
 		loginPosition = getPosition();
-		lastLogout = time(NULL);
 	}
 
 	if (eventWalk) {
