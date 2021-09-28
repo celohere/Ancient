@@ -50,7 +50,9 @@
 		CREATURE_EVENT_CAST,
 		CREATURE_EVENT_KILL,
 		CREATURE_EVENT_DEATH,
-		CREATURE_EVENT_PREPAREDEATH
+		CREATURE_EVENT_PREPAREDEATH,
+		CREATURE_EVENT_MOVE,
+		CREATURE_EVENT_MOVEITEM
 	};
 
 	enum StatsChange_t {
@@ -247,6 +249,21 @@
 			uint32_t executePrepareDeath(
 				Creature* creature,
 				DeathList deathList
+			);
+			uint32_t executeMove(
+				Creature* creature,
+				const Position& fromPosition,
+				const Position& toPosition
+			);
+			uint32_t executeMoveItem(
+				Player* player,
+				Item* item,
+				uint8_t count,
+				const Position& fromPos,
+				const Position& toPos,
+				Item* toContainer,
+				Item* fromContainer,
+				int16_t fstack
 			);
 
 		protected:

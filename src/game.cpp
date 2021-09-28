@@ -1180,6 +1180,18 @@ ReturnValue Game::internalMoveCreature(
 		}
 	}
 
+	bool deny = false;
+	CreatureEventList moveEvents = creature->getCreatureEvents(CREATURE_EVENT_MOVE);
+ 	for (CreatureEventList::iterator it = moveEvents.begin(); it != moveEvents.end(); ++it) {
+		if (!(*it)->executeMove(creature, Position(currentPos), Position(destPos)) && !deny) {
+			deny = true;
+		}
+	}
+
+	if (deny) {
+		return RET_NOTPOSSIBLE;
+	}
+
 	ReturnValue ret = RET_NOTPOSSIBLE;
 	if ((toTile = map->getTile(destPos))) {
 		ret = internalMoveCreature(NULL, creature, fromTile, toTile, flags);
@@ -1390,6 +1402,20 @@ bool Game::playerMoveItem(
 
 	if (!canThrowObjectTo(mapFromPos, mapToPos) && !player->hasCustomFlag(PlayerCustomFlag_CanThrowAnywhere)) {
 		player->sendCancelMessage(RET_CANNOTTHROW);
+		return false;
+	}
+
+	bool deny = false;
+	CreatureEventList moveItemEvents = player->getCreatureEvents(CREATURE_EVENT_MOVEITEM);
+	for (CreatureEventList::iterator it = moveItemEvents.begin(); it != moveItemEvents.end(); ++it) {
+		Item* toContainer = toCylinder->getItem();
+		Item* fromContainer = fromCylinder->getItem();
+		if (!(*it)->executeMoveItem(player, item, count, fromPos, toPos, (toContainer ? toContainer : 0), (fromContainer ? fromContainer : 0), fromStackpos) && !deny) {
+			deny = true;
+		}
+	}
+
+	if (deny) {
 		return false;
 	}
 
