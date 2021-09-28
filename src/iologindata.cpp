@@ -1161,8 +1161,7 @@ bool IOLoginData::playerDeath(
 		#ifdef __WAR_SYSTEM__
 			if (it->isLast()) { // last hit is always first and we got stored war data only there
 				War_t tmp = it->getWar();
-				if (tmp.war && tmp.frags[tmp.type == WAR_GUILD] {
-					<= tmp.limit && tmp.frags[tmp.type] <= tmp.limit)
+				if (tmp.war && tmp.frags[tmp.type == WAR_GUILD]	<= tmp.limit && tmp.frags[tmp.type] <= tmp.limit) {
 					war = true;
 				}
 			}
