@@ -283,14 +283,20 @@ bool IOGuild::disbandGuild(uint32_t guildId) {
 		return false;
 	}
 
-	for (AutoList<Player>::iterator it = Player::autoList.begin(); it != Player::autoList.end(); ++it) {
-		if (it->second->getGuildId() == guildId) {
-			it->second->leaveGuild();
+	InvitedToGuildsList::iterator it;
+	for (AutoList<Player>::iterator its = Player::autoList.begin(); its != Player::autoList.end(); ++its) {
+		if (its->second->getGuildId() == guildId) {
+			its->second->leaveGuild();
+		} else {
+			it = std::find(its->second->invitedToGuildsList.begin(), its->second->invitedToGuildsList.end(), guildId);
+			if (it != its->second->invitedToGuildsList.end()) {
+				its->second->invitedToGuildsList.erase(it);
+			}
 		}
 	}
 
 	query.str("");
-	query << "DELETE FROM `guilds` WHERE `id` = " << guildId << " LIMIT 1";
+	query << "DELETE FROM `guilds` WHERE `id` = " << guildId << db->getUpdateLimiter();
 	if (!db->query(query.str())) {
 		return false;
 	}
