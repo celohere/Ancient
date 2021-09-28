@@ -7,5 +7,11 @@ Ancient.exe
 # ignore configuration
 config.lua
 
+# ignore object output
+compile/windows/dev-cpp/obj/*
+
+# ignore makefile
+compile/windows/dev-cpp/Makefile.win
+
 # ignore notepad++ backup
 *.bak
