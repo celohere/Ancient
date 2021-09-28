@@ -1,0 +1,11 @@
+# ignore bin
+Ancient.exe
+
+# ignore dlls
+*.dll
+
+# ignore configuration
+config.lua
+
+# ignore notepad++ backup
+*.bak
