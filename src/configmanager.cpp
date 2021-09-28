@@ -337,6 +337,8 @@ bool ConfigManager::load() {
 	m_confNumber[STAMINA_DESTROY_LOOT] = getGlobalNumber("staminaLootLimit", 14 * 60);
 	m_confNumber[FIST_BASE_ATTACK] = getGlobalNumber("fistBaseAttack", 7);
 
+	m_confBool[MONSTER_OVERSPAWN] = getGlobalBool("monsterOverspawn", false);
+
 	m_loaded = true;
 	return true;
 }

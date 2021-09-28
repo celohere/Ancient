@@ -559,9 +559,18 @@ void Monster::onEndCondition(ConditionType_t type) {
 void Monster::onThink(uint32_t interval) {
 	Creature::onThink(interval);
 	if (despawn()) {
-		g_game.removeCreature(this, true);
-		setIdle(true);
-		return;
+		if (g_config.getBool(ConfigManager::MONSTER_OVERSPAWN)) {
+			if (spawn) {
+				spawn->removeMonster(this);
+				spawn->startEvent();
+				spawn = NULL;
+				masterRadius = -1;
+			}
+        } else {
+			g_game.removeCreature(this, true);
+			setIdle(true);
+			return;
+		}
 	}
 
 	updateIdleStatus();

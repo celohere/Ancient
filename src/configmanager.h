@@ -292,6 +292,7 @@
 
 				BIND_ONLY_GLOBAL_ADDRESS,
 				UNIFIED_SPELLS,
+				MONSTER_OVERSPAWN,
 				LAST_BOOL_CONFIG /* this must be the last one */
 			};
 
