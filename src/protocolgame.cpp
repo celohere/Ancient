@@ -2475,8 +2475,16 @@ void ProtocolGame::AddCreature(
 
 void ProtocolGame::AddPlayerStats(NetworkMessage_ptr msg) {
 	msg->put<char>(0xA0);
-	msg->put<uint16_t>(player->getHealth());
-	msg->put<uint16_t>(player->getPlayerInfo(PLAYERINFO_MAXHEALTH));
+
+	int32_t health = player->getHealth();
+	int32_t maxHealth = player->getPlayerInfo(PLAYERINFO_MAXHEALTH);
+
+	bool healthInPercent = g_config.getBool(ConfigManager::HEALTH_IN_PERCENTAGE);
+	bool healthAfterClientLimit = g_config.getBool(ConfigManager::HEALTH_PERCENTAGE_AFTER_CLIENT_LIMIT);
+
+	msg->put<uint16_t>(uint16_t(maxHealth > 0 && healthInPercent ? (maxHealth <= 65535 && healthAfterClientLimit ? health : (health * 100 / maxHealth)) : health));
+	msg->put<uint16_t>(uint16_t(maxHealth > 0 && healthInPercent ? (maxHealth <= 65535 && healthAfterClientLimit ? maxHealth : 100) : maxHealth));
+
 	msg->put<uint32_t>(uint32_t(player->getFreeCapacity() * 100));
 	uint64_t experience = player->getExperience();
 	if (experience > 0x7FFFFFFF) { // client debugs after 2,147,483,647 exp
@@ -2487,8 +2495,16 @@ void ProtocolGame::AddPlayerStats(NetworkMessage_ptr msg) {
 
 	msg->put<uint16_t>(player->getPlayerInfo(PLAYERINFO_LEVEL));
 	msg->put<char>(player->getPlayerInfo(PLAYERINFO_LEVELPERCENT));
-	msg->put<uint16_t>(player->getPlayerInfo(PLAYERINFO_MANA));
-	msg->put<uint16_t>(player->getPlayerInfo(PLAYERINFO_MAXMANA));
+
+	int32_t mana = player->getPlayerInfo(PLAYERINFO_MANA);
+	int32_t maxMana = player->getPlayerInfo(PLAYERINFO_MAXMANA);
+
+	bool manaInPercent = g_config.getBool(ConfigManager::MANA_IN_PERCENTAGE);
+	bool manaAfterClientLimit = g_config.getBool(ConfigManager::MANA_PERCENTAGE_AFTER_CLIENT_LIMIT);
+
+	msg->put<uint16_t>(uint16_t(maxMana > 0 && manaInPercent ? (maxMana <= 65535 && manaAfterClientLimit ? mana : (mana * 100 / maxMana)) : mana));
+	msg->put<uint16_t>(uint16_t(maxMana > 0 && manaInPercent ? (maxMana <= 65535 && manaAfterClientLimit ? maxMana : 100) : maxMana));
+
 	msg->put<char>(player->getPlayerInfo(PLAYERINFO_MAGICLEVEL));
 	msg->put<char>(player->getPlayerInfo(PLAYERINFO_MAGICLEVELPERCENT));
 	msg->put<char>(player->getPlayerInfo(PLAYERINFO_SOUL));

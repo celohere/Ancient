@@ -338,6 +338,10 @@ bool ConfigManager::load() {
 	m_confNumber[FIST_BASE_ATTACK] = getGlobalNumber("fistBaseAttack", 7);
 
 	m_confBool[MONSTER_OVERSPAWN] = getGlobalBool("monsterOverspawn", false);
+	m_confBool[HEALTH_IN_PERCENTAGE] = getGlobalBool("healthInPercentage", false);
+	m_confBool[HEALTH_PERCENTAGE_AFTER_CLIENT_LIMIT] = getGlobalBool("HealthPercentAfterClientLimit", false);
+	m_confBool[MANA_IN_PERCENTAGE] = getGlobalBool("manaInPercentage", false);
+	m_confBool[MANA_PERCENTAGE_AFTER_CLIENT_LIMIT] = getGlobalBool("manaPercentAfterClientLimit", false);
 
 	m_loaded = true;
 	return true;
