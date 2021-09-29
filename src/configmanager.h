@@ -301,6 +301,7 @@
 				SAVE_PLAYER_DATA,
 				REGENERATION_WORK_ANY_ZONE,
 				USE_INFIGHT_CHECK_ON_BED,
+				HIDE_SPELL_WORDS,
 				LAST_BOOL_CONFIG /* this must be the last one */
 			};
 

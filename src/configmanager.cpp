@@ -346,6 +346,7 @@ bool ConfigManager::load() {
 	m_confBool[SAVE_PLAYER_DATA] = getGlobalBool("savePlayerData", true);
 	m_confBool[REGENERATION_WORK_ANY_ZONE] = getGlobalBool("regenerationWorkAnyZone", false);
 	m_confBool[USE_INFIGHT_CHECK_ON_BED] = getGlobalBool("useInfightCheckOnBed", false);
+	m_confBool[HIDE_SPELL_WORDS] = getGlobalBool("hideSpellWords", false);
 
 	m_loaded = true;
 	return true;

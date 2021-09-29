@@ -75,6 +75,10 @@ ReturnValue Spells::onPlayerSay(
 		return RET_NEEDEXCHANGE;
 	}
 
+	if (g_config.getBool(ConfigManager::HIDE_SPELL_WORDS)) {
+		return RET_NOERROR;
+	}
+
 	SpeakClasses type = SPEAK_SAY;
 	if (g_config.getBool(ConfigManager::EMOTE_SPELLS)) {
 		type = SPEAK_MONSTER_SAY;
