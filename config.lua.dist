@@ -87,6 +87,7 @@ fistBaseAttack = 7
 regenerationWorkAnyZone = false
 soulRegenerationWorkAnyZone = false
 removeSwordsIconInProtectionZone = false
+optionalWarAttackableAlly = false
 
 -- Connection config
 worldId = 0
