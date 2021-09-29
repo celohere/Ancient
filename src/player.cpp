@@ -4658,7 +4658,8 @@ void Player::manageAccount(const std::string &text) {
 
 				msg << "Then not.";
 			} else if (checkText(text, "character") && talkState[1]) {
-				if (account.charList.size() <= 15) {
+				uint32_t size = g_config.getNumber(ConfigManager::MAX_CHARACTERS_PER_ACCOUNT);
+				if (account.charList.size() <= size) {
 					talkState[1] = false;
 					talkState[6] = true;
 					msg << "What would you like as your character name?";
@@ -4667,7 +4668,7 @@ void Player::manageAccount(const std::string &text) {
 					for (int8_t i = 2; i <= 12; i++) {
 						talkState[i] = false;
 					}
-					msg << "Your account reach the limit of 15 players, you can 'delete' a character if you want to create a new one.";
+					msg << "Your account reach the limit of " << size << " players, you can 'delete' a character if you want to create a new one.";
 				}
 			} else if (talkState[6]) {
 				managerString = text;
