@@ -85,6 +85,7 @@ squareColor = 0
 allowFightback = true
 fistBaseAttack = 7
 regenerationWorkAnyZone = false
+soulRegenerationWorkAnyZone = false
 removeSwordsIconInProtectionZone = false
 
 -- Connection config

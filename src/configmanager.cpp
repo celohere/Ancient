@@ -351,6 +351,7 @@ bool ConfigManager::load() {
 	m_confNumber[DEPOT_DEFAULT_LIMIT] = getGlobalNumber("depotDefaultLimit", 1000);
 	m_confNumber[DEPOT_DEFAULT_PREMIUM_LIMIT] = getGlobalNumber("depotDefaultPremiumLimit", 2000);
 	m_confBool[REMOVE_SWORDSICON_IN_PROTECTION_ZONE] = getGlobalBool("removeSwordsIconInProtectionZone", false);
+	m_confBool[SOUL_REGENERATION_WORK_ANY_ZONE] = getGlobalBool("soulRegenerationWorkAnyZone", false);
 
 	m_loaded = true;
 	return true;

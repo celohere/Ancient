@@ -929,7 +929,7 @@ bool ConditionSoul::executeCondition(
 ) {
 	internalSoulTicks += interval;
 	if (Player* player = creature->getPlayer()) {
-		if (player->getZone() != ZONE_PROTECTION && internalSoulTicks >= soulTicks) {
+		if ((g_config.getBool(ConfigManager::SOUL_REGENERATION_WORK_ANY_ZONE) || player->getZone() != ZONE_PROTECTION) && internalSoulTicks >= soulTicks) {
 			internalSoulTicks = 0;
 			player->changeSoul(soulGain);
 		}
