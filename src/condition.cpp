@@ -20,10 +20,12 @@
 #include "condition.h"
 #include "tools.h"
 
+#include "configmanager.h"
 #include "game.h"
 #include "creature.h"
 #include "combat.h"
 
+extern ConfigManager g_config;
 extern Game g_game;
 
 Condition::Condition(
@@ -803,7 +805,7 @@ bool ConditionRegeneration::executeCondition(
 ) {
 	internalHealthTicks += interval;
 	internalManaTicks += interval;
-	if (creature->getZone() != ZONE_PROTECTION) {
+	if (g_config.getBool(ConfigManager::REGENERATION_WORK_ANY_ZONE) || creature->getZone() != ZONE_PROTECTION) {
 		if (internalHealthTicks >= healthTicks) {
 			internalHealthTicks = 0;
 			creature->changeHealth(healthGain);
