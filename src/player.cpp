@@ -505,6 +505,9 @@ void Player::sendIcons() const {
 
 	if (getZone() == ZONE_PROTECTION) {
 		icons |= ICON_PROTECTIONZONE;
+		if (hasBitSet(ICON_SWORDS, icons) && g_config.getBool(ConfigManager::REMOVE_SWORDSICON_IN_PROTECTION_ZONE)) {
+			icons &= ~ICON_SWORDS;
+		}
 	}
 
 	if (pzLocked) {

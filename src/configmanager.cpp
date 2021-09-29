@@ -350,6 +350,7 @@ bool ConfigManager::load() {
 	m_confBool[PLAYER_CAN_BLOCK_MONSTER_SPAWN] = getGlobalBool("playerCanBlockMonsterSpawn", true);
 	m_confNumber[DEPOT_DEFAULT_LIMIT] = getGlobalNumber("depotDefaultLimit", 1000);
 	m_confNumber[DEPOT_DEFAULT_PREMIUM_LIMIT] = getGlobalNumber("depotDefaultPremiumLimit", 2000);
+	m_confBool[REMOVE_SWORDSICON_IN_PROTECTION_ZONE] = getGlobalBool("removeSwordsIconInProtectionZone", false);
 
 	m_loaded = true;
 	return true;
