@@ -267,4 +267,66 @@ Config | Default | Description
 saveGlobalStorage | true | ...
 useHouseDataStorage | false | ...
 storePlayerDirection | false | ...
-savePlayerData | true | ...
+savePlayerData | true | ...´
+
+## Loot
+
+Config | Default | Description
+--- | :---: | ---
+checkCorpseOwner = true | ...
+monsterLootMessage = 3 | ...
+monsterLootMessageType = 25 | ...
+
+## Ghost mode
+
+Config | Default | Description
+--- | :---: | ---
+ghostModeInvisibleEffect = false
+ghostModeSpellEffects = true
+
+## Limits
+
+Config | Default | Description
+--- | :---: | ---
+idleWarningTime = 14 * 60 * 1000
+idleKickTime = 15 * 60 * 1000
+reportsExpirationAfterReads = 1
+playerQueryDeepness = 2
+tileLimit = 0
+protectionTileLimit = 0
+houseTileLimit = 0
+healthInPercentage = false
+HealthPercentAfterClientLimit = false
+manaInPercentage = false
+manaPercentAfterClientLimit = false
+depotDefaultLimit = 1000
+depotDefaultPremiumLimit = 2000
+
+## Premium-related
+
+Config | Default | Description
+--- | :---: | ---
+freePremium = false
+premiumForPromotion = true
+
+## Blessings
+
+Config | Default | Description
+--- | :---: | ---
+blessings = true
+blessingOnlyPremium = true
+blessingReductionBase = 30
+blessingReductionDecrement = 5
+eachBlessReduction = 8
+
+## Rates
+
+Config | Default | Description
+--- | :---: | ---
+experienceStages = false
+rateExperience = 5.0
+rateExperienceFromPlayers = 0
+rateSkill = 3.0
+rateMagic = 3.0
+rateLoot = 2.0
+rateSpawn = 1
