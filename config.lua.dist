@@ -338,6 +338,7 @@ cleanMapAtGlobalSave = false
 deSpawnRange = 2
 deSpawnRadius = 50
 monsterOverspawn = false
+playerCanBlockMonsterSpawn = true
 
 -- Summons
 maxPlayerSummons = 2

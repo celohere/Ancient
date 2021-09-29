@@ -362,7 +362,7 @@ void Spawn::checkSpawn() {
 			continue;
 		}
 
-		if (findPlayer(sb.pos)) {
+		if (findPlayer(sb.pos) && g_config.getBool(ConfigManager::PLAYER_CAN_BLOCK_MONSTER_SPAWN)) {
 			sb.lastSpawn = OTSYS_TIME();
 			continue;
 		}
