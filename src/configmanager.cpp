@@ -343,6 +343,7 @@ bool ConfigManager::load() {
 	m_confBool[MANA_IN_PERCENTAGE] = getGlobalBool("manaInPercentage", false);
 	m_confBool[MANA_PERCENTAGE_AFTER_CLIENT_LIMIT] = getGlobalBool("manaPercentAfterClientLimit", false);
 	m_confNumber[MAX_CHARACTERS_PER_ACCOUNT] = getGlobalNumber("maxCharactersPerAccount", 15);
+	m_confBool[SAVE_PLAYER_DATA] = getGlobalBool("savePlayerData", true);
 
 	m_loaded = true;
 	return true;

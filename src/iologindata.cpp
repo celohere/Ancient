@@ -805,7 +805,7 @@ bool IOLoginData::savePlayer(
 
 	query.str("");
 	query << "UPDATE `players` SET `lastlogin` = " << player->lastLogin << ", `lastip` = " << player->lastIP;
-	if (!save || !player->isSaving()) {
+	if (!save || !player->isSaving() || !g_config.getBool(ConfigManager::SAVE_PLAYER_DATA)) {
 		query << " WHERE `id` = " << player->getGUID() << db->getUpdateLimiter();
 		if (!db->query(query.str())) {
 			return false;
