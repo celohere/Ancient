@@ -345,6 +345,7 @@ bool ConfigManager::load() {
 	m_confNumber[MAX_CHARACTERS_PER_ACCOUNT] = getGlobalNumber("maxCharactersPerAccount", 15);
 	m_confBool[SAVE_PLAYER_DATA] = getGlobalBool("savePlayerData", true);
 	m_confBool[REGENERATION_WORK_ANY_ZONE] = getGlobalBool("regenerationWorkAnyZone", false);
+	m_confBool[USE_INFIGHT_CHECK_ON_BED] = getGlobalBool("useInfightCheckOnBed", false);
 
 	m_loaded = true;
 	return true;

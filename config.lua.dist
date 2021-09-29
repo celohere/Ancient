@@ -163,6 +163,7 @@ housePriceEachSquare = 1000
 houseRentPeriod = "never"
 houseCleanOld = 0
 guildHalls = false
+useInfightCheckOnBed = false
 
 -- Item usage
 timeBetweenActions = 200

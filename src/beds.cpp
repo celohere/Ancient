@@ -88,7 +88,7 @@ BedItem* BedItem::getNextBedItem() {
 }
 
 bool BedItem::canUse(Player* player) {
-	if (!house || !player || player->isRemoved() || (!player->isPremium() && g_config.getBool(ConfigManager::BED_REQUIRE_PREMIUM)) || player->hasCondition(CONDITION_INFIGHT)) {
+	if (!house || !player || player->isRemoved() || (!player->isPremium() && g_config.getBool(ConfigManager::BED_REQUIRE_PREMIUM)) || (player->hasCondition(CONDITION_INFIGHT) && g_config.getBool(ConfigManager::USE_INFIGHT_CHECK_ON_BED))) {
 		return false;
 	}
 
