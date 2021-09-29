@@ -348,6 +348,8 @@ bool ConfigManager::load() {
 	m_confBool[USE_INFIGHT_CHECK_ON_BED] = getGlobalBool("useInfightCheckOnBed", false);
 	m_confBool[HIDE_SPELL_WORDS] = getGlobalBool("hideSpellWords", false);
 	m_confBool[PLAYER_CAN_BLOCK_MONSTER_SPAWN] = getGlobalBool("playerCanBlockMonsterSpawn", true);
+	m_confNumber[DEPOT_DEFAULT_LIMIT] = getGlobalNumber("depotDefaultLimit", 1000);
+	m_confNumber[DEPOT_DEFAULT_PREMIUM_LIMIT] = getGlobalNumber("depotDefaultPremiumLimit", 2000);
 
 	m_loaded = true;
 	return true;

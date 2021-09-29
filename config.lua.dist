@@ -255,6 +255,8 @@ healthInPercentage = false
 HealthPercentAfterClientLimit = false
 manaInPercentage = false
 manaPercentAfterClientLimit = false
+depotDefaultLimit = 1000
+depotDefaultPremiumLimit = 2000
 
 -- Premium-related
 freePremium = false

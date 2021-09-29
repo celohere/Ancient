@@ -155,7 +155,7 @@ uint32_t Group::getDepotLimit(bool premium) const {
 	if (m_depotLimit > 0) {
 		return m_depotLimit;
 	}
-	return (premium ? 2000 : 1000);
+	return (premium ? g_config.getNumber(ConfigManager::DEPOT_DEFAULT_PREMIUM_LIMIT) : g_config.getNumber(ConfigManager::DEPOT_DEFAULT_LIMIT));
 }
 
 uint32_t Group::getMaxVips(bool premium) const {
