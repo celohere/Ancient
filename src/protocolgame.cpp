@@ -51,10 +51,7 @@ extern CreatureEvents* g_creatureEvents;
 extern Chat g_chat;
 
 template<class FunctionType>
-void ProtocolGame::addGameTaskInternal(
-	uint32_t delay,
-	const FunctionType& func
-) {
+void ProtocolGame::addGameTaskInternal(uint32_t delay, const FunctionType& func) {
 	if (delay > 0) {
 		Dispatcher::getInstance().addTask(createTask(delay, func));
 	} else {
@@ -85,14 +82,7 @@ void ProtocolGame::deleteProtocolTask() {
 	Protocol::deleteProtocolTask();
 }
 
-bool ProtocolGame::login(
-	const std::string& name,
-	uint32_t id,
-	const std::string&,
-	OperatingSystem_t operatingSystem,
-	uint16_t version,
-	bool gamemaster
-) {
+bool ProtocolGame::login(const std::string& name, uint32_t id, const std::string&, OperatingSystem_t operatingSystem, uint16_t version, bool gamemaster) {
 	// dispatcher thread
 	PlayerVector players = g_game.getPlayersByName(name);
 	Player* _player = NULL;
@@ -260,10 +250,7 @@ bool ProtocolGame::login(
 	return connect(_player->getID(), operatingSystem, version);
 }
 
-bool ProtocolGame::logout(
-	bool displayEffect,
-	bool forceLogout
-) {
+bool ProtocolGame::logout(bool displayEffect, bool forceLogout) {
 	// dispatcher thread
 	if (!player) {
 		return false;
@@ -307,11 +294,7 @@ bool ProtocolGame::logout(
 	return g_game.removeCreature(player);
 }
 
-bool ProtocolGame::connect(
-	uint32_t playerId,
-	OperatingSystem_t operatingSystem,
-	uint16_t version
-) {
+bool ProtocolGame::connect(uint32_t playerId, OperatingSystem_t operatingSystem, uint16_t version) {
 	unRef();
 	m_eventConnect = 0;
 
@@ -344,10 +327,7 @@ void ProtocolGame::disconnect() {
 	}
 }
 
-void ProtocolGame::disconnectClient(
-	uint8_t error,
-	const char* message
-) {
+void ProtocolGame::disconnectClient(uint8_t error, const char* message) {
 	if (OutputMessage_ptr output = OutputMessagePool::getInstance()->getOutputMessage(this, false)) {
 		TRACK_MESSAGE(output);
 		output->put<char>(error);
@@ -608,10 +588,7 @@ void ProtocolGame::parsePacket(NetworkMessage &msg) {
 	}
 }
 
-void ProtocolGame::GetTileDescription(
-	const Tile* tile,
-	NetworkMessage_ptr msg
-) {
+void ProtocolGame::GetTileDescription(const Tile* tile, NetworkMessage_ptr msg) {
 	if (!tile) {
 		return;
 	}
@@ -654,14 +631,7 @@ void ProtocolGame::GetTileDescription(
 	}
 }
 
-void ProtocolGame::GetMapDescription(
-	int32_t x,
-	int32_t y,
-	int32_t z,
-	int32_t width,
-	int32_t height,
-	NetworkMessage_ptr msg
-) {
+void ProtocolGame::GetMapDescription(int32_t x, int32_t y, int32_t z, int32_t width, int32_t height, NetworkMessage_ptr msg) {
 	int32_t skip = -1, startz, endz, zstep = 0;
 	if (z > 7) {
 		startz = z - 2;
@@ -684,16 +654,7 @@ void ProtocolGame::GetMapDescription(
 	}
 }
 
-void ProtocolGame::GetFloorDescription(
-	NetworkMessage_ptr msg,
-	int32_t x,
-	int32_t y,
-	int32_t z,
-	int32_t width,
-	int32_t height,
-	int32_t offset,
-	int32_t& skip
-) {
+void ProtocolGame::GetFloorDescription(NetworkMessage_ptr msg, int32_t x, int32_t y, int32_t z, int32_t width, int32_t height, int32_t offset, int32_t& skip) {
 	Tile* tile = NULL;
 	for (int32_t nx = 0; nx < width; nx++) {
 		for (int32_t ny = 0; ny < height; ny++) {
@@ -717,11 +678,7 @@ void ProtocolGame::GetFloorDescription(
 	}
 }
 
-void ProtocolGame::checkCreatureAsKnown(
-	uint32_t id,
-	bool& known,
-	uint32_t& removedKnown
-) {
+void ProtocolGame::checkCreatureAsKnown(uint32_t id, bool& known, uint32_t& removedKnown) {
 	// loop through the known creature list and check if the given creature is in
 	for (std::list<uint32_t>::iterator it = knownCreatureList.begin(); it != knownCreatureList.end(); ++it) {
 		if ((*it) != id) {
@@ -771,11 +728,7 @@ bool ProtocolGame::canSee(const Position& pos) const {
 	return canSee(pos.x, pos.y, pos.z);
 }
 
-bool ProtocolGame::canSee(
-	uint16_t x,
-	uint16_t y,
-	uint16_t z
-) const {
+bool ProtocolGame::canSee(uint16_t x, uint16_t y, uint16_t z) const {
 	#ifdef __DEBUG__
 		if (z >= MAP_MAX_LAYERS) {
 			std::clog << "[Warning - ProtocolGame::canSee] Z-value is out of range!" << std::endl;
@@ -918,17 +871,11 @@ void ProtocolGame::parseAutoWalk(NetworkMessage& msg) {
 	addGameTask(&Game::playerAutoWalk, player->getID(), path);
 }
 
-void ProtocolGame::parseMove(
-	NetworkMessage&,
-	Direction dir
-) {
+void ProtocolGame::parseMove(NetworkMessage&, Direction dir) {
 	addGameTask(&Game::playerMove, player->getID(), dir);
 }
 
-void ProtocolGame::parseTurn(
-	NetworkMessage&,
-	Direction dir
-) {
+void ProtocolGame::parseTurn(NetworkMessage&, Direction dir) {
 	addGameTaskTimed(DISPATCHER_TASK_EXPIRATION, &Game::playerTurn, player->getID(), dir);
 }
 
@@ -1263,10 +1210,7 @@ void ProtocolGame::sendOpenPrivateChannel(const std::string& receiver) {
 	}
 }
 
-void ProtocolGame::sendCreatureOutfit(
-	const Creature* creature,
-	const Outfit_t& outfit
-) {
+void ProtocolGame::sendCreatureOutfit(const Creature* creature, const Outfit_t& outfit) {
 	if (!canSee(creature)) {
 		return;
 	}
@@ -1345,10 +1289,7 @@ void ProtocolGame::sendCreatureSkull(const Creature* creature) {
 	}
 }
 
-void ProtocolGame::sendCreatureSquare(
-	const Creature* creature,
-	uint8_t color
-) {
+void ProtocolGame::sendCreatureSquare(const Creature* creature, uint8_t color) {
 	if (!canSee(creature)) {
 		return;
 	}
@@ -1371,11 +1312,7 @@ void ProtocolGame::sendTutorial(uint8_t tutorialId) {
 	}
 }
 
-void ProtocolGame::sendAddMarker(
-	const Position& pos,
-	MapMarks_t markType,
-	const std::string& desc
-) {
+void ProtocolGame::sendAddMarker(const Position& pos, MapMarks_t markType, const std::string& desc) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -1402,10 +1339,7 @@ void ProtocolGame::sendStats() {
 	}
 }
 
-void ProtocolGame::sendTextMessage(
-	MessageClasses mClass,
-	const std::string& message
-) {
+void ProtocolGame::sendTextMessage(MessageClasses mClass, const std::string& message) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -1426,10 +1360,7 @@ void ProtocolGame::sendClosePrivate(uint16_t channelId) {
 	}
 }
 
-void ProtocolGame::sendCreatePrivateChannel(
-	uint16_t channelId,
-	const std::string& channelName
-) {
+void ProtocolGame::sendCreatePrivateChannel(uint16_t channelId, const std::string& channelName) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -1455,10 +1386,7 @@ void ProtocolGame::sendChannelsDialog() {
 	}
 }
 
-void ProtocolGame::sendChannel(
-	uint16_t channelId,
-	const std::string& channelName
-) {
+void ProtocolGame::sendChannel(uint16_t channelId, const std::string& channelName) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -1518,11 +1446,7 @@ void ProtocolGame::sendIcons(int32_t icons) {
 	}
 }
 
-void ProtocolGame::sendContainer(
-	uint32_t cid,
-	const Container* container,
-	bool hasParent
-) {
+void ProtocolGame::sendContainer(uint32_t cid, const Container* container, bool hasParent) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -1632,11 +1556,7 @@ void ProtocolGame::sendGoods(const ShopInfoList& shop) {
 	}
 }
 
-void ProtocolGame::sendTradeItemRequest(
-	const Player* player,
-	const Item* item,
-	bool ack
-) {
+void ProtocolGame::sendTradeItemRequest(const Player* player, const Item* item, bool ack) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -1677,10 +1597,7 @@ void ProtocolGame::sendCloseContainer(uint32_t cid) {
 	}
 }
 
-void ProtocolGame::sendCreatureTurn(
-	const Creature* creature,
-	int16_t stackpos
-) {
+void ProtocolGame::sendCreatureTurn(const Creature* creature, int16_t stackpos) {
 	if (stackpos >= 10 || !canSee(creature)) {
 		return;
 	}
@@ -1697,12 +1614,7 @@ void ProtocolGame::sendCreatureTurn(
 	}
 }
 
-void ProtocolGame::sendCreatureSay(
-	const Creature* creature,
-	SpeakClasses type,
-	const std::string& text,
-	Position* pos
-) {
+void ProtocolGame::sendCreatureSay(const Creature* creature, SpeakClasses type, const std::string& text, Position* pos) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -1710,13 +1622,7 @@ void ProtocolGame::sendCreatureSay(
 	}
 }
 
-void ProtocolGame::sendToChannel(
-	const Creature* creature,
-	SpeakClasses type,
-	const std::string& text,
-	uint16_t channelId,
-	uint32_t time
-) {
+void ProtocolGame::sendToChannel(const Creature* creature, SpeakClasses type, const std::string& text, uint16_t channelId, uint32_t time) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -1741,10 +1647,7 @@ void ProtocolGame::sendCancelTarget() {
 	}
 }
 
-void ProtocolGame::sendChangeSpeed(
-	const Creature* creature,
-	uint32_t speed
-) {
+void ProtocolGame::sendChangeSpeed(const Creature* creature, uint32_t speed) {
 	if (!canSee(creature)) {
 		return;
 	}
@@ -1783,11 +1686,7 @@ void ProtocolGame::sendPing() {
 	}
 }
 
-void ProtocolGame::sendDistanceShoot(
-	const Position& from,
-	const Position& to,
-	uint8_t type
-) {
+void ProtocolGame::sendDistanceShoot(const Position& from, const Position& to, uint8_t type) {
 	if (type > SHOOT_EFFECT_LAST || (!canSee(from) && !canSee(to))) {
 		return;
 	}
@@ -1799,10 +1698,7 @@ void ProtocolGame::sendDistanceShoot(
 	}
 }
 
-void ProtocolGame::sendMagicEffect(
-	const Position& pos,
-	uint8_t type
-) {
+void ProtocolGame::sendMagicEffect(const Position& pos, uint8_t type) {
 	if (type > MAGIC_EFFECT_LAST || !canSee(pos)) {
 		return;
 	}
@@ -1814,11 +1710,7 @@ void ProtocolGame::sendMagicEffect(
 	}
 }
 
-void ProtocolGame::sendAnimatedText(
-	const Position& pos,
-	uint8_t color,
-	std::string text
-) {
+void ProtocolGame::sendAnimatedText(const Position& pos, uint8_t color, std::string text) {
 	if (!canSee(pos)) {
 		return;
 	}
@@ -1857,12 +1749,7 @@ void ProtocolGame::sendFYIBox(const std::string& message) {
 }
 
 // tile
-void ProtocolGame::sendAddTileItem(
-	const Tile*,
-	const Position& pos,
-	uint32_t stackpos,
-	const Item* item
-) {
+void ProtocolGame::sendAddTileItem(const Tile*, const Position& pos, uint32_t stackpos, const Item* item) {
 	if (!canSee(pos)) {
 		return;
 	}
@@ -1874,12 +1761,7 @@ void ProtocolGame::sendAddTileItem(
 	}
 }
 
-void ProtocolGame::sendUpdateTileItem(
-	const Tile*,
-	const Position& pos,
-	uint32_t stackpos,
-	const Item* item
-) {
+void ProtocolGame::sendUpdateTileItem(const Tile*, const Position& pos, uint32_t stackpos, const Item* item) {
 	if (!canSee(pos)) {
 		return;
 	}
@@ -1891,11 +1773,7 @@ void ProtocolGame::sendUpdateTileItem(
 	}
 }
 
-void ProtocolGame::sendRemoveTileItem(
-	const Tile*,
-	const Position& pos,
-	uint32_t stackpos
-) {
+void ProtocolGame::sendRemoveTileItem(const Tile*, const Position& pos, uint32_t stackpos) {
 	if (!canSee(pos)) {
 		return;
 	}
@@ -1907,10 +1785,7 @@ void ProtocolGame::sendRemoveTileItem(
 	}
 }
 
-void ProtocolGame::sendUpdateTile(
-	const Tile* tile,
-	const Position& pos
-) {
+void ProtocolGame::sendUpdateTile(const Tile* tile, const Position& pos) {
 	if (!canSee(pos)) {
 		return;
 	}
@@ -1931,11 +1806,7 @@ void ProtocolGame::sendUpdateTile(
 	}
 }
 
-void ProtocolGame::sendAddCreature(
-	const Creature* creature,
-	const Position& pos,
-	uint32_t stackpos
-) {
+void ProtocolGame::sendAddCreature(const Creature* creature, const Position& pos, uint32_t stackpos) {
 	if (!canSee(creature)) {
 		return;
 	}
@@ -1996,11 +1867,7 @@ void ProtocolGame::sendAddCreature(
 	}
 }
 
-void ProtocolGame::sendRemoveCreature(
-	const Creature*,
-	const Position& pos,
-	uint32_t stackpos
-) {
+void ProtocolGame::sendRemoveCreature(const Creature*, const Position& pos, uint32_t stackpos) {
 	if (!canSee(pos)) {
 		return;
 	}
@@ -2012,16 +1879,7 @@ void ProtocolGame::sendRemoveCreature(
 	}
 }
 
-void ProtocolGame::sendMoveCreature(
-	const Creature* creature,
-	const Tile*,
-	const Position& newPos,
-	uint32_t newStackpos,
-	const Tile*,
-	const Position& oldPos,
-	uint32_t oldStackpos,
-	bool teleport
-) {
+void ProtocolGame::sendMoveCreature(const Creature* creature, const Tile*, const Position& newPos, uint32_t newStackpos, const Tile*, const Position& oldPos, uint32_t oldStackpos, bool teleport) {
 	if (creature == player) {
 		NetworkMessage_ptr msg = getOutputBuffer();
 		if (msg) {
@@ -2100,10 +1958,7 @@ void ProtocolGame::sendMoveCreature(
 }
 
 // inventory
-void ProtocolGame::sendAddInventoryItem(
-	slots_t slot,
-	const Item* item
-) {
+void ProtocolGame::sendAddInventoryItem(slots_t slot, const Item* item) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -2111,10 +1966,7 @@ void ProtocolGame::sendAddInventoryItem(
 	}
 }
 
-void ProtocolGame::sendUpdateInventoryItem(
-	slots_t slot,
-	const Item* item
-) {
+void ProtocolGame::sendUpdateInventoryItem(slots_t slot, const Item* item) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -2131,10 +1983,7 @@ void ProtocolGame::sendRemoveInventoryItem(slots_t slot) {
 }
 
 // containers
-void ProtocolGame::sendAddContainerItem(
-	uint8_t cid,
-	const Item* item
-) {
+void ProtocolGame::sendAddContainerItem(uint8_t cid, const Item* item) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -2142,11 +1991,7 @@ void ProtocolGame::sendAddContainerItem(
 	}
 }
 
-void ProtocolGame::sendUpdateContainerItem(
-	uint8_t cid,
-	uint8_t slot,
-	const Item* item
-) {
+void ProtocolGame::sendUpdateContainerItem(uint8_t cid, uint8_t slot, const Item* item) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -2154,10 +1999,7 @@ void ProtocolGame::sendUpdateContainerItem(
 	}
 }
 
-void ProtocolGame::sendRemoveContainerItem(
-	uint8_t cid,
-	uint8_t slot
-) {
+void ProtocolGame::sendRemoveContainerItem(uint8_t cid, uint8_t slot) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -2165,12 +2007,7 @@ void ProtocolGame::sendRemoveContainerItem(
 	}
 }
 
-void ProtocolGame::sendTextWindow(
-	uint32_t windowTextId,
-	Item* item,
-	uint16_t maxLen,
-	bool canWrite
-) {
+void ProtocolGame::sendTextWindow(uint32_t windowTextId, Item* item, uint16_t maxLen, bool canWrite) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -2201,11 +2038,7 @@ void ProtocolGame::sendTextWindow(
 	}
 }
 
-void ProtocolGame::sendTextWindow(
-	uint32_t windowTextId,
-	uint32_t itemId,
-	const std::string& text
-) {
+void ProtocolGame::sendTextWindow(uint32_t windowTextId, uint32_t itemId, const std::string& text) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -2221,12 +2054,7 @@ void ProtocolGame::sendTextWindow(
 	}
 }
 
-void ProtocolGame::sendHouseWindow(
-	uint32_t windowTextId,
-	House*,
-	uint32_t,
-	const std::string& text
-) {
+void ProtocolGame::sendHouseWindow(uint32_t windowTextId, House*, uint32_t, const std::string& text) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -2331,11 +2159,7 @@ void ProtocolGame::sendVIPLogOut(uint32_t guid) {
 	}
 }
 
-void ProtocolGame::sendVIP(
-	uint32_t guid,
-	const std::string& name,
-	bool isOnline
-) {
+void ProtocolGame::sendVIP(uint32_t guid, const std::string& name, bool isOnline) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -2374,65 +2198,39 @@ void ProtocolGame::reloadCreature(const Creature* creature) {
 	}
 }
 
-void ProtocolGame::AddMapDescription(
-	NetworkMessage_ptr msg,
-	const Position& pos
-) {
+void ProtocolGame::AddMapDescription(NetworkMessage_ptr msg, const Position& pos) {
 	msg->put<char>(0x64);
 	msg->putPosition(player->getPosition());
 	GetMapDescription(pos.x - 8, pos.y - 6, pos.z, 18, 14, msg);
 }
 
-void ProtocolGame::AddTextMessage(
-	NetworkMessage_ptr msg,
-	MessageClasses mclass,
-	const std::string& message
-) {
+void ProtocolGame::AddTextMessage(NetworkMessage_ptr msg, MessageClasses mclass, const std::string& message) {
 	msg->put<char>(0xB4);
 	msg->put<char>(mclass);
 	msg->putString(message);
 }
 
-void ProtocolGame::AddAnimatedText(
-	NetworkMessage_ptr msg,
-	const Position& pos,
-	uint8_t color,
-	const std::string& text
-) {
+void ProtocolGame::AddAnimatedText(NetworkMessage_ptr msg, const Position& pos, uint8_t color, const std::string& text) {
 	msg->put<char>(0x84);
 	msg->putPosition(pos);
 	msg->put<char>(color);
 	msg->putString(text);
 }
 
-void ProtocolGame::AddMagicEffect(
-	NetworkMessage_ptr msg,
-	const Position& pos,
-	uint8_t type
-) {
+void ProtocolGame::AddMagicEffect(NetworkMessage_ptr msg, const Position& pos, uint8_t type) {
 	msg->put<char>(0x83);
 	msg->putPosition(pos);
 	msg->put<char>(type + 1);
 }
 
-void ProtocolGame::AddDistanceShoot(
-	NetworkMessage_ptr msg,
-	const Position& from,
-	const Position& to,
-	uint8_t type
-) {
+void ProtocolGame::AddDistanceShoot(NetworkMessage_ptr msg, const Position& from, const Position& to, uint8_t type) {
 	msg->put<char>(0x85);
 	msg->putPosition(from);
 	msg->putPosition(to);
 	msg->put<char>(type + 1);
 }
 
-void ProtocolGame::AddCreature(
-	NetworkMessage_ptr msg,
-	const Creature* creature,
-	bool known,
-	uint32_t remove
-) {
+void ProtocolGame::AddCreature(NetworkMessage_ptr msg, const Creature* creature, bool known, uint32_t remove) {
 	if (!known) {
 		msg->put<uint16_t>(0x61);
 		msg->put<uint32_t>(remove);
@@ -2529,15 +2327,7 @@ void ProtocolGame::AddPlayerSkills(NetworkMessage_ptr msg) {
 	msg->put<char>(player->getSkill(SKILL_FISH, SKILL_PERCENT));
 }
 
-void ProtocolGame::AddCreatureSpeak(
-	NetworkMessage_ptr msg,
-	const Creature* creature,
-	SpeakClasses type,
-	std::string text,
-	uint16_t channelId,
-	uint32_t time,
-	Position* pos
-) {
+void ProtocolGame::AddCreatureSpeak(NetworkMessage_ptr msg, const Creature* creature, SpeakClasses type, std::string text, uint16_t channelId, uint32_t time, Position* pos) {
 	msg->put<char>(0xAA);
 	if (creature) {
 		const Player* speaker = creature->getPlayer();
@@ -2619,10 +2409,7 @@ void ProtocolGame::AddCreatureSpeak(
 	msg->putString(text);
 }
 
-void ProtocolGame::AddCreatureHealth(
-	NetworkMessage_ptr msg,
-	const Creature* creature
-) {
+void ProtocolGame::AddCreatureHealth(NetworkMessage_ptr msg, const Creature* creature) {
 	msg->put<char>(0x8C);
 	msg->put<uint32_t>(creature->getID());
 	if (!creature->getHideHealth()) {
@@ -2632,12 +2419,7 @@ void ProtocolGame::AddCreatureHealth(
 	}
 }
 
-void ProtocolGame::AddCreatureOutfit(
-	NetworkMessage_ptr msg,
-	const Creature* creature,
-	const Outfit_t& outfit,
-	bool outfitWindow
-) {
+void ProtocolGame::AddCreatureOutfit(NetworkMessage_ptr msg, const Creature* creature, const Outfit_t& outfit, bool outfitWindow) {
 	if (outfitWindow || !creature->getPlayer() || (!creature->isInvisible() && (!creature->isGhost() || !g_config.getBool(ConfigManager::GHOST_INVISIBLE_EFFECT)))) {
 		msg->put<uint16_t>(outfit.lookType);
 		if (outfit.lookType) {
@@ -2656,19 +2438,13 @@ void ProtocolGame::AddCreatureOutfit(
 	}
 }
 
-void ProtocolGame::AddWorldLight(
-	NetworkMessage_ptr msg,
-	const LightInfo& lightInfo
-) {
+void ProtocolGame::AddWorldLight(NetworkMessage_ptr msg, const LightInfo& lightInfo) {
 	msg->put<char>(0x82);
 	msg->put<char>(player->hasCustomFlag(PlayerCustomFlag_HasFullLight) ? 0xFF : lightInfo.level);
 	msg->put<char>(lightInfo.color);
 }
 
-void ProtocolGame::AddCreatureLight(
-	NetworkMessage_ptr msg,
-	const Creature* creature
-) {
+void ProtocolGame::AddCreatureLight(NetworkMessage_ptr msg, const Creature* creature) {
 	msg->put<char>(0x8D);
 	msg->put<uint32_t>(creature->getID());
 
@@ -2685,12 +2461,7 @@ void ProtocolGame::AddCreatureLight(
 }
 
 // tile
-void ProtocolGame::AddTileItem(
-	NetworkMessage_ptr msg,
-	const Position& pos,
-	uint32_t stackpos,
-	const Item* item
-) {
+void ProtocolGame::AddTileItem(NetworkMessage_ptr msg, const Position& pos, uint32_t stackpos, const Item* item) {
 	if (stackpos >= 10) {
 		return;
 	}
@@ -2701,12 +2472,7 @@ void ProtocolGame::AddTileItem(
 	msg->putItem(item);
 }
 
-void ProtocolGame::AddTileCreature(
-	NetworkMessage_ptr msg,
-	const Position& pos,
-	uint32_t stackpos,
-	const Creature* creature
-) {
+void ProtocolGame::AddTileCreature(NetworkMessage_ptr msg, const Position& pos, uint32_t stackpos, const Creature* creature) {
 	if (stackpos >= 10) {
 		return;
 	}
@@ -2721,12 +2487,7 @@ void ProtocolGame::AddTileCreature(
 	AddCreature(msg, creature, known, removedKnown);
 }
 
-void ProtocolGame::UpdateTileItem(
-	NetworkMessage_ptr msg,
-	const Position& pos,
-	uint32_t stackpos,
-	const Item* item
-) {
+void ProtocolGame::UpdateTileItem(NetworkMessage_ptr msg, const Position& pos, uint32_t stackpos, const Item* item) {
 	if (stackpos >= 10) {
 		return;
 	}
@@ -2737,11 +2498,7 @@ void ProtocolGame::UpdateTileItem(
 	msg->putItem(item);
 }
 
-void ProtocolGame::RemoveTileItem(
-	NetworkMessage_ptr msg,
-	const Position& pos,
-	uint32_t stackpos
-) {
+void ProtocolGame::RemoveTileItem(NetworkMessage_ptr msg, const Position& pos, uint32_t stackpos) {
 	if (stackpos >= 10) {
 		return;
 	}
@@ -2751,13 +2508,7 @@ void ProtocolGame::RemoveTileItem(
 	msg->put<char>(stackpos);
 }
 
-void ProtocolGame::MoveUpCreature(
-	NetworkMessage_ptr msg,
-	const Creature* creature,
-	const Position& newPos,
-	const Position& oldPos,
-	uint32_t
-) {
+void ProtocolGame::MoveUpCreature(NetworkMessage_ptr msg, const Creature* creature, const Position& newPos, const Position& oldPos, uint32_t) {
 	if (creature != player) {
 		return;
 	}
@@ -2796,13 +2547,7 @@ void ProtocolGame::MoveUpCreature(
 	GetMapDescription(oldPos.x - 8, oldPos.y - 6, newPos.z, 18, 1, msg);
 }
 
-void ProtocolGame::MoveDownCreature(
-	NetworkMessage_ptr msg,
-	const Creature* creature,
-	const Position& newPos,
-	const Position& oldPos,
-	uint32_t
-) {
+void ProtocolGame::MoveDownCreature(NetworkMessage_ptr msg, const Creature* creature, const Position& newPos, const Position& oldPos, uint32_t) {
 	if (creature != player) {
 		return;
 	}
@@ -2837,11 +2582,7 @@ void ProtocolGame::MoveDownCreature(
 }
 
 // inventory
-void ProtocolGame::AddInventoryItem(
-	NetworkMessage_ptr msg,
-	slots_t slot,
-	const Item* item
-) {
+void ProtocolGame::AddInventoryItem(NetworkMessage_ptr msg, slots_t slot, const Item* item) {
 	if (item) {
 		msg->put<char>(0x78);
 		msg->put<char>(slot);
@@ -2851,61 +2592,36 @@ void ProtocolGame::AddInventoryItem(
 	}
 }
 
-void ProtocolGame::RemoveInventoryItem(
-	NetworkMessage_ptr msg,
-	slots_t slot
-) {
+void ProtocolGame::RemoveInventoryItem(NetworkMessage_ptr msg, slots_t slot) {
 	msg->put<char>(0x79);
 	msg->put<char>(slot);
 }
 
-void ProtocolGame::UpdateInventoryItem(
-	NetworkMessage_ptr msg,
-	slots_t slot,
-	const Item* item
-) {
+void ProtocolGame::UpdateInventoryItem(NetworkMessage_ptr msg, slots_t slot, const Item* item) {
 	AddInventoryItem(msg, slot, item);
 }
 
 // containers
-void ProtocolGame::AddContainerItem(
-	NetworkMessage_ptr msg,
-	uint8_t cid,
-	const Item* item
-) {
+void ProtocolGame::AddContainerItem(NetworkMessage_ptr msg, uint8_t cid, const Item* item) {
 	msg->put<char>(0x70);
 	msg->put<char>(cid);
 	msg->putItem(item);
 }
 
-void ProtocolGame::UpdateContainerItem(
-	NetworkMessage_ptr msg,
-	uint8_t cid,
-	uint8_t slot,
-	const Item* item
-) {
+void ProtocolGame::UpdateContainerItem(NetworkMessage_ptr msg, uint8_t cid, uint8_t slot, const Item* item) {
 	msg->put<char>(0x71);
 	msg->put<char>(cid);
 	msg->put<char>(slot);
 	msg->putItem(item);
 }
 
-void ProtocolGame::RemoveContainerItem(
-	NetworkMessage_ptr msg,
-	uint8_t cid,
-	uint8_t slot
-) {
+void ProtocolGame::RemoveContainerItem(NetworkMessage_ptr msg, uint8_t cid, uint8_t slot) {
 	msg->put<char>(0x72);
 	msg->put<char>(cid);
 	msg->put<char>(slot);
 }
 
-void ProtocolGame::sendChannelMessage(
-	std::string author,
-	std::string text,
-	SpeakClasses type,
-	uint8_t channel
-) {
+void ProtocolGame::sendChannelMessage(std::string author, std::string text, SpeakClasses type, uint8_t channel) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg) {
 		TRACK_MESSAGE(msg);
@@ -2919,10 +2635,7 @@ void ProtocolGame::sendChannelMessage(
 	}
 }
 
-void ProtocolGame::AddShopItem(
-	NetworkMessage_ptr msg,
-	const ShopInfo& item
-) {
+void ProtocolGame::AddShopItem(NetworkMessage_ptr msg, const ShopInfo& item) {
 	const ItemType& it = Item::items[item.itemId];
 	msg->put<uint16_t>(it.clientId);
 	if (it.isSplash() || it.isFluidContainer()) {

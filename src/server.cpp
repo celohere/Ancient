@@ -31,11 +31,7 @@ extern ConfigManager g_config;
 
 bool ServicePort::m_logError = true;
 
-void ServicePort::services(
-	boost::weak_ptr<ServicePort> weakService,
-	IPAddressList ips,
-	uint16_t port
-) {
+void ServicePort::services(boost::weak_ptr<ServicePort> weakService, IPAddressList ips, uint16_t port) {
 	if (weakService.expired()) {
 		return;
 	}
@@ -45,11 +41,7 @@ void ServicePort::services(
 	}
 }
 
-void ServicePort::service(
-	boost::weak_ptr<ServicePort> weakService,
-	IPAddress ip,
-	uint16_t port
-) {
+void ServicePort::service(boost::weak_ptr<ServicePort> weakService, IPAddress ip, uint16_t port) {
 	if (weakService.expired()) {
 		return;
 	}
@@ -75,10 +67,7 @@ bool ServicePort::add(Service_ptr newService) {
 	return true;
 }
 
-void ServicePort::open(
-	IPAddressList ips,
-	uint16_t port
-) {
+void ServicePort::open(IPAddressList ips, uint16_t port) {
 	m_pendingStart = false;
 	m_serverPort = port;
 
@@ -140,11 +129,7 @@ void ServicePort::accept(Acceptor_ptr acceptor) {
 	}
 }
 
-void ServicePort::handle(
-	Acceptor_ptr acceptor,
-	boost::asio::ip::tcp::socket* socket,
-	const boost::system::error_code& error
-) {
+void ServicePort::handle(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* socket, const boost::system::error_code& error) {
 	if (!error) {
 		if (m_services.empty()) {
 			#ifdef __DEBUG_NET__
@@ -210,10 +195,7 @@ std::string ServicePort::getProtocolNames() const {
 	return str;
 }
 
-Protocol* ServicePort::makeProtocol(
-	bool checksum,
-	NetworkMessage& msg
-) const {
+Protocol* ServicePort::makeProtocol(bool checksum, NetworkMessage& msg) const {
 	uint8_t protocolId = msg.get<char>();
 	for (ServiceVec::const_iterator it = m_services.begin(); it != m_services.end(); ++it) {
 		if ((*it)->getProtocolId() == protocolId && ((checksum && (*it)->hasChecksum()) || !(*it)->hasChecksum())) {

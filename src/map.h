@@ -61,26 +61,13 @@
 
 			AStarNode* getBestNode();
 			AStarNode* createOpenNode();
-			AStarNode* getNodeInList(
-				uint16_t x,
-				uint16_t y
-			);
+			AStarNode* getNodeInList(uint16_t x, uint16_t y);
 
-			bool isInList(
-				uint16_t x,
-				uint16_t y
-			);
-			int32_t getEstimatedDistance(
-				uint16_t x,
-				uint16_t y,
-				uint16_t xGoal,
-				uint16_t yGoal
-			);
+			bool isInList(uint16_t x, uint16_t y);
+			int32_t getEstimatedDistance(uint16_t x, uint16_t y, uint16_t xGoal, uint16_t yGoal);
 
-			int32_t getMapWalkCost(
-				const Creature* creature, AStarNode* node, const Tile* neighbourTile, const Position& neighbourPos);
-			static int32_t getTileWalkCost(
-				const Creature* creature, const Tile* tile);
+			int32_t getMapWalkCost(const Creature* creature, AStarNode* node, const Tile* neighbourTile, const Position& neighbourPos);
+			static int32_t getTileWalkCost(const Creature* creature, const Tile* tile);
 
 		private:
 			AStarNode nodes[MAX_NODES];
@@ -117,21 +104,10 @@
 				return m_isLeaf;
 			}
 
-			QTreeLeafNode* getLeaf(
-				uint16_t x,
-				uint16_t y
-			);
-			static QTreeLeafNode* getLeafStatic(
-				QTreeNode* root,
-				uint16_t x,
-				uint16_t y
-			);
+			QTreeLeafNode* getLeaf(uint16_t x, uint16_t y);
+			static QTreeLeafNode* getLeafStatic(QTreeNode* root, uint16_t x, uint16_t y);
 
-			QTreeLeafNode* createLeaf(
-				uint16_t x,
-				uint16_t y,
-				uint16_t level
-			);
+			QTreeLeafNode* createLeaf(uint16_t x, uint16_t y, uint16_t level);
 
 		protected:
 			bool m_isLeaf;
@@ -206,11 +182,7 @@
 			* Get a single tile.
 			* \returns A pointer to that tile.
 			*/
-			Tile* getTile(
-				int32_t x,
-				int32_t y,
-				int32_t z
-			);
+			Tile* getTile(int32_t x, int32_t y, int32_t z);
 			Tile* getTile(const Position& pos) {
 				return getTile(pos.x, pos.y, pos.z);
 			}
@@ -219,16 +191,8 @@
 			* Set a single tile.
 			* \param a tile to set for the position
 			*/
-			void setTile(
-				uint16_t _x,
-				uint16_t _y,
-				uint16_t _z,
-				Tile* newTile
-			);
-			void setTile(
-				const Position& pos,
-				Tile* newTile
-			) {
+			void setTile(uint16_t _x, uint16_t _y, uint16_t _z, Tile* newTile);
+			void setTile(const Position& pos, Tile* newTile) {
 				setTile(pos.x, pos.y, pos.z, newTile);
 			}
 
@@ -239,12 +203,7 @@
 			* \param extendedPos If true, the creature will in first-hand be placed 2 tiles away
 			* \param forceLogin If true, placing the creature will not fail becase of obstacles (creatures/chests)
 			*/
-			bool placeCreature(
-				const Position& centerPos,
-				Creature* creature,
-				bool extendedPos = false,
-				bool forceLogin = false
-			);
+			bool placeCreature(const Position& centerPos, Creature* creature, bool extendedPos = false, bool forceLogin = false);
 
 			/**
 			* Remove a creature from the map.
@@ -261,13 +220,7 @@
 			*	\param checkLineOfSight checks if there is any blocking objects in the way
 			*	\returns The result if you can throw there or not
 			*/
-			bool canThrowObjectTo(
-				const Position& fromPos,
-				const Position& toPos,
-				bool checkLineOfSight = true,
-				int32_t rangex = Map::maxClientViewportX,
-				int32_t rangey = Map::maxClientViewportY
-			);
+			bool canThrowObjectTo(const Position& fromPos, const Position& toPos, bool checkLineOfSight = true, int32_t rangex = Map::maxClientViewportX, int32_t rangey = Map::maxClientViewportY);
 
 			/**
 			* Checks if path is clear from fromPos to toPos
@@ -277,15 +230,8 @@
 			*	\param floorCheck if true then view is not clear if fromPos.z is not the same as toPos.z
 			*	\returns The result if there is no obstacles
 			*/
-			bool isSightClear(
-				const Position& fromPos,
-				const Position& toPos,
-				bool floorCheck
-			) const;
-			bool checkSightLine(
-				const Position& fromPos,
-				const Position& toPos
-			) const;
+			bool isSightClear(const Position& fromPos, const Position& toPos, bool floorCheck) const;
+			bool checkSightLine(const Position& fromPos, const Position& toPos) const;
 
 			/**
 			* Get the path to a specific position on the map.
@@ -295,29 +241,13 @@
 			* \param maxDist Maximum distance from our current position to search, default: -1 (no limit)
 			* \returns returns true if a path was found
 			*/
-			bool getPathTo(
-				const Creature* creature,
-				const Position& destPos,
-				std::list<Direction>& listDir,
-				int32_t maxDist = -1
-			);
-			bool getPathMatching(
-				const Creature* creature,
-				std::list<Direction>& dirList,
-				const FrozenPathingConditionCall& pathCondition,
-				const FindPathParams& fpp
-			);
+			bool getPathTo(const Creature* creature, const Position& destPos, std::list<Direction>& listDir, int32_t maxDist = -1);
+			bool getPathMatching(const Creature* creature, std::list<Direction>& dirList, const FrozenPathingConditionCall& pathCondition, const FindPathParams& fpp);
 
-			QTreeLeafNode* getLeaf(
-				uint16_t x,
-				uint16_t y
-			) {
+			QTreeLeafNode* getLeaf(uint16_t x, uint16_t y) {
 				return root.getLeaf(x, y);
 			}
-			const Tile* canWalkTo(
-				const Creature* creature,
-				const Position& pos
-			);
+			const Tile* canWalkTo(const Creature* creature, const Position& pos);
 			Waypoints waypoints;
 
 		protected:
@@ -333,30 +263,11 @@
 			}
 
 			// Actually scans the map for spectators
-			void getSpectatorsInternal(
-				SpectatorVec& list,
-				const Position& centerPos,
-				bool checkforduplicate,
-				int32_t minRangeX,
-				int32_t maxRangeX,
-				int32_t minRangeY,
-				int32_t maxRangeY,
-				int32_t minRangeZ,
-				int32_t maxRangeZ
-			);
+			void getSpectatorsInternal(SpectatorVec& list, const Position& centerPos, bool checkforduplicate, int32_t minRangeX, int32_t maxRangeX, int32_t minRangeY, int32_t maxRangeY, int32_t minRangeZ, int32_t maxRangeZ);
 
 			// Use this when a custom spectator vector is needed, this support many
 			// more parameters than the heavily cached version below.
-			void getSpectators(
-				SpectatorVec& list,
-				const Position& centerPos,
-				bool checkforduplicate = false,
-				bool multifloor = false,
-				int32_t minRangeX = 0,
-				int32_t maxRangeX = 0,
-				int32_t minRangeY = 0,
-				int32_t maxRangeY = 0
-			);
+			void getSpectators(SpectatorVec& list, const Position& centerPos, bool checkforduplicate = false, bool multifloor = false, int32_t minRangeX = 0, int32_t maxRangeX = 0, int32_t minRangeY = 0, int32_t maxRangeY = 0);
 
 			// The returned SpectatorVec is a temporary and should not be kept around
 			// Take special heed in that the vector will be destroyed if any function

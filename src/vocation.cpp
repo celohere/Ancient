@@ -557,10 +557,7 @@ int16_t Vocation::getReflect(CombatType_t combat) const {
 	return 0;
 }
 
-uint64_t Vocation::getReqSkillTries(
-	int32_t skill,
-	int32_t level
-) {
+uint64_t Vocation::getReqSkillTries(int32_t skill, int32_t level) {
 	if (skill < SKILL_FIRST || skill > SKILL_LAST) {
 		return 0;
 	}

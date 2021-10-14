@@ -42,12 +42,7 @@
 			TalkActions();
 			virtual ~TalkActions();
 
-			bool onPlayerSay(
-				Creature* creature,
-				uint16_t channelId,
-				const std::string& words,
-				bool ignoreAccess
-			);
+			bool onPlayerSay(Creature* creature, uint16_t channelId, const std::string& words, bool ignoreAccess);
 
 			inline TalkActionsMap::const_iterator getFirstTalk() const {
 				return talksMap.begin();
@@ -66,11 +61,7 @@
 			virtual void clear();
 
 			virtual Event* getEvent(const std::string& nodeName);
-			virtual bool registerEvent(
-				Event* event,
-				xmlNodePtr p,
-				bool override
-			);
+			virtual bool registerEvent(Event* event, xmlNodePtr p, bool override);
 
 			virtual LuaInterface& getInterface() {
 				return m_interface;
@@ -78,11 +69,7 @@
 			LuaInterface m_interface;
 	};
 
-	typedef bool (TalkFunction)(
-		Creature* creature,
-		const std::string& words,
-		const std::string& param
-	);
+	typedef bool (TalkFunction)(Creature* creature, const std::string& words, const std::string& param);
 
 	class TalkAction : public Event {
 		public:
@@ -93,12 +80,7 @@
 			virtual bool configureEvent(xmlNodePtr p);
 			virtual bool loadFunction(const std::string& functionName);
 
-			int32_t executeSay(
-				Creature* creature,
-				const std::string& words,
-				std::string param,
-				uint16_t channel
-			);
+			int32_t executeSay(Creature* creature, const std::string& words, std::string param, uint16_t channel);
 
 			std::string getFunctionName() const {
 				return m_functionName;

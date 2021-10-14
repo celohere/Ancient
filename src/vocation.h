@@ -118,82 +118,54 @@
 			uint32_t getGain(gain_t type) const {
 				return gain[type];
 			}
-			void setGain(
-				gain_t type,
-				uint32_t v
-			) {
+			void setGain(gain_t type, uint32_t v) {
 				gain[type] = v;
 			}
 
 			uint32_t getGainTicks(gain_t type) const {
 				return gainTicks[type];
 			}
-			void setGainTicks(
-				gain_t type,
-				uint32_t v
-			) {
+			void setGainTicks(gain_t type, uint32_t v) {
 				gainTicks[type] = v;
 			}
 
 			uint32_t getGainAmount(gain_t type) const {
 				return gainAmount[type];
 			}
-			void setGainAmount(
-				gain_t type,
-				uint32_t v
-			) {
+			void setGainAmount(gain_t type, uint32_t v) {
 				gainAmount[type] = v;
 			}
 
 			float getMultiplier(multiplier_t type) const {
 				return formulaMultipliers[type];
 			}
-			void setMultiplier(
-				multiplier_t type,
-				float v
-			) {
+			void setMultiplier(multiplier_t type, float v) {
 				formulaMultipliers[type] = v;
 			}
 
 			int16_t getAbsorb(CombatType_t combat) const {
 				return absorb[combat];
 			}
-			void increaseAbsorb(
-				CombatType_t combat,
-				int16_t v
-			) {
+			void increaseAbsorb(CombatType_t combat, int16_t v) {
 				absorb[combat] += v;
 			}
 
 			int16_t getReflect(CombatType_t combat) const;
-			void increaseReflect(
-				Reflect_t type,
-				CombatType_t combat,
-				int16_t v
-			) {
+			void increaseReflect(Reflect_t type, CombatType_t combat, int16_t v) {
 				reflect[type][combat] += v;
 			}
 
 			double getExperienceMultiplier() const {
 				return skillMultipliers[SKILL__LEVEL];
 			}
-			void setSkillMultiplier(
-				skills_t s,
-				float v
-			) {
+			void setSkillMultiplier(skills_t s, float v) {
 				skillMultipliers[s] = v;
 			}
-			void setSkillBase(
-				skills_t s,
-				uint32_t v
-			) {
+			void setSkillBase(skills_t s, uint32_t v) {
 				skillBase[s] = v;
 			}
 
-			uint64_t getReqSkillTries(
-				int32_t skill,
-				int32_t level
-			);
+			uint64_t getReqSkillTries(int32_t skill, int32_t level);
 			uint64_t getReqMana(uint32_t magLevel);
 
 		private:

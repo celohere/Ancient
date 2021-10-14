@@ -40,14 +40,8 @@
 			NpcScript();
 			virtual ~NpcScript() {}
 
-			static void pushState(
-				lua_State* L,
-				NpcState* state
-			);
-			static void popState(
-				lua_State* L,
-				NpcState* &state
-			);
+			static void pushState(lua_State* L, NpcState* state);
+			static void popState(lua_State* L, NpcState* &state);
 
 		protected:
 			virtual void registerFunctions();
@@ -70,36 +64,16 @@
 
 	class NpcEvents {
 		public:
-			NpcEvents(
-				std::string file,
-				Npc* npc
-			);
+			NpcEvents(std::string file, Npc* npc);
 			virtual ~NpcEvents() {}
 
 			virtual void onCreatureAppear(const Creature* creature);
 			virtual void onCreatureDisappear(const Creature* creature);
 
-			virtual void onCreatureMove(
-				const Creature* creature,
-				const Position& oldPos,
-				const Position& newPos
-			);
-			virtual void onCreatureSay(
-				const Creature* creature,
-				SpeakClasses,
-				const std::string& text,
-				Position* pos = NULL
-			);
+			virtual void onCreatureMove(const Creature* creature, const Position& oldPos, const Position& newPos);
+			virtual void onCreatureSay(const Creature* creature, SpeakClasses, const std::string& text, Position* pos = NULL);
 
-			virtual void onPlayerTrade(
-				const Player* player,
-				int32_t callback,
-				uint16_t itemid,
-				uint8_t count,
-				uint8_t amount,
-				bool ignoreCap,
-				bool inBackpacks
-			);
+			virtual void onPlayerTrade(const Player* player, int32_t callback, uint16_t itemid, uint8_t count, uint8_t amount, bool ignoreCap, bool inBackpacks);
 			virtual void onPlayerEndTrade(const Player* player);
 			virtual void onPlayerCloseChannel(const Player* player);
 
@@ -269,11 +243,7 @@
 				std::list<ListItem> itemList;
 			};
 
-			NpcResponse(
-				const ResponseProperties& _prop,
-				ResponseList _subResponseList,
-				ScriptVars _scriptVars
-			) {
+			NpcResponse(const ResponseProperties& _prop, ResponseList _subResponseList, ScriptVars _scriptVars) {
 				prop = _prop;
 				subResponseList = _subResponseList;
 				scriptVars = _scriptVars;
@@ -441,27 +411,10 @@
 				return nameDescription;
 			}
 
-			void doSay(
-				const std::string& text,
-				SpeakClasses type,
-				Player* player
-			);
+			void doSay(const std::string& text, SpeakClasses type, Player* player);
 
-			void onPlayerTrade(
-				Player* player,
-				ShopEvent_t type,
-				int32_t callback,
-				uint16_t itemId,
-				uint8_t count,
-				uint8_t amount,
-				bool ignoreCap = false,
-				bool inBackpacks = false
-			);
-			void onPlayerEndTrade(
-				Player* player,
-				int32_t buyCallback,
-				int32_t sellCallback
-			);
+			void onPlayerTrade(Player* player, ShopEvent_t type, int32_t callback, uint16_t itemId, uint8_t count, uint8_t amount, bool ignoreCap = false, bool inBackpacks = false);
+			void onPlayerEndTrade(Player* player, int32_t buyCallback, int32_t sellCallback);
 			void onPlayerCloseChannel(const Player* player);
 
 			void setCreatureFocus(Creature* creature);
@@ -472,24 +425,9 @@
 			bool loaded;
 
 			virtual void onCreatureAppear(const Creature* creature);
-			virtual void onCreatureDisappear(
-				const Creature* creature,
-				bool isLogout
-			);
-			virtual void onCreatureMove(
-				const Creature* creature,
-				const Tile* newTile,
-				const Position& newPos,
-				const Tile* oldTile,
-				const Position& oldPos,
-				bool teleport
-			);
-			virtual void onCreatureSay(
-				const Creature* creature,
-				SpeakClasses type,
-				const std::string& text,
-				Position* pos = NULL
-			);
+			virtual void onCreatureDisappear(const Creature* creature, bool isLogout);
+			virtual void onCreatureMove(const Creature* creature, const Tile* newTile, const Position& newPos, const Tile* oldTile, const Position& oldPos, bool teleport);
+			virtual void onCreatureSay(const Creature* creature, SpeakClasses type, const std::string& text, Position* pos = NULL);
 			virtual void onThink(uint32_t interval);
 
 			bool isImmune(CombatType_t) const {
@@ -502,77 +440,28 @@
 			virtual std::string getDescription(int32_t) const {
 				return nameDescription + ".";
 			}
-			virtual bool getNextStep(
-				Direction& dir,
-				uint32_t& flags
-			);
+			virtual bool getNextStep(Direction& dir, uint32_t& flags);
 			bool getRandomStep(Direction& dir);
 
 			void reset();
 			bool loadFromXml(const std::string& name);
-			bool canWalkTo(
-				const Position& fromPos,
-				Direction dir
-			);
+			bool canWalkTo(const Position& fromPos, Direction dir);
 
-			const NpcResponse* getResponse(
-				const ResponseList& list,
-				const Player* player,
-				NpcState* npcState,
-				const std::string& text,
-				bool exactMatch = false
-			);
-			const NpcResponse* getResponse(
-				const Player* player,
-				NpcState* npcState,
-				const std::string& text
-			);
-			const NpcResponse* getResponse(
-				const Player* player,
-				NpcEvent_t eventType
-			);
-			const NpcResponse* getResponse(
-				const Player* player,
-				NpcState* npcState,
-				NpcEvent_t eventType
-			);
+			const NpcResponse* getResponse(const ResponseList& list, const Player* player, NpcState* npcState, const std::string& text, bool exactMatch = false);
+			const NpcResponse* getResponse(const Player* player, NpcState* npcState, const std::string& text);
+			const NpcResponse* getResponse(const Player* player, NpcEvent_t eventType);
+			const NpcResponse* getResponse(const Player* player, NpcState* npcState, NpcEvent_t eventType);
 			std::string getEventResponseName(NpcEvent_t eventType);
 
-			NpcState* getState(
-				const Player* player,
-				bool makeNew = true
-			);
-			uint32_t getMatchCount(
-				NpcResponse* response,
-				StringVec wordList,
-				bool exactMatch,
-				int32_t& matchAllCount,
-				int32_t& totalKeywordCount
-			);
-			uint32_t getListItemPrice(
-				uint16_t itemId,
-				ShopEvent_t type
-			);
+			NpcState* getState(const Player* player, bool makeNew = true);
+			uint32_t getMatchCount(NpcResponse* response, StringVec wordList, bool exactMatch, int32_t& matchAllCount, int32_t& totalKeywordCount);
+			uint32_t getListItemPrice(uint16_t itemId, ShopEvent_t type);
 
-			std::string formatResponse(
-				Creature* creature,
-				const NpcState* npcState,
-				const NpcResponse* response
-			) const;
-			void executeResponse(
-				Player* player,
-				NpcState* npcState,
-				const NpcResponse* response
-			);
+			std::string formatResponse(Creature* creature, const NpcState* npcState, const NpcResponse* response) const;
+			void executeResponse(Player* player, NpcState* npcState, const NpcResponse* response);
 
-			void onPlayerEnter(
-				Player* player,
-				NpcState* state
-			);
-			void onPlayerLeave(
-				Player* player,
-				NpcState* state
-			);
+			void onPlayerEnter(Player* player, NpcState* state);
+			void onPlayerLeave(Player* player, NpcState* state);
 
 			typedef std::map<std::string, std::string> ParametersMap;
 			ParametersMap m_parameters;

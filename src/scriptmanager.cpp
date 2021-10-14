@@ -156,10 +156,7 @@ bool ScriptManager::reloadMods() {
 	return loadMods();
 }
 
-bool ScriptManager::loadFromXml(
-	const std::string& file,
-	bool& enabled
-) {
+bool ScriptManager::loadFromXml(const std::string& file, bool& enabled) {
 	enabled = false;
 	xmlDocPtr doc = xmlParseFile(getFilePath(FILE_TYPE_MOD, file).c_str());
 	if (!doc) {

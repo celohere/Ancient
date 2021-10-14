@@ -44,15 +44,8 @@
 			}
 
 			// socket functions
-			SocketCode_t read(
-				SOCKET socket,
-				bool ignoreLength,
-				int32_t timeout = NETWORK_RETRY_TIMEOUT
-			);
-			SocketCode_t write(
-				SOCKET socket,
-				int32_t timeout = NETWORK_RETRY_TIMEOUT
-			);
+			SocketCode_t read(SOCKET socket, bool ignoreLength, int32_t timeout = NETWORK_RETRY_TIMEOUT);
+			SocketCode_t write(SOCKET socket, int32_t timeout = NETWORK_RETRY_TIMEOUT);
 
 			// simple read functions for incoming message
 			template<typename T>
@@ -66,10 +59,7 @@
 				return value;
 			}
 
-			std::string getString(
-				bool peek = false,
-				uint16_t size = 0
-			);
+			std::string getString(bool peek = false, uint16_t size = 0);
 			std::string getRaw(bool peek = false) {
 				return getString(peek, m_size - m_position);
 			}
@@ -94,25 +84,16 @@
 				m_size += sizeof(T);
 			}
 
-			void putString(
-				const std::string& value,
-				bool addSize = true
-			) {
+			void putString(const std::string& value, bool addSize = true) {
 				putString(value.c_str(), addSize);
 			}
-			void putString(
-				const char* value,
-				bool addSize = true
-			);
+			void putString(const char* value, bool addSize = true);
 
 			void putPadding(uint32_t amount);
 
 			// write for complex types
 			void putPosition(const Position& pos);
-			void putItem(
-				uint16_t id,
-				uint8_t count
-			);
+			void putItem(uint16_t id, uint8_t count);
 			void putItem(const Item* item);
 			void putItemId(const Item* item);
 			void putItemId(uint16_t itemId);
@@ -143,11 +124,7 @@
 			}
 
 			#ifdef __TRACK_NETWORK__
-				virtual void Track(
-					std::string file,
-					int32_t line,
-					std::string func
-				) {}
+				virtual void Track(std::string file, int32_t line, std::string func) {}
 				virtual void clearTrack() {}
 			#endif
 

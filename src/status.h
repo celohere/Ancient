@@ -75,11 +75,7 @@
 			}
 
 			std::string getStatusString(bool sendPlayers) const;
-			void getInfo(
-				uint32_t requestedInfo,
-				OutputMessage_ptr output,
-				NetworkMessage& msg
-			) const;
+			void getInfo(uint32_t requestedInfo, OutputMessage_ptr output, NetworkMessage& msg) const;
 
 			uint32_t getUptime() const {
 				return (OTSYS_TIME() - m_start) / 1000;

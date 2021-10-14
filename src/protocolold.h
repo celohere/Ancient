@@ -50,10 +50,7 @@
 				virtual void deleteProtocolTask();
 			#endif
 
-			void disconnectClient(
-				uint8_t error,
-				const char* message
-			);
+			void disconnectClient(uint8_t error, const char* message);
 			bool parseFirstPacket(NetworkMessage& msg);
 	};
 

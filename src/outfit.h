@@ -54,8 +54,7 @@
 		int16_t absorb[COMBAT_LAST + 1], reflect[REFLECT_LAST + 1][COMBAT_LAST + 1];
 
 		uint16_t accessLevel, addons;
-		int32_t skills[SKILL_LAST + 1], skillsPercent[SKILL_LAST + 1], stats[STAT_LAST + 1], statsPercent[STAT_LAST + 1],
-			speed, healthGain, healthTicks, manaGain, manaTicks, conditionSuppressions;
+		int32_t skills[SKILL_LAST + 1], skillsPercent[SKILL_LAST + 1], stats[STAT_LAST + 1], statsPercent[STAT_LAST + 1], speed, healthGain, healthTicks, manaGain, manaTicks, conditionSuppressions;
 
 		uint32_t outfitId, lookType;
 		std::string name, storageId, storageValue;
@@ -79,40 +78,16 @@
 				return outfitsMap[sex];
 			}
 
-			bool getOutfit(
-				uint32_t outfitId,
-				uint16_t sex,
-				Outfit& outfit
-			);
-			bool getOutfit(
-				uint32_t lookType,
-				Outfit& outfit
-			);
+			bool getOutfit(uint32_t outfitId, uint16_t sex, Outfit& outfit);
+			bool getOutfit(uint32_t lookType, Outfit& outfit);
 
-			bool addAttributes(
-				uint32_t playerId,
-				uint32_t outfitId,
-				uint16_t sex,
-				uint16_t addons
-			);
-			bool removeAttributes(
-				uint32_t playerId,
-				uint32_t outfitId,
-				uint16_t sex
-			);
+			bool addAttributes(uint32_t playerId, uint32_t outfitId, uint16_t sex, uint16_t addons);
+			bool removeAttributes(uint32_t playerId, uint32_t outfitId, uint16_t sex);
 
 			uint32_t getOutfitId(uint32_t lookType);
 
-			int16_t getOutfitAbsorb(
-				uint32_t lookType,
-				uint16_t sex,
-				CombatType_t combat
-			);
-			int16_t getOutfitReflect(
-				uint32_t lookType,
-				uint16_t sex,
-				CombatType_t combat
-			);
+			int16_t getOutfitAbsorb(uint32_t lookType, uint16_t sex, CombatType_t combat);
+			int16_t getOutfitReflect(uint32_t lookType, uint16_t sex, CombatType_t combat);
 
 		private:
 			Outfits() {}

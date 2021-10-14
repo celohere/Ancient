@@ -58,47 +58,17 @@
 				clear();
 			}
 
-			uint32_t onCreatureMove(
-				Creature* actor,
-				Creature* creature,
-				const Tile* fromTile,
-				const Tile* toTile,
-				bool isStepping
-			);
-			bool onPlayerEquip(
-				Player* player,
-				Item* item,
-				slots_t slot,
-				bool isCheck
-			);
-			bool onPlayerDeEquip(
-				Player* player,
-				Item* item,
-				slots_t slot,
-				bool isRemoval
-			);
-			uint32_t onItemMove(
-				Creature* actor,
-				Item* item,
-				Tile* tile,
-				bool isAdd
-			);
+			uint32_t onCreatureMove(Creature* actor, Creature* creature, const Tile* fromTile, const Tile* toTile, bool isStepping);
+			bool onPlayerEquip(Player* player, Item* item, slots_t slot, bool isCheck);
+			bool onPlayerDeEquip(Player* player, Item* item, slots_t slot, bool isRemoval);
+			uint32_t onItemMove(Creature* actor, Item* item, Tile* tile, bool isAdd);
 
-			MoveEvent* getEvent(
-				Item* item,
-				MoveEvent_t eventType
-			);
+			MoveEvent* getEvent(Item* item, MoveEvent_t eventType);
 			bool hasEquipEvent(Item* item);
 			bool hasTileEvent(Item* item);
 
-			void onRemoveTileItem(
-				const Tile* tile,
-				Item* item
-			);
-			void onAddTileItem(
-				const Tile* tile,
-				Item* item
-			);
+			void onRemoveTileItem(const Tile* tile, Item* item);
+			void onAddTileItem(const Tile* tile, Item* item);
 
 		protected:
 			struct MoveEventList {
@@ -111,29 +81,16 @@
 			virtual void clear();
 
 			virtual Event* getEvent(const std::string& nodeName);
-			virtual bool registerEvent(
-				Event* event,
-				xmlNodePtr p,
-				bool override
-			);
+			virtual bool registerEvent(Event* event, xmlNodePtr p, bool override);
 
 			virtual LuaInterface& getInterface() {
 				return m_interface;
 			}
 			MoveEventScript m_interface;
 
-			void registerItemID(
-				int32_t itemId,
-				MoveEvent_t eventType
-			);
-			void registerActionID(
-				int32_t actionId,
-				MoveEvent_t eventType
-			);
-			void registerUniqueID(
-				int32_t uniqueId,
-				MoveEvent_t eventType
-			);
+			void registerItemID(int32_t itemId, MoveEvent_t eventType);
+			void registerActionID(int32_t actionId, MoveEvent_t eventType);
+			void registerUniqueID(int32_t uniqueId, MoveEvent_t eventType);
 
 			typedef std::map<int32_t, MoveEventList> MoveListMap;
 			MoveListMap m_itemIdMap;
@@ -144,45 +101,19 @@
 			MovePosListMap m_positionMap;
 			void clearMap(MoveListMap& map);
 
-			void addEvent(
-				MoveEvent* moveEvent,
-				int32_t id,
-				MoveListMap& map,
-				bool override
-			);
-			MoveEvent* getEvent(
-				Item* item,
-				MoveEvent_t eventType,
-				slots_t slot
-			);
+			void addEvent(MoveEvent* moveEvent, int32_t id, MoveListMap& map, bool override);
+			MoveEvent* getEvent(Item* item, MoveEvent_t eventType, slots_t slot);
 
-			void addEvent(
-				MoveEvent* moveEvent,
-				Position pos,
-				MovePosListMap& map,
-				bool override
-			);
-			MoveEvent* getEvent(
-				const Tile* tile,
-				MoveEvent_t eventType
-			);
+			void addEvent(MoveEvent* moveEvent, Position pos, MovePosListMap& map, bool override);
+			MoveEvent* getEvent(const Tile* tile, MoveEvent_t eventType);
 
 			const Tile* m_lastCacheTile;
 			std::vector<Item*> m_lastCacheItemVector;
 	};
 
 	typedef uint32_t (MoveFunction)(Item* item);
-	typedef uint32_t (StepFunction)(
-		Creature* creature,
-		Item* item
-	);
-	typedef bool (EquipFunction)(
-		MoveEvent* moveEvent,
-		Player* player,
-		Item* item,
-		slots_t slot,
-		bool boolean
-	);
+	typedef uint32_t (StepFunction)(Creature* creature, Item* item);
+	typedef bool (EquipFunction)(MoveEvent* moveEvent, Player* player, Item* item, slots_t slot, bool boolean);
 
 	class MoveEvent : public Event {
 		public:
@@ -196,47 +127,13 @@
 			virtual bool configureEvent(xmlNodePtr p);
 			virtual bool loadFunction(const std::string& functionName);
 
-			uint32_t fireStepEvent(
-				Creature* actor,
-				Creature* creature,
-				Item* item,
-				const Position& pos,
-				const Position& fromPos,
-				const Position& toPos
-			);
-			uint32_t fireAddRemItem(
-				Creature* actor,
-				Item* item,
-				Item* tileItem,
-				const Position& pos
-			);
-			bool fireEquip(
-				Player* player,
-				Item* item,
-				slots_t slot,
-				bool boolean
-			);
+			uint32_t fireStepEvent(Creature* actor, Creature* creature, Item* item, const Position& pos, const Position& fromPos, const Position& toPos);
+			uint32_t fireAddRemItem(Creature* actor, Item* item, Item* tileItem, const Position& pos);
+			bool fireEquip(Player* player, Item* item, slots_t slot, bool boolean);
 
-			uint32_t executeStep(
-				Creature* actor,
-				Creature* creature,
-				Item* item,
-				const Position& pos,
-				const Position& fromPos,
-				const Position& toPos
-			);
-			bool executeEquip(
-				Player* player,
-				Item* item,
-				slots_t slot,
-				bool boolean
-			);
-			uint32_t executeAddRemItem(
-				Creature* actor,
-				Item* item,
-				Item* tileItem,
-				const Position& pos
-			);
+			uint32_t executeStep(Creature* actor, Creature* creature, Item* item, const Position& pos, const Position& fromPos, const Position& toPos);
+			bool executeEquip(Player* player, Item* item, slots_t slot, bool boolean);
+			uint32_t executeAddRemItem(Creature* actor, Item* item, Item* tileItem, const Position& pos);
 
 			static StepFunction StepInField;
 			static MoveFunction AddItemField;

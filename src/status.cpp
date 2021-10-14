@@ -187,11 +187,7 @@ std::string Status::getStatusString(bool sendPlayers) const {
 	return xml;
 }
 
-void Status::getInfo(
-	uint32_t requestedInfo,
-	OutputMessage_ptr output,
-	NetworkMessage& msg
-) const {
+void Status::getInfo(uint32_t requestedInfo, OutputMessage_ptr output, NetworkMessage& msg) const {
 	if (requestedInfo & REQUEST_BASIC_SERVER_INFO) {
 		output->put<char>(0x10);
 		output->putString(g_config.getString(ConfigManager::SERVER_NAME).c_str());

@@ -66,11 +66,7 @@
 			}
 
 			#ifdef __TRACK_NETWORK__
-				virtual void Track(
-					std::string file,
-					int32_t line,
-					std::string func
-				) {
+				virtual void Track(std::string file, int32_t line, std::string func) {
 					if (lastUses.size() >= 25) {
 						lastUses.pop_front();
 					}
@@ -174,10 +170,7 @@
 				return &instance;
 			}
 
-			OutputMessage_ptr getOutputMessage(
-				Protocol* protocol,
-				bool autoSend = true
-			);
+			OutputMessage_ptr getOutputMessage(Protocol* protocol, bool autoSend = true);
 
 			void send(OutputMessage_ptr msg);
 			void stop() {
@@ -209,11 +202,7 @@
 			}
 
 		protected:
-			void configureOutputMessage(
-				OutputMessage_ptr msg,
-				Protocol* protocol,
-				bool autoSend
-			);
+			void configureOutputMessage(OutputMessage_ptr msg, Protocol* protocol, bool autoSend);
 
 			void releaseMessage(OutputMessage* msg);
 			void internalReleaseMessage(OutputMessage* msg);

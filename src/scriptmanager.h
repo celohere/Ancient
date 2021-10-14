@@ -64,10 +64,7 @@
 			}
 
 		protected:
-			bool loadFromXml(
-				const std::string& file,
-				bool& enabled
-			);
+			bool loadFromXml(const std::string& file, bool& enabled);
 
 		private:
 			bool modsLoaded;

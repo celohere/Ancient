@@ -77,36 +77,21 @@
 				close();
 			}
 
-			static void services(
-				boost::weak_ptr<ServicePort> weakService,
-				IPAddressList ips,
-				uint16_t port
-			);
-			static void service(
-				boost::weak_ptr<ServicePort> weakService,
-				IPAddress ip,
-				uint16_t port
-			);
+			static void services(boost::weak_ptr<ServicePort> weakService, IPAddressList ips, uint16_t port);
+			static void service(boost::weak_ptr<ServicePort> weakService, IPAddress ip, uint16_t port);
 
 			bool add(Service_ptr);
 			void open(IPAddressList ips, uint16_t port);
 			void close();
 
-			void handle(
-				Acceptor_ptr acceptor,
-				boost::asio::ip::tcp::socket* socket,
-				const boost::system::error_code& error
-			);
+			void handle(Acceptor_ptr acceptor, boost::asio::ip::tcp::socket* socket, const boost::system::error_code& error);
 
 			bool isSingleSocket() const {
 				return m_services.size() && m_services.front()->isSingleSocket();
 			}
 			std::string getProtocolNames() const;
 
-			Protocol* makeProtocol(
-				bool checksum,
-				NetworkMessage& msg
-			) const;
+			Protocol* makeProtocol(bool checksum, NetworkMessage& msg) const;
 
 		protected:
 			void accept(Acceptor_ptr acceptor);
@@ -134,10 +119,7 @@
 			}
 
 			template <typename ProtocolType>
-			bool add(
-				uint16_t port,
-				IPAddressList ips
-			);
+			bool add(uint16_t port, IPAddressList ips);
 
 			void run();
 			void stop();
@@ -161,10 +143,7 @@
 	};
 
 	template <typename ProtocolType>
-	bool ServiceManager::add(
-		uint16_t port,
-		IPAddressList ips
-	) {
+	bool ServiceManager::add(uint16_t port, IPAddressList ips) {
 		if (!port) {
 			std::clog << "> ERROR: No port provided for service " << ProtocolType::protocolName() << ", service disabled." << std::endl;
 			return false;

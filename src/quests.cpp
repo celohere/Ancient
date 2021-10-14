@@ -40,10 +40,7 @@ bool Mission::isCompleted(Player* player) {
 	return atoi(value.c_str()) >= endValue;
 }
 
-std::string Mission::parseStorages(
-	std::string state,
-	std::string value
-) {
+std::string Mission::parseStorages(std::string state, std::string value) {
 	/*
 	std::string::size_type start, end;
 	while ((start = state.find("|STORAGE:")) != std::string::npos) {
@@ -154,10 +151,7 @@ bool Quests::loadFromXml() {
 	return true;
 }
 
-bool Quests::parseQuestNode(
-	xmlNodePtr p,
-	bool checkDuplicate
-) {
+bool Quests::parseQuestNode(xmlNodePtr p, bool checkDuplicate) {
 	if (xmlStrcmp(p->name, (const xmlChar*)"quest")) {
 		return false;
 	}

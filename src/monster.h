@@ -125,35 +125,15 @@
 
 			virtual void onAttackedCreature(Creature* target);
 			virtual void onAttackedCreatureDisappear(bool isLogout);
-			virtual void onAttackedCreatureDrain(
-				Creature* target,
-				int32_t points
-			);
+			virtual void onAttackedCreatureDrain(Creature* target, int32_t points);
 
 			virtual void onCreatureAppear(const Creature* creature);
-			virtual void onCreatureDisappear(
-				const Creature* creature,
-				bool isLogout
-			);
-			virtual void onCreatureMove(
-				const Creature* creature,
-				const Tile* newTile,
-				const Position& newPos,
-				const Tile* oldTile,
-				const Position& oldPos,
-				bool teleport
-			);
+			virtual void onCreatureDisappear(const Creature* creature, bool isLogout);
+			virtual void onCreatureMove(const Creature* creature, const Tile* newTile, const Position& newPos, const Tile* oldTile, const Position& oldPos, bool teleport);
 
-			virtual void drainHealth(
-				Creature* attacker,
-				CombatType_t combatType,
-				int32_t damage
-			);
+			virtual void drainHealth(Creature* attacker, CombatType_t combatType, int32_t damage);
 			virtual void changeHealth(int32_t healthChange);
-			virtual bool getNextStep(
-				Direction& dir,
-				uint32_t& flags
-			);
+			virtual bool getNextStep(Direction& dir, uint32_t& flags);
 			virtual void onFollowCreatureComplete(const Creature* creature);
 
 			virtual void onThink(uint32_t interval);
@@ -162,10 +142,7 @@
 			virtual bool convinceCreature(Creature* creature);
 
 			virtual void resetLight();
-			virtual bool getCombatValues(
-				int32_t& min,
-				int32_t& max
-			);
+			virtual bool getCombatValues(int32_t& min, int32_t& max);
 
 			virtual void doAttacking(uint32_t interval);
 			virtual bool hasExtraSwing() {
@@ -190,14 +167,7 @@
 				return getHealth() <= mType->runAwayHealth;
 			}
 
-			virtual BlockType_t blockHit(
-				Creature* attacker,
-				CombatType_t combatType,
-				int32_t& damage,
-				bool checkDefense = false,
-				bool checkArmor = false,
-				bool reflect = true
-			);
+			virtual BlockType_t blockHit(Creature* attacker, CombatType_t combatType, int32_t& damage, bool checkDefense = false, bool checkArmor = false, bool reflect = true);
 
 		private:
 			CreatureList targetList;
@@ -225,10 +195,7 @@
 
 			virtual void onCreatureEnter(Creature* creature);
 			virtual void onCreatureLeave(Creature* creature);
-			void onCreatureFound(
-				Creature* creature,
-				bool pushFront = false
-			);
+			void onCreatureFound(Creature* creature, bool pushFront = false);
 
 			bool doTeleportToMaster();
 			void updateLookDirection();
@@ -245,47 +212,18 @@
 			void setIdle(bool _idle);
 			void updateIdleStatus();
 
-			virtual void onAddCondition(
-				ConditionType_t type,
-				bool hadCondition
-			);
+			virtual void onAddCondition(ConditionType_t type, bool hadCondition);
 			virtual void onEndCondition(ConditionType_t type);
-			virtual void onCreatureConvinced(
-				const Creature* convincer,
-				const Creature* creature
-			);
+			virtual void onCreatureConvinced(const Creature* convincer, const Creature* creature);
 
-			bool canUseAttack(
-				const Position& pos,
-				const Creature* target
-			) const;
-			bool canUseSpell(
-				const Position& pos,
-				const Position& targetPos,
-				const spellBlock_t& sb,
-				uint32_t interval,
-				bool& inRange
-			);
-			bool getRandomStep(
-				const Position& creaturePos,
-				Direction& dir
-			);
-			bool getDanceStep(
-				const Position& creaturePos,
-				Direction& dir,
-				bool keepAttack = true,
-				bool keepDistance = true
-			);
+			bool canUseAttack(const Position& pos, const Creature* target) const;
+			bool canUseSpell(const Position& pos, const Position& targetPos, const spellBlock_t& sb, uint32_t interval, bool& inRange);
+			bool getRandomStep(const Position& creaturePos, Direction& dir);
+			bool getDanceStep(const Position& creaturePos, Direction& dir, bool keepAttack = true, bool keepDistance = true);
 			bool isInSpawnRange(const Position& toPos);
-			bool canWalkTo(
-				Position pos,
-				Direction dir
-			);
+			bool canWalkTo(Position pos, Direction dir);
 
-			bool pushItem(
-				Item* item,
-				int32_t radius
-			);
+			bool pushItem(Item* item, int32_t radius);
 			void pushItems(Tile* tile);
 			bool pushCreature(Creature* creature);
 			void pushCreatures(Tile* tile);
@@ -313,10 +251,7 @@
 			virtual uint16_t getLookCorpse() const {
 				return mType->lookCorpse;
 			}
-			virtual void getPathSearchParams(
-				const Creature* creature,
-				FindPathParams& fpp
-			) const;
+			virtual void getPathSearchParams(const Creature* creature, FindPathParams& fpp) const;
 			virtual bool useCacheMap() const {
 				return true;
 			}

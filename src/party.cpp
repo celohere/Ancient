@@ -258,11 +258,7 @@ void Party::updateAllIcons() {
 	}
 }
 
-void Party::broadcastMessage(
-	MessageClasses messageClass,
-	const std::string& text,
-	bool sendToInvitations
-) {
+void Party::broadcastMessage(MessageClasses messageClass, const std::string& text, bool sendToInvitations) {
 	PlayerVector::iterator it;
 	if (!memberList.empty()) {
 		for (it = memberList.begin(); it != memberList.end(); ++it) {
@@ -294,10 +290,7 @@ void Party::updateSharedExperience() {
 	updateAllIcons();
 }
 
-bool Party::setSharedExperience(
-	Player* player,
-	bool _sharedExpActive
-) {
+bool Party::setSharedExperience(Player* player, bool _sharedExpActive) {
 	if (!player || player->isRemoved() || player != leader) {
 		return false;
 	}
@@ -322,11 +315,7 @@ bool Party::setSharedExperience(
 	return true;
 }
 
-void Party::shareExperience(
-	double experience,
-	bool fromMonster,
-	bool multiplied
-) {
+void Party::shareExperience(double experience, bool fromMonster, bool multiplied) {
 	double shareExperience = experience;
 	if (experience >= (double)g_config.getNumber(ConfigManager::EXTRA_PARTY_LIMIT)) {
 		shareExperience += (experience * ((double)g_config.getNumber(ConfigManager::EXTRA_PARTY_PERCENT) / 100));
@@ -342,10 +331,7 @@ void Party::shareExperience(
 	}
 }
 
-bool Party::canUseSharedExperience(
-	const Player* player,
-	uint32_t highestLevel
-) const {
+bool Party::canUseSharedExperience(const Player* player, uint32_t highestLevel) const {
 	if (!player || player->isRemoved()) {
 		return false;
 	}
@@ -387,10 +373,7 @@ bool Party::canEnableSharedExperience() {
 	return canUseSharedExperience(leader, highestLevel);
 }
 
-void Party::addPlayerHealedMember(
-	Player* player,
-	uint32_t points
-) {
+void Party::addPlayerHealedMember(Player* player, uint32_t points) {
 	if (points <= 0) {
 		return;
 	}
@@ -405,10 +388,7 @@ void Party::addPlayerHealedMember(
 	updateSharedExperience();
 }
 
-void Party::addPlayerDamageMonster(
-	Player* player,
-	uint32_t points
-) {
+void Party::addPlayerDamageMonster(Player* player, uint32_t points) {
 	if (points <= 0) {
 		return;
 	}
@@ -433,20 +413,14 @@ void Party::clearPlayerPoints(Player* player) {
 	updateSharedExperience();
 }
 
-bool Party::isPlayerMember(
-	const Player* player,
-	bool result
-) const {
+bool Party::isPlayerMember(const Player* player, bool result) const {
 	if (!player || player->isRemoved()) {
 		return result;
 	}
 	return std::find(memberList.begin(), memberList.end(), player) != memberList.end();
 }
 
-bool Party::isPlayerInvited(
-	const Player* player,
-	bool result
-) const {
+bool Party::isPlayerInvited(const Player* player, bool result) const {
 	if (!player || player->isRemoved()) {
 		return result;
 	}

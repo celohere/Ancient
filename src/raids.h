@@ -63,11 +63,7 @@
 			}
 
 			bool loadFromXml();
-			bool parseRaidNode(
-				xmlNodePtr raidNode,
-				bool checkDuplicate,
-				FileType_t pathing
-			);
+			bool parseRaidNode(xmlNodePtr raidNode, bool checkDuplicate, FileType_t pathing);
 
 			bool startup();
 			void checkRaids();
@@ -114,14 +110,7 @@
 
 	class Raid {
 		public:
-			Raid(
-				const std::string& _name,
-				uint32_t _interval,
-				uint64_t _margin,
-				RefType_t _refType,
-				bool _ref,
-				bool _enabled
-			);
+			Raid(const std::string& _name, uint32_t _interval, uint64_t _margin, RefType_t _refType, bool _ref, bool _enabled);
 			virtual ~Raid();
 
 			bool loadFromXml(const std::string& _filename);
@@ -182,10 +171,7 @@
 
 	class RaidEvent {
 		public:
-			RaidEvent(
-				Raid* raid,
-				bool ref
-			):m_delay(RAID_MINTICKS), m_ref(ref), m_raid(raid) {}
+			RaidEvent(Raid* raid, bool ref):m_delay(RAID_MINTICKS), m_ref(ref), m_raid(raid) {}
 			virtual ~RaidEvent() {}
 
 			virtual bool configureRaidEvent(xmlNodePtr eventNode);
@@ -196,10 +182,7 @@
 			uint32_t getDelay() const {
 				return m_delay;
 			}
-			static bool compareEvents(
-				const RaidEvent* lhs,
-				const RaidEvent* rhs
-			) {
+			static bool compareEvents(const RaidEvent* lhs, const RaidEvent* rhs) {
 				return lhs->getDelay() < rhs->getDelay();
 			}
 
@@ -213,10 +196,7 @@
 
 	class AnnounceEvent : public RaidEvent {
 		public:
-			AnnounceEvent(
-				Raid* raid,
-				bool ref
-			):RaidEvent(raid, ref), m_messageType(MSG_EVENT_ADVANCE) {}
+			AnnounceEvent(Raid* raid, bool ref):RaidEvent(raid, ref), m_messageType(MSG_EVENT_ADVANCE) {}
 			virtual ~AnnounceEvent() {}
 
 			virtual bool configureRaidEvent(xmlNodePtr eventNode);
@@ -229,10 +209,7 @@
 
 	class EffectEvent : public RaidEvent {
 		public:
-			EffectEvent(
-				Raid* raid,
-				bool ref
-			):RaidEvent(raid, ref), m_effect(MAGIC_EFFECT_NONE) {}
+			EffectEvent(Raid* raid, bool ref):RaidEvent(raid, ref), m_effect(MAGIC_EFFECT_NONE) {}
 			virtual ~EffectEvent() {}
 
 			virtual bool configureRaidEvent(xmlNodePtr eventNode);
@@ -245,10 +222,7 @@
 
 	class ItemSpawnEvent : public RaidEvent {
 		public:
-			ItemSpawnEvent(
-				Raid* raid,
-				bool ref
-			):RaidEvent(raid, ref), m_itemId(0), m_subType(-1), m_chance(MAX_ITEM_CHANCE) {}
+			ItemSpawnEvent(Raid* raid, bool ref):RaidEvent(raid, ref), m_itemId(0), m_subType(-1), m_chance(MAX_ITEM_CHANCE) {}
 			virtual ~ItemSpawnEvent() {}
 
 			virtual bool configureRaidEvent(xmlNodePtr eventNode);
@@ -264,10 +238,7 @@
 
 	class SingleSpawnEvent : public RaidEvent {
 		public:
-			SingleSpawnEvent(
-				Raid* raid,
-				bool ref
-			):RaidEvent(raid, ref) {}
+			SingleSpawnEvent(Raid* raid, bool ref):RaidEvent(raid, ref) {}
 			virtual ~SingleSpawnEvent() {}
 
 			virtual bool configureRaidEvent(xmlNodePtr eventNode);
@@ -280,21 +251,14 @@
 
 	class AreaSpawnEvent : public RaidEvent {
 		public:
-			AreaSpawnEvent(
-				Raid* raid,
-				bool ref
-			):RaidEvent(raid, ref) {}
+			AreaSpawnEvent(Raid* raid, bool ref):RaidEvent(raid, ref) {}
 			virtual ~AreaSpawnEvent();
 
 			virtual bool configureRaidEvent(xmlNodePtr eventNode);
 			virtual bool executeEvent() const;
 
 			void addMonster(MonsterSpawn* _spawn);
-			void addMonster(
-				const std::string& name,
-				uint32_t min,
-				uint32_t max
-			);
+			void addMonster(const std::string& name, uint32_t min, uint32_t max);
 
 		private:
 			MonsterSpawnList m_spawnList;
@@ -303,10 +267,7 @@
 
 	class ScriptEvent : public RaidEvent, public Event {
 		public:
-			ScriptEvent(
-				Raid* raid,
-				bool ref
-			):RaidEvent(raid, ref), Event(&m_interface) {
+			ScriptEvent(Raid* raid, bool ref):RaidEvent(raid, ref), Event(&m_interface) {
 					m_interface.initState();
 				}
 			virtual ~ScriptEvent() {}

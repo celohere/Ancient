@@ -54,51 +54,25 @@
 
 			void updateAllIcons();
 			void updateIcons(Player* player);
-			void broadcastMessage(
-				MessageClasses messageClass,
-				const std::string& text,
-				bool sendToInvitations = false
-			);
+			void broadcastMessage(MessageClasses messageClass, const std::string& text, bool sendToInvitations = false);
 
-			void shareExperience(
-				double experience,
-				bool fromMonster,
-				bool multiplied
-			);
-			bool setSharedExperience(
-				Player* player,
-				bool _sharedExpActive
-			);
+			void shareExperience(double experience, bool fromMonster, bool multiplied);
+			bool setSharedExperience(Player* player, bool _sharedExpActive);
 			bool isSharedExperienceActive() const {
 				return sharedExpActive;
 			}
 			bool isSharedExperienceEnabled() const {
 				return sharedExpEnabled;
 			}
-			bool canUseSharedExperience(
-				const Player* player,
-				uint32_t highestLevel = 0
-			) const;
+			bool canUseSharedExperience(const Player* player, uint32_t highestLevel = 0) const;
 			void updateSharedExperience();
 
-			void addPlayerHealedMember(
-				Player* player,
-				uint32_t points
-			);
-			void addPlayerDamageMonster(
-				Player* player,
-				uint32_t points
-			);
+			void addPlayerHealedMember(Player* player, uint32_t points);
+			void addPlayerDamageMonster(Player* player, uint32_t points);
 			void clearPlayerPoints(Player* player);
 
-			bool isPlayerMember(
-				const Player* player,
-				bool result = false
-			) const;
-			bool isPlayerInvited(
-				const Player* player,
-				bool result = false
-			) const;
+			bool isPlayerMember(const Player* player, bool result = false) const;
+			bool isPlayerInvited(const Player* player, bool result = false) const;
 			bool canOpenCorpse(uint32_t ownerId);
 
 		protected:
@@ -114,10 +88,7 @@
 				int32_t totalHeal, totalDamage;
 				int64_t ticks;
 
-				CountBlock_t(
-					int32_t heal,
-					int32_t damage
-				) {
+				CountBlock_t(int32_t heal, int32_t damage) {
 					ticks = OTSYS_TIME();
 					totalDamage = damage;
 					totalHeal = heal;

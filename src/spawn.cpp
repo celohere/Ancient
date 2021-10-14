@@ -74,10 +74,7 @@ bool Spawns::loadFromXml(const std::string& _filename) {
 	return true;
 }
 
-bool Spawns::parseSpawnNode(
-	xmlNodePtr p,
-	bool checkDuplicate
-) {
+bool Spawns::parseSpawnNode(xmlNodePtr p, bool checkDuplicate) {
 	if (xmlStrcmp(p->name, (const xmlChar*)"spawn")) {
 		return false;
 	}
@@ -225,11 +222,7 @@ void Spawns::clear() {
 	filename = std::string();
 }
 
-bool Spawns::isInZone(
-	const Position& centerPos,
-	int32_t radius,
-	const Position& pos
-) {
+bool Spawns::isInZone(const Position& centerPos, int32_t radius, const Position& pos) {
 	if (radius == -1) {
 		return true;
 	}
@@ -242,10 +235,7 @@ void Spawn::startEvent() {
 	}
 }
 
-Spawn::Spawn(
-	const Position& _pos,
-	int32_t _radius
-) {
+Spawn::Spawn(const Position& _pos, int32_t _radius) {
 	centerPos = _pos;
 	radius = _radius;
 	interval = DEFAULTSPAWN_INTERVAL;
@@ -283,13 +273,7 @@ bool Spawn::findPlayer(const Position& pos) {
 	return false;
 }
 
-bool Spawn::spawnMonster(
-	uint32_t spawnId,
-	MonsterType* mType,
-	const Position& pos,
-	Direction dir,
-	bool startup
-) {
+bool Spawn::spawnMonster(uint32_t spawnId, MonsterType* mType, const Position& pos, Direction dir, bool startup) {
 	Monster* monster = Monster::createMonster(mType);
 	if (!monster) {
 		return false;
@@ -385,12 +369,7 @@ void Spawn::checkSpawn() {
 	#endif
 }
 
-bool Spawn::addMonster(
-	const std::string& _name,
-	const Position& _pos,
-	Direction _dir,
-	uint32_t _interval
-) {
+bool Spawn::addMonster(const std::string& _name, const Position& _pos, Direction _dir, uint32_t _interval) {
 	if (!g_game.getTile(_pos)) {
 		std::clog << "[Spawn::addMonster] NULL tile at spawn position (" << _pos << ")" << std::endl;
 		return false;

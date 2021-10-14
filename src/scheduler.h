@@ -44,21 +44,12 @@
 		protected:
 			uint32_t m_eventId;
 
-			SchedulerTask(
-				uint32_t delay,
-				const boost::function<void (void)>& f
-			):Task(delay, f), m_eventId(0) {}
+			SchedulerTask(uint32_t delay, const boost::function<void (void)>& f):Task(delay, f), m_eventId(0) {}
 
-			friend SchedulerTask* createSchedulerTask(
-				uint32_t,
-				const boost::function<void (void)>&
-			);
+			friend SchedulerTask* createSchedulerTask(uint32_t, const boost::function<void (void)>&);
 	};
 
-	inline SchedulerTask* createSchedulerTask(
-		uint32_t delay,
-		const boost::function<void (void)>& f
-	) {
+	inline SchedulerTask* createSchedulerTask(uint32_t delay, const boost::function<void (void)>& f) {
 		if (delay < SCHEDULER_MINTICKS) {
 			delay = SCHEDULER_MINTICKS;
 		}
@@ -67,10 +58,7 @@
 
 	class lessTask : public std::binary_function<SchedulerTask*&, SchedulerTask*&, bool> {
 		public:
-			bool operator()(
-				SchedulerTask*& t1,
-				SchedulerTask*& t2
-			) {
+			bool operator()(SchedulerTask*& t1, SchedulerTask*& t2) {
 				return (*t1) < (*t2);
 			}
 	};

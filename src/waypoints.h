@@ -22,10 +22,7 @@
 
 	class Waypoint {
 		public:
-			Waypoint(
-				const std::string& _name,
-				const Position& _pos
-			):name(_name), pos(_pos) {}
+			Waypoint(const std::string& _name, const Position& _pos):name(_name), pos(_pos) {}
 
 			std::string name;
 			Position pos;

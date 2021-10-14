@@ -184,10 +184,7 @@ ItemList MonsterType::createLoot(const LootBlock& lootBlock) {
 	return items;
 }
 
-bool MonsterType::createChildLoot(
-	Container* parent,
-	const LootBlock& lootBlock
-) {
+bool MonsterType::createChildLoot(Container* parent, const LootBlock& lootBlock) {
 	LootItems::const_iterator it = lootBlock.childLoot.begin();
 	if (it == lootBlock.childLoot.end()) {
 		return true;
@@ -258,13 +255,7 @@ bool Monsters::loadFromXml(bool reloading) {
 	return loaded;
 }
 
-ConditionDamage* Monsters::getDamageCondition(
-	ConditionType_t conditionType,
-	int32_t maxDamage,
-	int32_t minDamage,
-	int32_t startDamage,
-	uint32_t tickInterval
-) {
+ConditionDamage* Monsters::getDamageCondition(ConditionType_t conditionType, int32_t maxDamage, int32_t minDamage, int32_t startDamage, uint32_t tickInterval) {
 	if (ConditionDamage* condition = dynamic_cast<ConditionDamage*>(Condition::createCondition(CONDITIONID_COMBAT, conditionType, 0))) {
 		condition->setParam(CONDITIONPARAM_TICKINTERVAL, tickInterval);
 		condition->setParam(CONDITIONPARAM_MINVALUE, minDamage);
@@ -276,11 +267,7 @@ ConditionDamage* Monsters::getDamageCondition(
 	return NULL;
 }
 
-bool Monsters::deserializeSpell(
-	xmlNodePtr node,
-	spellBlock_t& sb,
-	const std::string& description
-) {
+bool Monsters::deserializeSpell(xmlNodePtr node, spellBlock_t& sb, const std::string& description) {
 	sb.range = sb.minCombatValue = sb.maxCombatValue = 0;
 	sb.combatSpell = sb.isMelee = false;
 	sb.chance = 100;
@@ -742,8 +729,7 @@ bool Monsters::deserializeSpell(
 			}
 
 			if (param != CONDITIONPARAM_BUFF) {
-				if (ConditionAttributes* condition = dynamic_cast<ConditionAttributes*>(Condition::createCondition(
-					CONDITIONID_COMBAT, CONDITION_ATTRIBUTES, duration, false, subId))) {
+				if (ConditionAttributes* condition = dynamic_cast<ConditionAttributes*>(Condition::createCondition(CONDITIONID_COMBAT, CONDITION_ATTRIBUTES, duration, false, subId))) {
 					condition->setParam(param, intValue);
 					combat->setCondition(condition);
 				}
@@ -850,11 +836,7 @@ bool Monsters::deserializeSpell(
 #define SHOW_XML_WARNING(desc) std::clog << "[Warning - Monsters::loadMonster] " << desc << ". (" << file << ")" << std::endl;
 #define SHOW_XML_ERROR(desc) std::clog << "[Error - Monsters::loadMonster] " << desc << ". (" << file << ")" << std::endl;
 
-bool Monsters::loadMonster(
-	const std::string& file,
-	const std::string& monsterName,
-	bool reloading
-) {
+bool Monsters::loadMonster(const std::string& file, const std::string& monsterName, bool reloading) {
 	if (getIdByName(monsterName) && !reloading) {
 		std::clog << "[Warning - Monsters::loadMonster] Duplicate registered monster with name: " << monsterName << std::endl;
 		return true;
@@ -1402,10 +1384,7 @@ bool Monsters::loadMonster(
 	return false;
 }
 
-bool Monsters::loadLoot(
-	xmlNodePtr node,
-	LootBlock& lootBlock
-) {
+bool Monsters::loadLoot(xmlNodePtr node, LootBlock& lootBlock) {
 	std::string strValue;
 	if (readXMLString(node, "id", strValue) || readXMLString(node, "ids", strValue)) {
 		IntegerVec idsVec;
@@ -1466,10 +1445,7 @@ bool Monsters::loadLoot(
 	return true;
 }
 
-bool Monsters::loadChildLoot(
-	xmlNodePtr node,
-	LootBlock& parentBlock
-) {
+bool Monsters::loadChildLoot(xmlNodePtr node, LootBlock& parentBlock) {
 	if (!node) {
 		return false;
 	}

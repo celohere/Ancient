@@ -340,12 +340,7 @@ void ProtocolManager::removeUser(uint32_t playerId) {
 	msg->put<uint32_t>(playerId);
 }
 
-void ProtocolManager::talk(
-	uint32_t playerId,
-	uint16_t channelId,
-	SpeakClasses type,
-	const std::string& message
-) {
+void ProtocolManager::talk(uint32_t playerId, uint16_t channelId, SpeakClasses type, const std::string& message) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (!msg) {
 		return;
@@ -360,10 +355,7 @@ void ProtocolManager::talk(
 	msg->putString(message);
 }
 
-void ProtocolManager::addUser(
-	uint32_t playerId,
-	uint16_t channelId
-) {
+void ProtocolManager::addUser(uint32_t playerId, uint16_t channelId) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (!msg) {
 		return;
@@ -376,10 +368,7 @@ void ProtocolManager::addUser(
 	msg->put<uint16_t>(channelId);
 }
 
-void ProtocolManager::removeUser(
-	uint32_t playerId,
-	uint16_t channelId
-) {
+void ProtocolManager::removeUser(uint32_t playerId, uint16_t channelId) {
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (!msg) {
 		return;
@@ -480,12 +469,7 @@ void Manager::removeUser(uint32_t playerId) {
 	}
 }
 
-void Manager::talk(
-	uint32_t playerId,
-	uint16_t channelId,
-	SpeakClasses type,
-	const std::string& message
-) {
+void Manager::talk(uint32_t playerId, uint16_t channelId, SpeakClasses type, const std::string& message) {
 	if (m_clients.empty()) {
 		return;
 	}
@@ -497,10 +481,7 @@ void Manager::talk(
 	}
 }
 
-void Manager::addUser(
-	uint32_t playerId,
-	uint16_t channelId
-) {
+void Manager::addUser(uint32_t playerId, uint16_t channelId) {
 	if (m_clients.empty()) {
 		return;
 	}
@@ -512,10 +493,7 @@ void Manager::addUser(
 	}
 }
 
-void Manager::removeUser(
-	uint32_t playerId,
-	uint16_t channelId
-) {
+void Manager::removeUser(uint32_t playerId, uint16_t channelId) {
 	if (m_clients.empty()) {
 		return;
 	}
@@ -527,10 +505,7 @@ void Manager::removeUser(
 	}
 }
 
-void ProtocolManager::addLogLine(
-	LogType_t type,
-	std::string message
-) {
+void ProtocolManager::addLogLine(LogType_t type, std::string message) {
 	if (!g_config.getBool(ConfigManager::MANAGER_LOGS)) {
 		return;
 	}

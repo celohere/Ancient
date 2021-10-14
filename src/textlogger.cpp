@@ -53,11 +53,7 @@ void Logger::close() {
 	}
 }
 
-void Logger::iFile(
-	LogFile_t file,
-	std::string output,
-	bool newLine
-) {
+void Logger::iFile(LogFile_t file, std::string output, bool newLine) {
 	if (!m_loaded || !m_files[file]) {
 		return;
 	}
@@ -66,11 +62,7 @@ void Logger::iFile(
 	fflush(m_files[file]);
 }
 
-void Logger::eFile(
-	std::string file,
-	std::string output,
-	bool newLine
-) {
+void Logger::eFile(std::string file, std::string output, bool newLine) {
 	FILE* f = fopen(getFilePath(FILE_TYPE_LOG, file).c_str(), "a");
 	if (!f) {
 		return;
@@ -80,11 +72,7 @@ void Logger::eFile(
 	fclose(f);
 }
 
-void Logger::internal(
-	FILE* file,
-	std::string output,
-	bool newLine
-) {
+void Logger::internal(FILE* file, std::string output, bool newLine) {
 	if (!file) {
 		return;
 	}
@@ -96,13 +84,7 @@ void Logger::internal(
 	fprintf(file, "%s", output.c_str());
 }
 
-void Logger::log(
-	const char* func,
-	LogType_t type,
-	std::string message,
-	std::string channel,
-	bool newLine
-) {
+void Logger::log(const char* func, LogType_t type, std::string message, std::string channel, bool newLine) {
 	if (!m_loaded) {
 		return;
 	}

@@ -20,11 +20,7 @@ Raids::Raids() {
 	lastRaidEnd = checkRaidsEvent = 0;
 }
 
-bool Raids::parseRaidNode(
-	xmlNodePtr raidNode,
-	bool checkDuplicate,
-	FileType_t pathing
-) {
+bool Raids::parseRaidNode(xmlNodePtr raidNode, bool checkDuplicate, FileType_t pathing) {
 	if (xmlStrcmp(raidNode->name, (const xmlChar*)"raid")) {
 		return false;
 	}
@@ -185,14 +181,7 @@ Raid* Raids::getRaidByName(const std::string& name) {
 	return NULL;
 }
 
-Raid::Raid(
-	const std::string& _name,
-	uint32_t _interval,
-	uint64_t _margin,
-	RefType_t _refType,
-	bool _ref,
-	bool _enabled
-) {
+Raid::Raid(const std::string& _name, uint32_t _interval, uint64_t _margin, RefType_t _refType, bool _ref, bool _enabled) {
 	name = _name;
 	interval = _interval;
 	margin = _margin;
@@ -760,11 +749,7 @@ void AreaSpawnEvent::addMonster(MonsterSpawn* _spawn) {
 	m_spawnList.push_back(_spawn);
 }
 
-void AreaSpawnEvent::addMonster(
-	const std::string& name,
-	uint32_t min,
-	uint32_t max
-) {
+void AreaSpawnEvent::addMonster(const std::string& name, uint32_t min, uint32_t max) {
 	MonsterSpawn* monsterSpawn = new MonsterSpawn();
 	monsterSpawn->min = min;
 	monsterSpawn->max = max;

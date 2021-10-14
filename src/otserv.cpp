@@ -260,15 +260,10 @@ void startupErrorMessage(std::string error = "") {
 	exit(-1);
 }
 
-void otserv(
-	StringVec args,
-	ServiceManager* services
+void otserv(StringVec args, ServiceManager* services
 );
 
-int main(
-	int argc,
-	char* argv[]
-) {
+int main(int argc, char* argv[]) {
 	StringVec args = StringVec(argv, argv + argc);
 	if (argc > 1 && !argumentsHandler(args)) {
 		return 0;

@@ -161,10 +161,7 @@ void OutputMessagePool::internalReleaseMessage(OutputMessage* msg) {
 	m_outputPoolLock.unlock();
 }
 
-OutputMessage_ptr OutputMessagePool::getOutputMessage(
-	Protocol* protocol,
-	bool autoSend
-) {
+OutputMessage_ptr OutputMessagePool::getOutputMessage(Protocol* protocol, bool autoSend) {
 	#ifdef __DEBUG_NET_DETAIL__
 		std::clog << "request output message - auto = " << autoSend << std::endl;
 	#endif
@@ -199,11 +196,7 @@ OutputMessage_ptr OutputMessagePool::getOutputMessage(
 	return omsg;
 }
 
-void OutputMessagePool::configureOutputMessage(
-	OutputMessage_ptr msg,
-	Protocol* protocol,
-	bool autoSend
-) {
+void OutputMessagePool::configureOutputMessage(OutputMessage_ptr msg, Protocol* protocol, bool autoSend) {
 	TRACK_MESSAGE(msg);
 	msg->reset();
 	if (autoSend) {

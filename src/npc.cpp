@@ -888,10 +888,7 @@ ResponseList Npc::loadInteraction(xmlNodePtr node) {
 	return _responseList;
 }
 
-NpcState* Npc::getState(
-	const Player* player,
-	bool makeNew
-) {
+NpcState* Npc::getState(const Player* player, bool makeNew) {
 	for (StateList::iterator it = stateList.begin(); it != stateList.end(); ++it) {
 		if ((*it)->respondToCreature == player->getID()) {
 			return *it;
@@ -956,10 +953,7 @@ void Npc::onCreatureAppear(const Creature* creature) {
 	}
 }
 
-void Npc::onCreatureDisappear(
-	const Creature* creature,
-	bool isLogout
-) {
+void Npc::onCreatureDisappear(const Creature* creature, bool isLogout) {
 	Creature::onCreatureDisappear(creature, isLogout);
 	if (creature == this) {
 		closeAllShopWindows();
@@ -978,14 +972,7 @@ void Npc::onCreatureDisappear(
 	}
 }
 
-void Npc::onCreatureMove(
-	const Creature* creature,
-	const Tile* newTile,
-	const Position& newPos,
-	const Tile* oldTile,
-	const Position& oldPos,
-	bool teleport
-) {
+void Npc::onCreatureMove(const Creature* creature, const Tile* newTile, const Position& newPos, const Tile* oldTile, const Position& oldPos, bool teleport) {
 	Creature::onCreatureMove(creature, newTile, newPos, oldTile, oldPos, teleport);
 	if (m_npcEventHandler) {
 		m_npcEventHandler->onCreatureMove(creature, oldPos, newPos);
@@ -1009,12 +996,7 @@ void Npc::onCreatureMove(
 	}
 }
 
-void Npc::onCreatureSay(
-	const Creature* creature,
-	SpeakClasses type,
-	const std::string& text,
-	Position* pos
-) {
+void Npc::onCreatureSay(const Creature* creature, SpeakClasses type, const std::string& text, Position* pos) {
 	// only players for script events
 	if (const Player* player = creature->getPlayer()) {
 		if (m_npcEventHandler) {
@@ -1044,18 +1026,12 @@ void Npc::onPlayerCloseChannel(const Player* player) {
 	}
 }
 
-void Npc::onPlayerEnter(
-	Player* player,
-	NpcState* state
-) {
+void Npc::onPlayerEnter(Player* player, NpcState* state) {
 	const NpcResponse* response = getResponse(player, state, EVENT_PLAYER_ENTER);
 	executeResponse(player, state, response);
 }
 
-void Npc::onPlayerLeave(
-	Player* player,
-	NpcState* state
-) {
+void Npc::onPlayerLeave(Player* player, NpcState* state) {
 	player->closeShopWindow();
 	const NpcResponse* response = getResponse(player, state, EVENT_PLAYER_LEAVE);
 	executeResponse(player, state, response);
@@ -1206,11 +1182,7 @@ void Npc::onThink(uint32_t interval) {
 	}
 }
 
-void Npc::executeResponse(
-	Player* player,
-	NpcState* npcState,
-	const NpcResponse* response
-) {
+void Npc::executeResponse(Player* player, NpcState* npcState, const NpcResponse* response) {
 	if (response) {
 		npcState->lastResponse = response;
 		npcState->isIdle = response->getFocusState() == 0;
@@ -1629,11 +1601,7 @@ void Npc::executeResponse(
 	}
 }
 
-void Npc::doSay(
-	const std::string& text,
-	SpeakClasses type,
-	Player* player
-) {
+void Npc::doSay(const std::string& text, SpeakClasses type, Player* player) {
 	if (!player) {
 		std::string tmp = text;
 		replaceString(tmp, "{", "");
@@ -1645,10 +1613,7 @@ void Npc::doSay(
 	}
 }
 
-uint32_t Npc::getListItemPrice(
-	uint16_t itemId,
-	ShopEvent_t type
-) {
+uint32_t Npc::getListItemPrice(uint16_t itemId, ShopEvent_t type) {
 	for (ItemListMap::iterator it = itemListMap.begin(); it != itemListMap.end(); ++it) {
 		std::list<ListItem>& itemList = it->second;
 		for (std::list<ListItem>::iterator iit = itemList.begin(); iit != itemList.end(); ++iit) {
@@ -1664,16 +1629,7 @@ uint32_t Npc::getListItemPrice(
 	return 0;
 }
 
-void Npc::onPlayerTrade(
-	Player* player,
-	ShopEvent_t type,
-	int32_t callback,
-	uint16_t itemId,
-	uint8_t count,
-	uint8_t amount,
-	bool ignoreCap,
-	bool inBackpacks
-) {
+void Npc::onPlayerTrade(Player* player, ShopEvent_t type, int32_t callback, uint16_t itemId, uint8_t count, uint8_t amount, bool ignoreCap, bool inBackpacks) {
 	if (type == SHOPEVENT_BUY) {
 		if (NpcState* npcState = getState(player, true)) {
 			npcState->amount = amount;
@@ -1704,11 +1660,7 @@ void Npc::onPlayerTrade(
 	player->sendGoods();
 }
 
-void Npc::onPlayerEndTrade(
-	Player* player,
-	int32_t buyCallback,
-	int32_t sellCallback
-) {
+void Npc::onPlayerEndTrade(Player* player, int32_t buyCallback, int32_t sellCallback) {
 	lua_State* L = getInterface()->getState();
 	if (buyCallback != -1) {
 		luaL_unref(L, LUA_REGISTRYINDEX, buyCallback);
@@ -1730,10 +1682,7 @@ void Npc::onPlayerEndTrade(
 	}
 }
 
-bool Npc::getNextStep(
-	Direction& dir,
-	uint32_t& flags
-) {
+bool Npc::getNextStep(Direction& dir, uint32_t& flags) {
 	if (Creature::getNextStep(dir, flags)) {
 		return true;
 	}
@@ -1744,10 +1693,7 @@ bool Npc::getNextStep(
 	return getRandomStep(dir);
 }
 
-bool Npc::canWalkTo(
-	const Position& fromPos,
-	Direction dir
-) {
+bool Npc::canWalkTo(const Position& fromPos, Direction dir) {
 	if (getNoMove()) {
 		return false;
 	}
@@ -1811,13 +1757,7 @@ void Npc::setCreatureFocus(Creature* creature) {
 	g_game.internalCreatureTurn(this, dir);
 }
 
-const NpcResponse* Npc::getResponse(
-	const ResponseList& list,
-	const Player* player,
-	NpcState* npcState,
-	const std::string& text,
-	bool exactMatch
-) {
+const NpcResponse* Npc::getResponse(const ResponseList& list, const Player* player, NpcState* npcState, const std::string& text, bool exactMatch) {
 	std::string textString = asLowerCaseString(text);
 	StringVec wordList = explodeString(textString, " ");
 	int32_t bestMatchCount = 0, totalMatchCount = 0;
@@ -2080,13 +2020,7 @@ const NpcResponse* Npc::getResponse(
 	return response;
 }
 
-uint32_t Npc::getMatchCount(
-	NpcResponse* response,
-	StringVec wordList,
-	bool exactMatch,
-	int32_t& matchAllCount,
-	int32_t& totalKeywordCount
-) {
+uint32_t Npc::getMatchCount(NpcResponse* response, StringVec wordList, bool exactMatch, int32_t& matchAllCount, int32_t& totalKeywordCount) {
 	int32_t bestMatchCount = matchAllCount = totalKeywordCount = 0;
 	const std::list<std::string>& inputList = response->getInputList();
 	for (std::list<std::string>::const_iterator it = inputList.begin(); it != inputList.end(); ++it) {
@@ -2140,18 +2074,11 @@ uint32_t Npc::getMatchCount(
 	return bestMatchCount;
 }
 
-const NpcResponse* Npc::getResponse(
-	const Player* player,
-	NpcState* npcState,
-	const std::string& text
-) {
+const NpcResponse* Npc::getResponse(const Player* player, NpcState* npcState, const std::string& text) {
 	return getResponse(responseList, player, npcState, text);
 }
 
-const NpcResponse* Npc::getResponse(
-	const Player*,
-	NpcEvent_t eventType
-) {
+const NpcResponse* Npc::getResponse(const Player*, NpcEvent_t eventType) {
 	std::string eventName = getEventResponseName(eventType);
 	if (eventName.empty()) {
 		return NULL;
@@ -2172,11 +2099,7 @@ const NpcResponse* Npc::getResponse(
 	return result[random_range(0, result.size() - 1)];
 }
 
-const NpcResponse* Npc::getResponse(
-	const Player* player,
-	NpcState* npcState,
-	NpcEvent_t eventType
-) {
+const NpcResponse* Npc::getResponse(const Player* player, NpcState* npcState, NpcEvent_t eventType) {
 	std::string eventName = getEventResponseName(eventType);
 	if (eventName.empty()) {
 		return NULL;
@@ -2210,11 +2133,7 @@ std::string Npc::getEventResponseName(NpcEvent_t eventType) {
 	return "";
 }
 
-std::string Npc::formatResponse(
-	Creature* creature,
-	const NpcState* npcState,
-	const NpcResponse* response
-) const {
+std::string Npc::formatResponse(Creature* creature, const NpcState* npcState, const NpcResponse* response) const {
 	std::string responseString = response->getText();
 
 	std::stringstream ss;
@@ -2436,10 +2355,7 @@ int32_t NpcScript::luaSetNpcState(lua_State* L) {
 	return 1;
 }
 
-void NpcScript::pushState(
-	lua_State* L,
-	NpcState* state
-) {
+void NpcScript::pushState(lua_State* L, NpcState* state) {
 	lua_newtable(L);
 	setField(L, "price", state->price);
 	setField(L, "amount", state->amount);
@@ -2467,10 +2383,7 @@ void NpcScript::pushState(
 	setField(L, "s3", state->scriptVars.s3);
 }
 
-void NpcScript::popState(
-	lua_State* L,
-	NpcState* &state
-) {
+void NpcScript::popState(lua_State* L, NpcState* &state) {
 	state->price = getField(L, "price");
 	state->amount = getField(L, "amount");
 	state->itemId = getField(L, "itemid");
@@ -2586,9 +2499,7 @@ int32_t NpcScript::luaCloseShopWindow(lua_State* L) {
 	return 1;
 }
 
-NpcEvents::NpcEvents(
-	std::string file,
-	Npc* npc
+NpcEvents::NpcEvents(std::string file, Npc* npc
 ):m_npc(npc), m_interface(npc->getInterface()) {
 	if (!m_interface->loadFile(file, npc)) {
 		std::clog << "[Warning - NpcEvents::NpcEvents] Cannot load script: " << file << std::endl << m_interface->getLastError() << std::endl;
@@ -2666,11 +2577,7 @@ void NpcEvents::onCreatureDisappear(const Creature* creature) {
 	}
 }
 
-void NpcEvents::onCreatureMove(
-	const Creature* creature,
-	const Position& oldPos,
-	const Position& newPos
-) {
+void NpcEvents::onCreatureMove(const Creature* creature, const Position& oldPos, const Position& newPos) {
 	if (m_onCreatureMove == -1) {
 		return;
 	}
@@ -2703,12 +2610,7 @@ void NpcEvents::onCreatureMove(
 	}
 }
 
-void NpcEvents::onCreatureSay(
-	const Creature* creature,
-	SpeakClasses type,
-	const std::string& text,
-	Position*
-) {
+void NpcEvents::onCreatureSay(const Creature* creature, SpeakClasses type, const std::string& text, Position*) {
 	if (m_onCreatureSay == -1) {
 		return;
 	}
@@ -2741,15 +2643,7 @@ void NpcEvents::onCreatureSay(
 	}
 }
 
-void NpcEvents::onPlayerTrade(
-	const Player* player,
-	int32_t callback,
-	uint16_t itemid,
-	uint8_t count,
-	uint8_t amount,
-	bool ignoreCap,
-	bool inBackpacks
-) {
+void NpcEvents::onPlayerTrade(const Player* player, int32_t callback, uint16_t itemid, uint8_t count, uint8_t amount, bool ignoreCap, bool inBackpacks) {
 	if (callback == -1) {
 		return;
 	}

@@ -80,20 +80,9 @@
 			void addUser(Player* player);
 			void removeUser(uint32_t playerId);
 
-			void talk(
-				uint32_t playerId,
-				uint16_t channelId,
-				SpeakClasses type,
-				const std::string& message
-			);
-			void addUser(
-				uint32_t playerId,
-				uint16_t channelId
-			);
-			void removeUser(
-				uint32_t playerId,
-				uint16_t channelId
-			);
+			void talk(uint32_t playerId, uint16_t channelId, SpeakClasses type, const std::string& message);
+			void addUser(uint32_t playerId, uint16_t channelId);
+			void removeUser(uint32_t playerId, uint16_t channelId);
 
 		protected:
 			Manager():
@@ -146,20 +135,9 @@
 			void addUser(Player* player);
 			void removeUser(uint32_t playerId);
 
-			void talk(
-				uint32_t playerId,
-				uint16_t channelId,
-				SpeakClasses type,
-				const std::string& message
-			);
-			void addUser(
-				uint32_t playerId,
-				uint16_t channelId
-			);
-			void removeUser(
-				uint32_t playerId,
-				uint16_t channelId
-			);
+			void talk(uint32_t playerId, uint16_t channelId, SpeakClasses type, const std::string& message);
+			void addUser(uint32_t playerId, uint16_t channelId);
+			void removeUser(uint32_t playerId, uint16_t channelId);
 
 		protected:
 			enum ProtocolState_t {
@@ -172,10 +150,7 @@
 			virtual void deleteProtocolTask();
 
 		private:
-			void addLogLine(
-				LogType_t type,
-				std::string message
-			);
+			void addLogLine(LogType_t type, std::string message);
 
 			int32_t m_loginTries;
 			ProtocolState_t m_state;

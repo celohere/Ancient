@@ -37,17 +37,10 @@
 				return &instance;
 			}
 
-			bool isInZone(
-				const Position& centerPos,
-				int32_t radius,
-				const Position& pos
-			);
+			bool isInZone(const Position& centerPos, int32_t radius, const Position& pos);
 
 			bool loadFromXml(const std::string& _filename);
-			bool parseSpawnNode(
-				xmlNodePtr p,
-				bool checkDuplicate
-			);
+			bool parseSpawnNode(xmlNodePtr p, bool checkDuplicate);
 
 			void startup();
 			void clear();
@@ -81,18 +74,10 @@
 
 	class Spawn {
 		public:
-			Spawn(
-				const Position& _pos,
-				int32_t _radius
-			);
+			Spawn(const Position& _pos, int32_t _radius);
 			virtual ~Spawn();
 
-			bool addMonster(
-				const std::string& _name,
-				const Position& _pos,
-				Direction _dir,
-				uint32_t _interval
-			);
+			bool addMonster(const std::string& _name, const Position& _pos, Direction _dir, uint32_t _interval);
 			void removeMonster(Monster* monster);
 
 			Position getPosition() const {
@@ -117,13 +102,7 @@
 			int32_t radius, despawnRange, despawnRadius;
 
 			void checkSpawn();
-			bool spawnMonster(
-				uint32_t spawnId,
-				MonsterType* mType,
-				const Position& pos,
-				Direction dir,
-				bool startup = false
-			);
+			bool spawnMonster(uint32_t spawnId, MonsterType* mType, const Position& pos, Direction dir, bool startup = false);
 
 			bool findPlayer(const Position& pos);
 

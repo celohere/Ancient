@@ -87,10 +87,7 @@
 
 			void dropLoot(Container* corpse);
 			ItemList createLoot(const LootBlock& lootBlock);
-			bool createChildLoot(
-				Container* parent,
-				const LootBlock& lootBlock
-			);
+			bool createChildLoot(Container* parent, const LootBlock& lootBlock);
 
 			bool isSummonable, isIllusionable, isConvinceable, isAttackable, isHostile, isLureable, isWalkable, canPushItems, canPushCreatures, pushable, hideName, hideHealth;
 
@@ -127,11 +124,7 @@
 			}
 			bool loadFromXml(bool reloading = false);
 
-			bool loadMonster(
-				const std::string& file,
-				const std::string& monsterName,
-				bool reloading = false
-			);
+			bool loadMonster(const std::string& file, const std::string& monsterName, bool reloading = false);
 
 			MonsterType* getMonsterType(const std::string& name);
 			MonsterType* getMonsterType(uint32_t mid);
@@ -145,27 +138,11 @@
 		private:
 			bool loaded;
 
-			bool loadLoot(
-				xmlNodePtr,
-				LootBlock&
-			);
-			bool loadChildLoot(
-				xmlNodePtr,
-				LootBlock&
-			);
+			bool loadLoot(xmlNodePtr, LootBlock&);
+			bool loadChildLoot(xmlNodePtr, LootBlock&);
 
-			ConditionDamage* getDamageCondition(
-				ConditionType_t conditionType,
-				int32_t maxDamage,
-				int32_t minDamage,
-				int32_t startDamage,
-				uint32_t tickInterval
-			);
-			bool deserializeSpell(
-				xmlNodePtr node,
-				spellBlock_t& sb,
-				const std::string& description = ""
-			);
+			ConditionDamage* getDamageCondition(ConditionType_t conditionType, int32_t maxDamage, int32_t minDamage, int32_t startDamage, uint32_t tickInterval);
+			bool deserializeSpell(xmlNodePtr node, spellBlock_t& sb, const std::string& description = "");
 
 			typedef std::map<std::string, uint32_t> MonsterNameMap;
 			MonsterNameMap monsterNames;

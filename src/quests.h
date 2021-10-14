@@ -26,13 +26,7 @@
 	typedef std::map<uint32_t, std::string> StateMap;
 	class Mission {
 		public:
-			Mission(
-				std::string _name,
-				std::string _state,
-				std::string _storageId,
-				int32_t _startValue,
-				int32_t _endValue
-			) {
+			Mission(std::string _name, std::string _state, std::string _storageId, int32_t _startValue, int32_t _endValue) {
 				name = _name;
 				state = _state;
 				startValue = _startValue;
@@ -43,10 +37,7 @@
 				states.clear();
 			}
 
-			void newState(
-				uint32_t id,
-				const std::string& description
-			) {
+			void newState(uint32_t id, const std::string& description) {
 				states[id] = description;
 			}
 
@@ -59,10 +50,7 @@
 			std::string getDescription(Player* player);
 
 		private:
-			std::string parseStorages(
-				std::string state,
-				std::string value
-			);
+			std::string parseStorages(std::string state, std::string value);
 
 			std::string name, state;
 			StateMap states;
@@ -74,12 +62,7 @@
 	typedef std::list<Mission*> MissionList;
 	class Quest {
 		public:
-			Quest(
-				std::string _name,
-				uint16_t _id,
-				std::string _storageId,
-				int32_t _storageValue
-			) {
+			Quest(std::string _name, uint16_t _id, std::string _storageId, int32_t _storageValue) {
 				name = _name;
 				id = _id;
 				storageValue = _storageValue;
@@ -133,10 +116,7 @@
 			bool reload();
 
 			bool loadFromXml();
-			bool parseQuestNode(
-				xmlNodePtr p,
-				bool checkDuplicate
-			);
+			bool parseQuestNode(xmlNodePtr p, bool checkDuplicate);
 
 			uint16_t getQuestCount(Player* player);
 

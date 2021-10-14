@@ -30,12 +30,7 @@
 extern ConfigManager g_config;
 extern Game g_game;
 
-ReturnValue Mailbox::__queryAdd(
-	int32_t,
-	const Thing* thing,
-	uint32_t,
-	uint32_t
-) const {
+ReturnValue Mailbox::__queryAdd(int32_t, const Thing* thing, uint32_t, uint32_t) const {
 	if (const Item* item = thing->getItem()) {
 		if (canSend(item)) {
 			return RET_NOERROR;
@@ -44,22 +39,12 @@ ReturnValue Mailbox::__queryAdd(
 	return RET_NOTPOSSIBLE;
 }
 
-ReturnValue Mailbox::__queryMaxCount(
-	int32_t,
-	const Thing*,
-	uint32_t count,
-	uint32_t& maxQueryCount,
-	uint32_t
-) const {
+ReturnValue Mailbox::__queryMaxCount(int32_t, const Thing*, uint32_t count, uint32_t& maxQueryCount, uint32_t) const {
 	maxQueryCount = std::max((uint32_t)1, count);
 	return RET_NOERROR;
 }
 
-void Mailbox::__addThing(
-	Creature* actor,
-	int32_t,
-	Thing* thing
-) {
+void Mailbox::__addThing(Creature* actor, int32_t, Thing* thing) {
 	Item* item = thing->getItem();
 	if (!item) {
 		return;
@@ -70,10 +55,7 @@ void Mailbox::__addThing(
 	}
 }
 
-bool Mailbox::sendItem(
-	Creature* actor,
-	Item* item
-) {
+bool Mailbox::sendItem(Creature* actor, Item* item) {
 	uint32_t depotId = 0;
 	std::string name;
 	if (!getRecipient(item, name, depotId) || name.empty() || !depotId) {
@@ -82,10 +64,7 @@ bool Mailbox::sendItem(
 	return IOLoginData::getInstance()->playerMail(actor, name, depotId, item);
 }
 
-bool Mailbox::getDepotId(
-	const std::string& townString,
-	uint32_t& depotId
-) {
+bool Mailbox::getDepotId(const std::string& townString, uint32_t& depotId) {
 	Town* town = Towns::getInstance()->getTown(townString);
 	if (!town) {
 		return false;
@@ -107,11 +86,7 @@ bool Mailbox::getDepotId(
 	return true;
 }
 
-bool Mailbox::getRecipient(
-	Item* item,
-	std::string& name,
-	uint32_t& depotId
-) {
+bool Mailbox::getRecipient(Item* item, std::string& name, uint32_t& depotId) {
 	if (!item) {
 		return false;
 	}

@@ -82,11 +82,7 @@ Event* TalkActions::getEvent(const std::string& nodeName) {
 	return NULL;
 }
 
-bool TalkActions::registerEvent(
-	Event* event,
-	xmlNodePtr p,
-	bool override
-) {
+bool TalkActions::registerEvent(Event* event, xmlNodePtr p, bool override) {
 	TalkAction* talkAction = dynamic_cast<TalkAction*>(event);
 	if (!talkAction) {
 		return false;
@@ -128,12 +124,7 @@ bool TalkActions::registerEvent(
 	return true;
 }
 
-bool TalkActions::onPlayerSay(
-	Creature* creature,
-	uint16_t channelId,
-	const std::string& words,
-	bool ignoreAccess
-) {
+bool TalkActions::onPlayerSay(Creature* creature, uint16_t channelId, const std::string& words, bool ignoreAccess) {
 	std::string cmd[TALKFILTER_LAST] = words, param[TALKFILTER_LAST] = "";
 	std::string::size_type loc = words.find('"', 0);
 	if (loc != std::string::npos) {
@@ -173,9 +164,7 @@ bool TalkActions::onPlayerSay(
 
 	Player* player = creature->getPlayer();
 	StringVec exceptions = talkAction->getExceptions();
-	if (player && ((!ignoreAccess && std::find(exceptions.begin(), exceptions.end(), asLowerCaseString(
-		player->getName())) == exceptions.end() && talkAction->getAccess() > player->getAccess())
-		|| player->isAccountManager())) {
+	if (player && ((!ignoreAccess && std::find(exceptions.begin(), exceptions.end(), asLowerCaseString(player->getName())) == exceptions.end() && talkAction->getAccess() > player->getAccess()) || player->isAccountManager())) {
 		if (player->hasCustomFlag(PlayerCustomFlag_GamemasterPrivileges)) {
 			player->sendTextMessage(MSG_STATUS_SMALL, "You cannot execute this talkaction.");
 			return true;
@@ -309,12 +298,7 @@ bool TalkAction::loadFunction(const std::string& functionName) {
 	return true;
 }
 
-int32_t TalkAction::executeSay(
-	Creature* creature,
-	const std::string& words,
-	std::string param,
-	uint16_t channel
-) {
+int32_t TalkAction::executeSay(Creature* creature, const std::string& words, std::string param, uint16_t channel) {
 	// onSay(cid, words, param, channel)
 	if (m_interface->reserveEnv()) {
 		trimString(param);
@@ -365,11 +349,7 @@ int32_t TalkAction::executeSay(
 	}
 }
 
-bool TalkAction::houseBuy(
-	Creature* creature,
-	const std::string&,
-	const std::string&
-) {
+bool TalkAction::houseBuy(Creature* creature, const std::string&, const std::string&) {
 	Player* player = creature->getPlayer();
 	if (!player || !g_config.getBool(ConfigManager::HOUSE_BUY_AND_SELL)) {
 		return false;
@@ -484,11 +464,7 @@ bool TalkAction::houseBuy(
 	return false;
 }
 
-bool TalkAction::houseSell(
-	Creature* creature,
-	const std::string&,
-	const std::string& param
-) {
+bool TalkAction::houseSell(Creature* creature, const std::string&, const std::string& param) {
 	Player* player = creature->getPlayer();
 	if (!player || !g_config.getBool(ConfigManager::HOUSE_BUY_AND_SELL)) {
 		return false;
@@ -591,11 +567,7 @@ bool TalkAction::houseSell(
 	return false;
 }
 
-bool TalkAction::houseKick(
-	Creature* creature,
-	const std::string&,
-	const std::string& param
-) {
+bool TalkAction::houseKick(Creature* creature, const std::string&, const std::string& param) {
 	Player* player = creature->getPlayer();
 	if (!player) {
 		return false;
@@ -616,11 +588,7 @@ bool TalkAction::houseKick(
 	return false;
 }
 
-bool TalkAction::houseDoorList(
-	Creature* creature,
-	const std::string&,
-	const std::string&
-) {
+bool TalkAction::houseDoorList(Creature* creature, const std::string&, const std::string&) {
 	Player* player = creature->getPlayer();
 	if (!player) {
 		return false;
@@ -645,11 +613,7 @@ bool TalkAction::houseDoorList(
 	return false;
 }
 
-bool TalkAction::houseGuestList(
-	Creature* creature,
-	const std::string&,
-	const std::string&
-) {
+bool TalkAction::houseGuestList(Creature* creature, const std::string&, const std::string&) {
 	Player* player = creature->getPlayer();
 	if (!player) {
 		return false;
@@ -667,11 +631,7 @@ bool TalkAction::houseGuestList(
 	return false;
 }
 
-bool TalkAction::houseSubOwnerList(
-	Creature* creature,
-	const std::string&,
-	const std::string&
-) {
+bool TalkAction::houseSubOwnerList(Creature* creature, const std::string&, const std::string&) {
 	Player* player = creature->getPlayer();
 	if (!player) {
 		return false;
@@ -689,11 +649,7 @@ bool TalkAction::houseSubOwnerList(
 	return false;
 }
 
-bool TalkAction::guildJoin(
-	Creature* creature,
-	const std::string&,
-	const std::string& param
-) {
+bool TalkAction::guildJoin(Creature* creature, const std::string&, const std::string& param) {
 	Player* player = creature->getPlayer();
 	if (!player || !g_config.getBool(ConfigManager::INGAME_GUILD_MANAGEMENT)) {
 		return false;
@@ -725,11 +681,7 @@ bool TalkAction::guildJoin(
 	return true;
 }
 
-bool TalkAction::guildCreate(
-	Creature* creature,
-	const std::string&,
-	const std::string& param
-) {
+bool TalkAction::guildCreate(Creature* creature, const std::string&, const std::string& param) {
 	Player* player = creature->getPlayer();
 	if (!player || !g_config.getBool(ConfigManager::INGAME_GUILD_MANAGEMENT)) {
 		return false;
@@ -790,11 +742,7 @@ bool TalkAction::guildCreate(
 	return true;
 }
 
-bool TalkAction::thingProporties(
-	Creature* creature,
-	const std::string&,
-	const std::string& param
-) {
+bool TalkAction::thingProporties(Creature* creature, const std::string&, const std::string& param) {
 	Player* player = creature->getPlayer();
 	if (!player) {
 		return false;
@@ -967,11 +915,7 @@ bool TalkAction::thingProporties(
 	return true;
 }
 
-bool TalkAction::banishmentInfo(
-	Creature* creature,
-	const std::string&,
-	const std::string& param
-) {
+bool TalkAction::banishmentInfo(Creature* creature, const std::string&, const std::string& param) {
 	Player* player = creature->getPlayer();
 	if (!player) {
 		return false;
@@ -1047,11 +991,7 @@ bool TalkAction::banishmentInfo(
 	return true;
 }
 
-bool TalkAction::diagnostics(
-	Creature* creature,
-	const std::string&,
-	const std::string&
-) {
+bool TalkAction::diagnostics(Creature* creature, const std::string&, const std::string&) {
 	Player* player = creature->getPlayer();
 	if (!player) {
 		return false;
@@ -1102,11 +1042,7 @@ bool TalkAction::diagnostics(
 	return true;
 }
 
-bool TalkAction::ghost(
-	Creature* creature,
-	const std::string&,
-	const std::string&
-) {
+bool TalkAction::ghost(Creature* creature, const std::string&, const std::string&) {
 	Player* player = creature->getPlayer();
 	if (!player) {
 		return false;
@@ -1168,11 +1104,7 @@ bool TalkAction::ghost(
 	return true;
 }
 
-bool TalkAction::software(
-	Creature* creature,
-	const std::string&,
-	const std::string&
-) {
+bool TalkAction::software(Creature* creature, const std::string&, const std::string&) {
 	Player* player = creature->getPlayer();
 	if (!player) {
 		return false;

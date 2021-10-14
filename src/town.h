@@ -60,10 +60,7 @@
 				return &instance;
 			}
 
-			bool addTown(
-				uint32_t townId,
-				Town* town
-			) {
+			bool addTown(uint32_t townId, Town* town) {
 				TownMap::iterator it = townMap.find(townId);
 				if (it != townMap.end()) {
 					return false;

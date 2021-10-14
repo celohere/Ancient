@@ -23,11 +23,7 @@
 
 extern Game g_game;
 
-void TrashHolder::__addThing(
-	Creature* actor,
-	int32_t,
-	Thing* thing
-) {
+void TrashHolder::__addThing(Creature* actor, int32_t, Thing* thing) {
 	if (Item* item = thing->getItem()) {
 		if (item == this || !item->isMovable()) {
 			return;
@@ -59,26 +55,13 @@ void TrashHolder::__addThing(
 	}
 }
 
-void TrashHolder::postAddNotification(
-	Creature* actor,
-	Thing* thing,
-	const Cylinder* oldParent,
-	int32_t index,
-	cylinderlink_t
-) {
+void TrashHolder::postAddNotification(Creature* actor, Thing* thing, const Cylinder* oldParent, int32_t index, cylinderlink_t) {
 	if (getParent()) {
 		getParent()->postAddNotification(actor, thing, oldParent, index, LINK_PARENT);
 	}
 }
 
-void TrashHolder::postRemoveNotification(
-	Creature* actor,
-	Thing* thing,
-	const Cylinder* newParent,
-	int32_t index,
-	bool isCompleteRemoval,
-	cylinderlink_t
-) {
+void TrashHolder::postRemoveNotification(Creature* actor, Thing* thing, const Cylinder* newParent, int32_t index, bool isCompleteRemoval, cylinderlink_t) {
 	if (getParent()) {
 		getParent()->postRemoveNotification(actor, thing, newParent, index, isCompleteRemoval, LINK_PARENT);
 	}

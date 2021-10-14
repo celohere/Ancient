@@ -22,10 +22,7 @@
 
 extern Game g_game;
 
-Attr_ReadValue Teleport::readAttr(
-	AttrTypes_t attr,
-	PropStream& propStream
-) {
+Attr_ReadValue Teleport::readAttr(AttrTypes_t attr, PropStream& propStream) {
 	if (attr != ATTR_TELE_DEST) {
 		return Item::readAttr(attr, propStream);
 	}
@@ -52,11 +49,7 @@ bool Teleport::serializeAttr(PropWriteStream& propWriteStream) const {
 	return ret;
 }
 
-void Teleport::__addThing(
-	Creature* actor,
-	int32_t,
-	Thing* thing
-) {
+void Teleport::__addThing(Creature* actor, int32_t, Thing* thing) {
 	if (!thing || thing->isRemoved()) {
 		return;
 	}
@@ -77,26 +70,13 @@ void Teleport::__addThing(
 	}
 }
 
-void Teleport::postAddNotification(
-	Creature* actor,
-	Thing* thing,
-	const Cylinder* oldParent,
-	int32_t index,
-	cylinderlink_t
-) {
+void Teleport::postAddNotification(Creature* actor, Thing* thing, const Cylinder* oldParent, int32_t index, cylinderlink_t) {
 	if (getParent()) {
 		getParent()->postAddNotification(actor, thing, oldParent, index, LINK_PARENT);
 	}
 }
 
-void Teleport::postRemoveNotification(
-	Creature* actor,
-	Thing* thing,
-	const Cylinder* newParent,
-	int32_t index,
-	bool isCompleteRemoval,
-	cylinderlink_t
-) {
+void Teleport::postRemoveNotification(Creature* actor, Thing* thing, const Cylinder* newParent, int32_t index, bool isCompleteRemoval, cylinderlink_t) {
 	if (getParent()) {
 		getParent()->postRemoveNotification(actor, thing, newParent, index, isCompleteRemoval, LINK_PARENT);
 	}

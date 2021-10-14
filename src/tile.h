@@ -134,10 +134,7 @@
 			void push_front(Item* item) {
 				items.insert(items.begin(), item);
 			}
-			ItemVector::iterator insert(
-				ItemVector::iterator _where,
-				Item* item
-			) {
+			ItemVector::iterator insert(ItemVector::iterator _where, Item* item) {
 				return items.insert(_where, item);
 			}
 			ItemVector::iterator erase(ItemVector::iterator _pos) {
@@ -201,11 +198,7 @@
 	class Tile : public Cylinder {
 		public:
 			static Tile& nullTile;
-			Tile(
-				uint16_t x,
-				uint16_t y,
-				uint16_t z
-			);
+			Tile(uint16_t x, uint16_t y, uint16_t z);
 			virtual ~Tile();
 
 			TileItemVector* getItemList();
@@ -245,10 +238,7 @@
 			uint32_t getDownItemCount() const;
 
 			bool hasProperty(enum ITEMPROPERTY prop) const;
-			bool hasProperty(
-				Item* exclude,
-				enum ITEMPROPERTY prop
-			) const;
+			bool hasProperty(Item* exclude, enum ITEMPROPERTY prop) const;
 
 			bool hasFlag(tileflags_t flag) const {
 				return ((m_flags & (uint32_t)flag) == (uint32_t)flag);
@@ -328,16 +318,8 @@
 			}
 
 			bool hasHeight(uint32_t n) const;
-			void moveCreature(
-				Creature* actor,
-				Creature* creature,
-				Cylinder* toCylinder,
-				bool forceTeleport = false
-			);
-			int32_t getClientIndexOfThing(
-				const Player* player,
-				const Thing* thing
-			) const;
+			void moveCreature(Creature* actor, Creature* creature, Cylinder* toCylinder, bool forceTeleport = false);
+			int32_t getClientIndexOfThing(const Player* player, const Thing* thing) const;
 
 			// cylinder implementations
 			virtual Cylinder* getParent() {
@@ -371,57 +353,20 @@
 				return NULL;
 			}
 
-			virtual ReturnValue __queryAdd(
-				int32_t index,
-				const Thing* thing,
-				uint32_t count,
-				uint32_t flags
-			) const;
-			virtual ReturnValue __queryMaxCount(
-				int32_t index,
-				const Thing* thing,
-				uint32_t count,
-				uint32_t& maxQueryCount,
-				uint32_t flags
-			) const;
-			virtual ReturnValue __queryRemove(
-				const Thing* thing,
-				uint32_t count,
-				uint32_t flags
-			) const;
-			virtual Cylinder* __queryDestination(
-				int32_t& index,
-				const Thing* thing,
-				Item** destItem,
-				uint32_t& flags
-			);
+			virtual ReturnValue __queryAdd(int32_t index, const Thing* thing, uint32_t count, uint32_t flags) const;
+			virtual ReturnValue __queryMaxCount(int32_t index, const Thing* thing, uint32_t count, uint32_t& maxQueryCount, uint32_t flags) const;
+			virtual ReturnValue __queryRemove(const Thing* thing, uint32_t count, uint32_t flags) const;
+			virtual Cylinder* __queryDestination(int32_t& index, const Thing* thing, Item** destItem, uint32_t& flags);
 
-			virtual void __addThing(
-				Creature* actor,
-				Thing* thing
-			) {
+			virtual void __addThing(Creature* actor, Thing* thing) {
 				__addThing(actor, 0, thing);
 			}
-			virtual void __addThing(
-				Creature* actor,
-				int32_t index,
-				Thing* thing
-			);
+			virtual void __addThing(Creature* actor, int32_t index, Thing* thing);
 
-			virtual void __updateThing(
-				Thing* thing,
-				uint16_t itemId,
-				uint32_t count
-			);
-			virtual void __replaceThing(
-				uint32_t index,
-				Thing* thing
-			);
+			virtual void __updateThing(Thing* thing, uint16_t itemId, uint32_t count);
+			virtual void __replaceThing(uint32_t index, Thing* thing);
 
-			virtual void __removeThing(
-				Thing* thing,
-				uint32_t count
-			);
+			virtual void __removeThing(Thing* thing, uint32_t count);
 
 			virtual int32_t __getIndexOfThing(const Thing* thing) const;
 			virtual int32_t __getFirstIndex() const {
@@ -430,55 +375,24 @@
 			virtual int32_t __getLastIndex() const {
 				return thingCount;
 			}
-			virtual uint32_t __getItemTypeCount(
-				uint16_t itemId,
-				int32_t subType = -1
-			) const;
+			virtual uint32_t __getItemTypeCount(uint16_t itemId, int32_t subType = -1) const;
 			virtual Thing* __getThing(uint32_t index) const;
 
-			virtual void postAddNotification(
-				Creature* actor,
-				Thing* thing,
-				const Cylinder* oldParent,
-				int32_t index,
-				cylinderlink_t link = LINK_OWNER
-			);
-			virtual void postRemoveNotification(
-				Creature* actor,
-				Thing* thing,
-				const Cylinder* newParent,
-				int32_t index,
-				bool isCompleteRemoval,
-				cylinderlink_t link = LINK_OWNER
-			);
+			virtual void postAddNotification(Creature* actor, Thing* thing, const Cylinder* oldParent, int32_t index, cylinderlink_t link = LINK_OWNER);
+			virtual void postRemoveNotification(Creature* actor, Thing* thing, const Cylinder* newParent, int32_t index, bool isCompleteRemoval, cylinderlink_t link = LINK_OWNER);
 
 			virtual void __internalAddThing(Thing* thing) {
 				__internalAddThing(0, thing);
 			}
-			virtual void __internalAddThing(
-				uint32_t index,
-				Thing* thing
-			);
+			virtual void __internalAddThing(uint32_t index, Thing* thing);
 			void onUpdateTile();
 
 		private:
 			void onAddTileItem(Item* item);
-			void onUpdateTileItem(
-				Item* oldItem,
-				const ItemType& oldType,
-				Item* newItem,
-				const ItemType& newType
-			);
-			void onRemoveTileItem(
-				const SpectatorVec& list,
-				std::vector<uint32_t>& oldStackPosVector,
-				Item* item
-			);
+			void onUpdateTileItem(Item* oldItem, const ItemType& oldType, Item* newItem, const ItemType& newType);
+			void onRemoveTileItem(const SpectatorVec& list, std::vector<uint32_t>& oldStackPosVector, Item* item);
 
-			void updateTileFlags(
-				Item* item,
-				bool remove
-			);
+			void updateTileFlags(Item* item, bool remove);
 
 		protected:
 			bool isDynamic() const {
@@ -501,11 +415,7 @@
 		TileItemVector items;
 		CreatureVector creatures;
 		public:
-			DynamicTile(
-				uint16_t x,
-				uint16_t y,
-				uint16_t z
-			);
+			DynamicTile(uint16_t x, uint16_t y, uint16_t z);
 			virtual ~DynamicTile();
 
 			TileItemVector* getItemList() {
@@ -535,11 +445,7 @@
 		TileItemVector* items;
 		CreatureVector*	creatures;
 		public:
-			StaticTile(
-				uint16_t x,
-				uint16_t y,
-				uint16_t z
-			);
+			StaticTile(uint16_t x, uint16_t y, uint16_t z);
 			virtual ~StaticTile();
 
 			TileItemVector* getItemList() {
@@ -563,11 +469,7 @@
 			}
 	};
 
-	inline Tile::Tile(
-		uint16_t x,
-		uint16_t y,
-		uint16_t z
-	):qt_node(NULL), ground(NULL), pos(x, y, z), m_flags(0), thingCount(0) {}
+	inline Tile::Tile(uint16_t x, uint16_t y, uint16_t z):qt_node(NULL), ground(NULL), pos(x, y, z), m_flags(0), thingCount(0) {}
 
 	inline Tile::~Tile() {}
 
@@ -613,19 +515,11 @@
 		return static_cast<StaticTile*>(this)->StaticTile::makeItemList();
 	}
 
-	inline StaticTile::StaticTile(
-		uint16_t x,
-		uint16_t y,
-		uint16_t z
-	):Tile(x, y, z), items(NULL), creatures(NULL) {}
+	inline StaticTile::StaticTile(uint16_t x, uint16_t y, uint16_t z):Tile(x, y, z), items(NULL), creatures(NULL) {}
 
 	inline StaticTile::~StaticTile() {}
 
-	inline DynamicTile::DynamicTile(
-		uint16_t x,
-		uint16_t y,
-		uint16_t z
-	):Tile(x, y, z) {
+	inline DynamicTile::DynamicTile(uint16_t x, uint16_t y, uint16_t z):Tile(x, y, z) {
 		m_flags |= TILESTATE_DYNAMIC_TILE;
 	}
 

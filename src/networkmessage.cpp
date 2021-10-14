@@ -22,11 +22,7 @@
 #include "position.h"
 #include "item.h"
 
-SocketCode_t NetworkMessage::read(
-	SOCKET socket,
-	bool ignoreLength,
-	int32_t timeout
-) {
+SocketCode_t NetworkMessage::read(SOCKET socket, bool ignoreLength, int32_t timeout) {
 	int32_t waiting = 0, data = NETWORK_DEFAULT_SIZE;
 	if (!ignoreLength) {
 		do {
@@ -95,10 +91,7 @@ SocketCode_t NetworkMessage::read(
 	return SOCKET_CODE_OK;
 }
 
-SocketCode_t NetworkMessage::write(
-	SOCKET socket,
-	int32_t timeout
-) {
+SocketCode_t NetworkMessage::write(SOCKET socket, int32_t timeout) {
 	if (!m_size) {
 		return SOCKET_CODE_OK;
 	}
@@ -127,10 +120,7 @@ SocketCode_t NetworkMessage::write(
 	return SOCKET_CODE_OK;
 }
 
-std::string NetworkMessage::getString(
-	bool peek,
-	uint16_t size
-) {
+std::string NetworkMessage::getString(bool peek, uint16_t size) {
 	if (!size) {
 		size = get<uint16_t>(peek);
 	}
@@ -161,10 +151,7 @@ Position NetworkMessage::getPosition() {
 	return pos;
 }
 
-void NetworkMessage::putString(
-	const char* value,
-	bool addSize
-) {
+void NetworkMessage::putString(const char* value, bool addSize) {
 	uint32_t size = (uint32_t)strlen(value);
 	if (!hasSpace(size + (addSize ? 2 : 0)) || size > 8192) {
 		return;
@@ -194,10 +181,7 @@ void NetworkMessage::putPosition(const Position& pos) {
 	put<char>(pos.z);
 }
 
-void NetworkMessage::putItem(
-	uint16_t id,
-	uint8_t count
-) {
+void NetworkMessage::putItem(uint16_t id, uint8_t count) {
 	const ItemType &it = Item::items[id];
 	put<uint16_t>(it.clientId);
 	if (it.stackable) {

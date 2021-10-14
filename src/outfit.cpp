@@ -657,10 +657,7 @@ uint32_t Outfits::getOutfitId(uint32_t lookType) {
 	return 0;
 }
 
-bool Outfits::getOutfit(
-	uint32_t lookType,
-	Outfit& outfit
-) {
+bool Outfits::getOutfit(uint32_t lookType, Outfit& outfit) {
 	for (OutfitList::iterator it = allOutfits.begin(); it != allOutfits.end(); ++it) {
 		if (it->lookType != lookType) {
 			continue;
@@ -672,11 +669,7 @@ bool Outfits::getOutfit(
 	return false;
 }
 
-bool Outfits::getOutfit(
-	uint32_t outfitId,
-	uint16_t sex,
-	Outfit& outfit
-) {
+bool Outfits::getOutfit(uint32_t outfitId, uint16_t sex, Outfit& outfit) {
 	OutfitMap map = outfitsMap[sex];
 	OutfitMap::iterator it = map.find(outfitId);
 	if (it == map.end()) {
@@ -687,12 +680,7 @@ bool Outfits::getOutfit(
 	return true;
 }
 
-bool Outfits::addAttributes(
-	uint32_t playerId,
-	uint32_t outfitId,
-	uint16_t sex,
-	uint16_t addons
-) {
+bool Outfits::addAttributes(uint32_t playerId, uint32_t outfitId, uint16_t sex, uint16_t addons) {
 	Player* player = g_game.getPlayerByID(playerId);
 	if (!player || player->isRemoved()) {
 		return false;
@@ -783,11 +771,7 @@ bool Outfits::addAttributes(
 	return true;
 }
 
-bool Outfits::removeAttributes(
-	uint32_t playerId,
-	uint32_t outfitId,
-	uint16_t sex
-) {
+bool Outfits::removeAttributes(uint32_t playerId, uint32_t outfitId, uint16_t sex) {
 	Player* player = g_game.getPlayerByID(playerId);
 	if (!player || player->isRemoved()) {
 		return false;
@@ -857,11 +841,7 @@ bool Outfits::removeAttributes(
 	return true;
 }
 
-int16_t Outfits::getOutfitAbsorb(
-	uint32_t lookType,
-	uint16_t sex,
-	CombatType_t combat
-) {
+int16_t Outfits::getOutfitAbsorb(uint32_t lookType, uint16_t sex, CombatType_t combat) {
 	OutfitMap map = outfitsMap[sex];
 	if (!map.size()) {
 		return 0;
@@ -875,11 +855,7 @@ int16_t Outfits::getOutfitAbsorb(
 	return 0;
 }
 
-int16_t Outfits::getOutfitReflect(
-	uint32_t lookType,
-	uint16_t sex,
-	CombatType_t combat
-) {
+int16_t Outfits::getOutfitReflect(uint32_t lookType, uint16_t sex, CombatType_t combat) {
 	OutfitMap map = outfitsMap[sex];
 	if (!map.size()) {
 		return 0;

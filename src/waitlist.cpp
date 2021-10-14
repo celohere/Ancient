@@ -26,10 +26,7 @@
 extern ConfigManager g_config;
 extern Game g_game;
 
-WaitList::iterator WaitingList::find(
-	const Player* player,
-	uint32_t& slot
-) {
+WaitList::iterator WaitingList::find(const Player* player, uint32_t& slot) {
 	slot = 1;
 	std::string name = asLowerCaseString(player->getName());
 	for (WaitList::iterator it = waitList.begin(); it != waitList.end(); ++it) {

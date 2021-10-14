@@ -35,10 +35,7 @@
 
 extern ConfigManager g_config;
 
-std::string transformToMD5(
-	std::string plainText,
-	bool upperCase
-) {
+std::string transformToMD5(std::string plainText, bool upperCase) {
 	// Crypto++ MD5 object
 	CryptoPP::Weak::MD5 hash;
 
@@ -67,10 +64,7 @@ std::string transformToMD5(
 	return asLowerCaseString(output);
 }
 
-std::string transformToSHA1(
-	std::string plainText,
-	bool upperCase
-) {
+std::string transformToSHA1(std::string plainText, bool upperCase) {
 	// Crypto++ SHA1 object
 	CryptoPP::SHA1 hash;
 
@@ -99,10 +93,7 @@ std::string transformToSHA1(
 	return asLowerCaseString(output);
 }
 
-std::string transformToSHA256(
-	std::string plainText,
-	bool upperCase
-) {
+std::string transformToSHA256(std::string plainText, bool upperCase) {
 	// Crypto++ SHA256 object
 	CryptoPP::SHA256 hash;
 
@@ -131,10 +122,7 @@ std::string transformToSHA256(
 	return asLowerCaseString(output);
 }
 
-std::string transformToSHA512(
-	std::string plainText,
-	bool upperCase
-) {
+std::string transformToSHA512(std::string plainText, bool upperCase) {
 	// Crypto++ SHA512 object
 	CryptoPP::SHA512 hash;
 
@@ -163,10 +151,7 @@ std::string transformToSHA512(
 	return asLowerCaseString(output);
 }
 
-std::string transformToVAHash(
-	std::string plainText,
-	bool upperCase
-) {
+std::string transformToVAHash(std::string plainText, bool upperCase) {
 	std::string key = g_config.getString(ConfigManager::ENCRYPTION_KEY);
 	// This is basicaly a base64 string out of a sha512 lowcase string of the HMAC of the plaintext sha256 string with a configurated key
 	// Currently this removes all known weaknesses in the sha-2 implantation
@@ -201,10 +186,7 @@ std::string transformToVAHash(
 	return asLowerCaseString(output);
 }
 
-void _encrypt(
-	std::string& str,
-	bool upperCase
-) {
+void _encrypt(std::string& str, bool upperCase) {
 	switch (g_config.getNumber(ConfigManager::ENCRYPTION)) {
 		case ENCRYPTION_MD5: {
 			str = transformToMD5(str, upperCase);
@@ -240,20 +222,13 @@ void _encrypt(
 	}
 }
 
-bool encryptTest(
-	std::string plain,
-	std::string& hash
-) {
+bool encryptTest(std::string plain, std::string& hash) {
 	std::transform(hash.begin(), hash.end(), hash.begin(), upchar);
 	_encrypt(plain, true);
 	return plain == hash;
 }
 
-bool replaceString(
-	std::string& text,
-	const std::string& key,
-	const std::string& value
-) {
+bool replaceString(std::string& text, const std::string& key, const std::string& value) {
 	if (text.find(key) == std::string::npos) {
 		return false;
 	}
@@ -267,17 +242,11 @@ bool replaceString(
 	return true;
 }
 
-void trim_right(
-	std::string& source,
-	const std::string& t
-) {
+void trim_right(std::string& source, const std::string& t) {
 	source.erase(source.find_last_not_of(t) + 1);
 }
 
-void trim_left(
-	std::string& source,
-	const std::string& t
-) {
+void trim_left(std::string& source, const std::string& t) {
 	source.erase(0, source.find_first_not_of(t));
 }
 
@@ -306,11 +275,7 @@ bool booleanString(std::string source) {
 	return (source == "yes" || source == "true" || atoi(source.c_str()) > 0);
 }
 
-bool readXMLInteger(
-	xmlNodePtr node,
-	const char* tag,
-	int32_t& value
-) {
+bool readXMLInteger(xmlNodePtr node, const char* tag, int32_t& value) {
 	char* nodeValue = (char*)xmlGetProp(node, (xmlChar*)tag);
 	if (!nodeValue) {
 		return false;
@@ -321,11 +286,7 @@ bool readXMLInteger(
 	return true;
 }
 
-bool readXMLInteger64(
-	xmlNodePtr node,
-	const char* tag,
-	int64_t& value
-) {
+bool readXMLInteger64(xmlNodePtr node, const char* tag, int64_t& value) {
 	char* nodeValue = (char*)xmlGetProp(node, (xmlChar*)tag);
 	if (!nodeValue) {
 		return false;
@@ -336,11 +297,7 @@ bool readXMLInteger64(
 	return true;
 }
 
-bool readXMLFloat(
-	xmlNodePtr node,
-	const char* tag,
-	float& value
-) {
+bool readXMLFloat(xmlNodePtr node, const char* tag, float& value) {
 	char* nodeValue = (char*)xmlGetProp(node, (xmlChar*)tag);
 	if (!nodeValue) {
 		return false;
@@ -351,11 +308,7 @@ bool readXMLFloat(
 	return true;
 }
 
-bool readXMLString(
-	xmlNodePtr node,
-	const char* tag,
-	std::string& value
-) {
+bool readXMLString(xmlNodePtr node, const char* tag, std::string& value) {
 	char* nodeValue = (char*)xmlGetProp(node, (xmlChar*)tag);
 	if (!nodeValue) {
 		return false;
@@ -369,10 +322,7 @@ bool readXMLString(
 	return true;
 }
 
-bool readXMLContentString(
-	xmlNodePtr node,
-	std::string& value
-) {
+bool readXMLContentString(xmlNodePtr node, std::string& value) {
 	char* nodeValue = (char*)xmlNodeGetContent(node);
 	if (!nodeValue) {
 		return false;
@@ -386,10 +336,7 @@ bool readXMLContentString(
 	return true;
 }
 
-bool parseXMLContentString(
-	xmlNodePtr node,
-	std::string& value
-) {
+bool parseXMLContentString(xmlNodePtr node, std::string& value) {
 	bool result = false;
 	std::string compareValue;
 	while (node) {
@@ -428,10 +375,7 @@ std::string getLastXMLError() {
 	return ss.str();
 }
 
-bool utf8ToLatin1(
-	char* intext,
-	std::string& outtext
-) {
+bool utf8ToLatin1(char* intext, std::string& outtext) {
 	outtext = "";
 	if (!intext) {
 		return false;
@@ -458,11 +402,7 @@ bool utf8ToLatin1(
 	return true;
 }
 
-StringVec explodeString(
-	const std::string& string,
-	const std::string& separator,
-	bool trim
-) {
+StringVec explodeString(const std::string& string, const std::string& separator, bool trim) {
 	StringVec returnVector;
 	size_t start = 0, end = 0;
 	while ((end = string.find(separator, start)) != std::string::npos) {
@@ -487,10 +427,7 @@ IntegerVec vectorAtoi(StringVec stringVector) {
 	return returnVector;
 }
 
-bool hasBitSet(
-	uint32_t flag,
-	uint32_t flags
-) {
+bool hasBitSet(uint32_t flag, uint32_t flags) {
 	return ((flags & flag) == flag);
 }
 
@@ -506,10 +443,7 @@ uint32_t rand24b() {
 	return ((rand() << 12) ^ (rand())) & (0xFFFFFF);
 }
 
-float box_muller(
-	float m,
-	float s
-) {
+float box_muller(float m, float s) {
 	// normal random variate generator
 	// mean m, standard deviation s
 	float x1, x2, w, y1;
@@ -539,11 +473,7 @@ float box_muller(
 	return (m + y1 * s);
 }
 
-int32_t random_range(
-	int32_t lowestNumber,
-	int32_t highestNumber,
-	DistributionType_t type
-) {
+int32_t random_range(int32_t lowestNumber, int32_t highestNumber, DistributionType_t type) {
 	if (highestNumber == lowestNumber) {
 		return lowestNumber;
 	}
@@ -617,10 +547,7 @@ bool isValidPassword(std::string text) {
 	return true;
 }
 
-bool isValidName(
-	std::string text,
-	bool forceUppercaseOnFirstLetter
-) {
+bool isValidName(std::string text, bool forceUppercaseOnFirstLetter) {
 	uint32_t textLength = text.length(), lenBeforeSpace = 1, lenBeforeQuote = 1, lenBeforeDash = 1, repeatedCharacter = 0;
 	char lastChar = 32;
 	if (forceUppercaseOnFirstLetter) {
@@ -685,19 +612,12 @@ bool isNumbers(std::string text) {
 	return true;
 }
 
-bool checkText(
-	std::string text,
-	std::string str
-) {
+bool checkText(std::string text, std::string str) {
 	trimString(text);
 	return asLowerCaseString(text) == str;
 }
 
-std::string generateRecoveryKey(
-	int32_t fieldCount,
-	int32_t fieldLenght,
-	bool mixCase/* = false*/
-) {
+std::string generateRecoveryKey(int32_t fieldCount, int32_t fieldLenght, bool mixCase/* = false*/) {
 	std::stringstream key;
 	int32_t i = 0, j = 0, lastNumber = 99, number = 0;
 
@@ -742,10 +662,7 @@ std::string trimString(std::string& str) {
 	return str.erase(0, str.find_first_not_of(" "));
 }
 
-std::string parseParams(
-	tokenizer::iterator &it,
-	tokenizer::iterator end
-) {
+std::string parseParams(tokenizer::iterator &it, tokenizer::iterator end) {
 	if (it == end) {
 		return "";
 	}
@@ -781,10 +698,7 @@ std::string formatDate(time_t _time/* = 0*/) {
 	return s.str();
 }
 
-std::string formatDateEx(
-	time_t _time,
-	std::string format
-) {
+std::string formatDateEx(time_t _time, std::string format) {
 	if (!_time) {
 		_time = time(NULL);
 	}
@@ -799,10 +713,7 @@ std::string formatDateEx(
 	return buffer;
 }
 
-std::string formatTime(
-	time_t _time,
-	bool ms
-) {
+std::string formatTime(time_t _time, bool ms) {
 	if (!_time) {
 		_time = time(NULL);
 	} else if (ms) {
@@ -963,11 +874,7 @@ Direction getDirection(std::string string) {
 	return SOUTH;
 }
 
-Direction getDirectionTo(
-	Position pos1,
-	Position pos2,
-	bool extended
-) {
+Direction getDirectionTo(Position pos1, Position pos2, bool extended) {
 	Direction direction = NORTH;
 	if (pos1.x > pos2.x) {
 		direction = WEST;
@@ -1034,10 +941,7 @@ Direction getReverseDirection(Direction dir) {
 	return SOUTH;
 }
 
-Position getNextPosition(
-	Direction direction,
-	Position pos
-) {
+Position getNextPosition(Direction direction, Position pos) {
 	switch (direction) {
 		case NORTH: {
 			pos.y--;
@@ -1455,10 +1359,7 @@ std::string getCombatName(CombatType_t combatType) {
 	return "unknown";
 }
 
-std::string getSkillName(
-	uint16_t skillId,
-	bool suffix
-) {
+std::string getSkillName(uint16_t skillId, bool suffix) {
 	switch (skillId) {
 		case SKILL_FIST: {
 			std::string tmp = "fist";
@@ -1616,10 +1517,7 @@ std::string getReason(int32_t reasonId) {
 	return "Unknown Reason";
 }
 
-std::string getAction(
-	ViolationAction_t actionId,
-	bool ipBanishment
-) {
+std::string getAction(ViolationAction_t actionId, bool ipBanishment) {
 	std::string action = "Unknown";
 	switch (actionId) {
 		case ACTION_NOTATION: {
@@ -1708,12 +1606,7 @@ std::string parseVocationString(StringVec vocStringVec) {
 	return str;
 }
 
-bool parseVocationNode(
-	xmlNodePtr vocationNode,
-	VocationMap& vocationMap,
-	StringVec& vocStringVec,
-	std::string& errorStr
-) {
+bool parseVocationNode(xmlNodePtr vocationNode, VocationMap& vocationMap, StringVec& vocStringVec, std::string& errorStr) {
 	if (xmlStrcmp(vocationNode->name,(const xmlChar*)"vocation")) {
 		return true;
 	}
@@ -1767,10 +1660,7 @@ bool parseVocationNode(
 	return true;
 }
 
-bool parseIntegerVec(
-	std::string str,
-	IntegerVec& intVector
-) {
+bool parseIntegerVec(std::string str, IntegerVec& intVector) {
 	StringVec strVector = explodeString(str, ";");
 	IntegerVec tmpIntVector;
 	for (StringVec::iterator it = strVector.begin(); it != strVector.end(); ++it) {
@@ -1799,10 +1689,7 @@ bool fileExists(const char* filename) {
 	return true;
 }
 
-uint32_t adlerChecksum(
-	uint8_t* data,
-	size_t length
-) {
+uint32_t adlerChecksum(uint8_t* data, size_t length) {
 	// Keep this check, rarely used I think
 	if (length > NETWORK_MAX_SIZE || !length) {
 		return 0;
@@ -1819,10 +1706,7 @@ uint32_t adlerChecksum(
 	return (uint32_t)(((uint16_t)digest[0] << 8 | digest[1]) << 16) | ((uint16_t)digest[2] << 8 | digest[3]);
 }
 
-std::string getFilePath(
-	FileType_t type,
-	std::string name
-) {
+std::string getFilePath(FileType_t type, std::string name) {
 	#ifdef __FILESYSTEM_HIERARCHY_STANDARD__
 		std::string path = "/var/lib/ancient/";
 	#endif

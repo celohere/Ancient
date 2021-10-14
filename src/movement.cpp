@@ -159,11 +159,7 @@ Event* MoveEvents::getEvent(const std::string& nodeName) {
 	return NULL;
 }
 
-bool MoveEvents::registerEvent(
-	Event* event,
-	xmlNodePtr p,
-	bool override
-) {
+bool MoveEvents::registerEvent(Event* event, xmlNodePtr p, bool override) {
 	MoveEvent* moveEvent = dynamic_cast<MoveEvent*>(event);
 	if (!moveEvent) {
 		return false;
@@ -335,12 +331,7 @@ bool MoveEvents::registerEvent(
 	return success;
 }
 
-void MoveEvents::addEvent(
-	MoveEvent* moveEvent,
-	int32_t id,
-	MoveListMap& map,
-	bool override
-) {
+void MoveEvents::addEvent(MoveEvent* moveEvent, int32_t id, MoveListMap& map, bool override) {
 	MoveListMap::iterator it = map.find(id);
 	if (it != map.end()) {
 		EventList& moveEventList = it->second.moveEvent[moveEvent->getEventType()];
@@ -365,10 +356,7 @@ void MoveEvents::addEvent(
 	}
 }
 
-MoveEvent* MoveEvents::getEvent(
-	Item* item,
-	MoveEvent_t eventType
-) {
+MoveEvent* MoveEvents::getEvent(Item* item, MoveEvent_t eventType) {
 	MoveListMap::iterator it;
 	if (item->getUniqueId()) {
 		it = m_uniqueIdMap.find(item->getUniqueId());
@@ -400,11 +388,7 @@ MoveEvent* MoveEvents::getEvent(
 	return NULL;
 }
 
-MoveEvent* MoveEvents::getEvent(
-	Item* item,
-	MoveEvent_t eventType,
-	slots_t slot
-) {
+MoveEvent* MoveEvents::getEvent(Item* item, MoveEvent_t eventType, slots_t slot) {
 	uint32_t slotp = 0;
 	switch (slot) {
 		case SLOT_HEAD: {
@@ -476,12 +460,7 @@ MoveEvent* MoveEvents::getEvent(
 	return NULL;
 }
 
-void MoveEvents::addEvent(
-	MoveEvent* moveEvent,
-	Position pos,
-	MovePosListMap& map,
-	bool override
-) {
+void MoveEvents::addEvent(MoveEvent* moveEvent, Position pos, MovePosListMap& map, bool override) {
 	MovePosListMap::iterator it = map.find(pos);
 	if (it != map.end()) {
 		bool add = true;
@@ -504,10 +483,7 @@ void MoveEvents::addEvent(
 	}
 }
 
-MoveEvent* MoveEvents::getEvent(
-	const Tile* tile,
-	MoveEvent_t eventType
-) {
+MoveEvent* MoveEvents::getEvent(const Tile* tile, MoveEvent_t eventType) {
 	MovePosListMap::iterator it = m_positionMap.find(tile->getPosition());
 	if (it == m_positionMap.end()) {
 		return NULL;
@@ -528,13 +504,7 @@ bool MoveEvents::hasTileEvent(Item* item) {
 	return getEvent(item, MOVE_EVENT_STEP_IN) || getEvent(item, MOVE_EVENT_STEP_OUT) || getEvent(item, MOVE_EVENT_ADD_TILEITEM) || getEvent(item, MOVE_EVENT_REMOVE_TILEITEM);
 }
 
-uint32_t MoveEvents::onCreatureMove(
-	Creature* actor,
-	Creature* creature,
-	const Tile* fromTile,
-	const Tile* toTile,
-	bool isStepping
-) {
+uint32_t MoveEvents::onCreatureMove(Creature* actor, Creature* creature, const Tile* fromTile, const Tile* toTile, bool isStepping) {
 	MoveEvent_t eventType = MOVE_EVENT_STEP_OUT;
 	const Tile* tile = fromTile;
 	if (isStepping) {
@@ -593,36 +563,21 @@ uint32_t MoveEvents::onCreatureMove(
 	return ret;
 }
 
-bool MoveEvents::onPlayerEquip(
-	Player* player,
-	Item* item,
-	slots_t slot,
-	bool isCheck
-) {
+bool MoveEvents::onPlayerEquip(Player* player, Item* item, slots_t slot, bool isCheck) {
 	if (MoveEvent* moveEvent = getEvent(item, MOVE_EVENT_EQUIP, slot)) {
 		return moveEvent->fireEquip(player, item, slot, isCheck);
 	}
 	return true;
 }
 
-bool MoveEvents::onPlayerDeEquip(
-	Player* player,
-	Item* item,
-	slots_t slot,
-	bool isRemoval
-) {
+bool MoveEvents::onPlayerDeEquip(Player* player, Item* item, slots_t slot, bool isRemoval) {
 	if (MoveEvent* moveEvent = getEvent(item, MOVE_EVENT_DE_EQUIP, slot)) {
 		return moveEvent->fireEquip(player, item, slot, isRemoval);
 	}
 	return true;
 }
 
-uint32_t MoveEvents::onItemMove(
-	Creature* actor,
-	Item* item,
-	Tile* tile,
-	bool isAdd
-) {
+uint32_t MoveEvents::onItemMove(Creature* actor, Item* item, Tile* tile, bool isAdd) {
 	MoveEvent_t eventType = MOVE_EVENT_REMOVE_ITEM, tileEventType = MOVE_EVENT_REMOVE_TILEITEM;
 	if (isAdd) {
 		eventType = MOVE_EVENT_ADD_ITEM;
@@ -675,10 +630,7 @@ uint32_t MoveEvents::onItemMove(
 	return ret;
 }
 
-void MoveEvents::onAddTileItem(
-	const Tile* tile,
-	Item* item
-) {
+void MoveEvents::onAddTileItem(const Tile* tile, Item* item) {
 	if (m_lastCacheTile != tile) {
 		return;
 	}
@@ -689,10 +641,7 @@ void MoveEvents::onAddTileItem(
 	}
 }
 
-void MoveEvents::onRemoveTileItem(
-	const Tile* tile,
-	Item* item
-) {
+void MoveEvents::onRemoveTileItem(const Tile* tile, Item* item) {
 	if (m_lastCacheTile != tile) {
 		return;
 	}
@@ -932,10 +881,7 @@ void MoveEvent::setEventType(MoveEvent_t type) {
 	m_eventType = type;
 }
 
-uint32_t MoveEvent::StepInField(
-	Creature* creature,
-	Item* item
-) {
+uint32_t MoveEvent::StepInField(Creature* creature, Item* item) {
 	if (MagicField* field = item->getMagicField()) {
 		field->onStepInField(creature, creature->getPlayer());
 		return 1;
@@ -957,13 +903,7 @@ uint32_t MoveEvent::AddItemField(Item* item) {
 	return LUA_ERROR_ITEM_NOT_FOUND;
 }
 
-bool MoveEvent::EquipItem(
-	MoveEvent* moveEvent,
-	Player* player,
-	Item* item,
-	slots_t slot,
-	bool isCheck
-) {
+bool MoveEvent::EquipItem(MoveEvent* moveEvent, Player* player, Item* item, slots_t slot, bool isCheck) {
 	if (player->isItemAbilityEnabled(slot)) {
 		return true;
 	}
@@ -1076,13 +1016,7 @@ bool MoveEvent::EquipItem(
 	return true;
 }
 
-bool MoveEvent::DeEquipItem(
-	MoveEvent*,
-	Player* player,
-	Item* item,
-	slots_t slot,
-	bool isRemoval
-) {
+bool MoveEvent::DeEquipItem(MoveEvent*, Player* player, Item* item, slots_t slot, bool isRemoval) {
 	if (!player->isItemAbilityEnabled(slot)) {
 		return true;
 	}
@@ -1151,28 +1085,14 @@ bool MoveEvent::DeEquipItem(
 	return true;
 }
 
-uint32_t MoveEvent::fireStepEvent(
-	Creature* actor,
-	Creature* creature,
-	Item* item,
-	const Position& pos,
-	const Position& fromPos,
-	const Position& toPos
-) {
+uint32_t MoveEvent::fireStepEvent(Creature* actor, Creature* creature, Item* item, const Position& pos, const Position& fromPos, const Position& toPos) {
 	if (isScripted()) {
 		return executeStep(actor, creature, item, pos, fromPos, toPos);
 	}
 	return stepFunction(creature, item);
 }
 
-uint32_t MoveEvent::executeStep(
-	Creature* actor,
-	Creature* creature,
-	Item* item,
-	const Position& pos,
-	const Position& fromPos,
-	const Position& toPos
-) {
+uint32_t MoveEvent::executeStep(Creature* actor, Creature* creature, Item* item, const Position& pos, const Position& fromPos, const Position& toPos) {
 	// onStepIn(cid, item, position, lastPosition, fromPosition, toPosition, actor)
 	// onStepOut(cid, item, position, lastPosition, fromPosition, toPosition, actor)
 	if (m_interface->reserveEnv()) {
@@ -1231,24 +1151,14 @@ uint32_t MoveEvent::executeStep(
 	}
 }
 
-bool MoveEvent::fireEquip(
-	Player* player,
-	Item* item,
-	slots_t slot,
-	bool boolean
-) {
+bool MoveEvent::fireEquip(Player* player, Item* item, slots_t slot, bool boolean) {
 	if (isScripted()) {
 		return executeEquip(player, item, slot, boolean);
 	}
 	return equipFunction(this, player, item, slot, boolean);
 }
 
-bool MoveEvent::executeEquip(
-	Player* player,
-	Item* item,
-	slots_t slot,
-	bool boolean
-) {
+bool MoveEvent::executeEquip(Player* player, Item* item, slots_t slot, bool boolean) {
 	// onEquip(cid, item, slot, boolean)
 	// onDeEquip(cid, item, slot, boolean)
 	if (m_interface->reserveEnv()) {
@@ -1300,24 +1210,14 @@ bool MoveEvent::executeEquip(
 	}
 }
 
-uint32_t MoveEvent::fireAddRemItem(
-	Creature* actor,
-	Item* item,
-	Item* tileItem,
-	const Position& pos
-) {
+uint32_t MoveEvent::fireAddRemItem(Creature* actor, Item* item, Item* tileItem, const Position& pos) {
 	if (isScripted()) {
 		return executeAddRemItem(actor, item, tileItem, pos);
 	}
 	return moveFunction(item);
 }
 
-uint32_t MoveEvent::executeAddRemItem(
-	Creature* actor,
-	Item* item,
-	Item* tileItem,
-	const Position& pos
-) {
+uint32_t MoveEvent::executeAddRemItem(Creature* actor, Item* item, Item* tileItem, const Position& pos) {
 	// onAddItem(moveItem, tileItem, position, cid)
 	// onRemoveItem(moveItem, tileItem, position, cid)
 	if (m_interface->reserveEnv()) {

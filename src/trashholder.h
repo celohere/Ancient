@@ -23,10 +23,7 @@
 
 	class TrashHolder : public Item, public Cylinder {
 		public:
-			TrashHolder(
-				uint16_t type,
-				MagicEffect_t _effect = MAGIC_EFFECT_NONE
-			):Item(type), effect(_effect) {}
+			TrashHolder(uint16_t type, MagicEffect_t _effect = MAGIC_EFFECT_NONE):Item(type), effect(_effect) {}
 			virtual ~TrashHolder() {}
 
 			virtual TrashHolder* getTrashHolder() {
@@ -68,81 +65,31 @@
 				return NULL;
 			}
 
-			virtual ReturnValue __queryAdd(
-				int32_t,
-				const Thing*,
-				uint32_t,
-				uint32_t
-			) const {
+			virtual ReturnValue __queryAdd(int32_t, const Thing*, uint32_t, uint32_t) const {
 				return RET_NOERROR;
 			}
-			virtual ReturnValue __queryMaxCount(
-				int32_t,
-				const Thing*,
-				uint32_t,
-				uint32_t&,
-				uint32_t
-			) const {
+			virtual ReturnValue __queryMaxCount(int32_t, const Thing*, uint32_t, uint32_t&, uint32_t) const {
 				return RET_NOERROR;
 			}
-			virtual ReturnValue __queryRemove(
-				const Thing*,
-				uint32_t,
-				uint32_t
-			) const {
+			virtual ReturnValue __queryRemove(const Thing*, uint32_t, uint32_t) const {
 				return RET_NOTPOSSIBLE;
 			}
-			virtual Cylinder* __queryDestination(
-				int32_t&,
-				const Thing*,
-				Item**,
-				uint32_t&
-			) {
+			virtual Cylinder* __queryDestination(int32_t&, const Thing*, Item**, uint32_t&) {
 				return this;
 			}
 
-			virtual void __addThing(
-				Creature* actor,
-				Thing* thing
-			) {
+			virtual void __addThing(Creature* actor, Thing* thing) {
 				return __addThing(actor, 0, thing);
 			}
-			virtual void __addThing(
-				Creature* actor,
-				int32_t index,
-				Thing* thing
-			);
+			virtual void __addThing(Creature* actor, int32_t index, Thing* thing);
 
-			virtual void __updateThing(
-				Thing*,
-				uint16_t,
-				uint32_t
-			) {}
-			virtual void __replaceThing(
-				uint32_t,
-				Thing*
-			) {}
+			virtual void __updateThing(Thing*, uint16_t, uint32_t) {}
+			virtual void __replaceThing(uint32_t, Thing*) {}
 
-			virtual void __removeThing(
-				Thing*,
-				uint32_t
-			) {}
+			virtual void __removeThing(Thing*, uint32_t) {}
 
-			virtual void postAddNotification(
-				Creature* actor,
-				Thing* thing,
-				const Cylinder* oldParent,
-				int32_t index,
-				cylinderlink_t link = LINK_OWNER
-			);
-			virtual void postRemoveNotification(
-				Creature* actor,
-				Thing* thing,
-				const Cylinder* newParent,
-				int32_t index,
-				bool isCompleteRemoval,
-				cylinderlink_t link = LINK_OWNER
-			);
+			virtual void postAddNotification(Creature* actor, Thing* thing, const Cylinder* oldParent, int32_t index, cylinderlink_t link = LINK_OWNER);
+			virtual void postRemoveNotification(Creature* actor, Thing* thing, const Cylinder* newParent, int32_t index, bool isCompleteRemoval, cylinderlink_t link = LINK_OWNER);
 
 			MagicEffect_t getEffect() const {
 				return effect;

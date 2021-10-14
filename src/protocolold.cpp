@@ -35,10 +35,7 @@ extern Game g_game;
 	}
 #endif
 
-void ProtocolOld::disconnectClient(
-	uint8_t error,
-	const char* message
-) {
+void ProtocolOld::disconnectClient(uint8_t error, const char* message) {
 	if (OutputMessage_ptr output = OutputMessagePool::getInstance()->getOutputMessage(this, false)) {
 		TRACK_MESSAGE(output);
 		output->put<char>(error);

@@ -47,10 +47,7 @@ void ProtocolLogin::deleteProtocolTask() {
 	Protocol::deleteProtocolTask();
 }
 
-void ProtocolLogin::disconnectClient(
-	uint8_t error,
-	const char* message
-) {
+void ProtocolLogin::disconnectClient(uint8_t error, const char* message) {
 	OutputMessage_ptr output = OutputMessagePool::getInstance()->getOutputMessage(this, false);
 	if (output) {
 		TRACK_MESSAGE(output);

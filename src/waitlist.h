@@ -47,10 +47,7 @@
 			WaitingList() {}
 			void cleanup();
 
-			WaitList::iterator find(
-				const Player* player,
-				uint32_t& slot
-			);
+			WaitList::iterator find(const Player* player, uint32_t& slot);
 			int32_t getTimeout(int32_t slot) {
 				return getTime(slot) + 15;
 			}

@@ -19,10 +19,7 @@
 #include <iomanip>
 #include "position.h"
 
-std::ostream& operator<<(
-	std::ostream& os,
-	const Position& pos
-) {
+std::ostream& operator<<(std::ostream& os, const Position& pos) {
 	os << "( " << std::setw(5) << std::setfill('0') << pos.x;
 	os << " / " << std::setw(5) << std::setfill('0') << pos.y;
 	os << " / " << std::setw(3) << std::setfill('0') << pos.z;
@@ -30,10 +27,7 @@ std::ostream& operator<<(
 	return os;
 }
 
-std::ostream& operator<<(
-	std::ostream& os,
-	const Direction& dir
-) {
+std::ostream& operator<<(std::ostream& os, const Direction& dir) {
 	switch (dir) {
 		case NORTH: {
 			os << "North";
