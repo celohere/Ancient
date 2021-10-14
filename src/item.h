@@ -133,26 +133,14 @@
 			static Items items;
 
 			// Factory member to create item of right type based on type
-			static Item* CreateItem(
-				const uint16_t type,
-				uint16_t amount = 0
-			);
+			static Item* CreateItem(const uint16_t type, uint16_t amount = 0);
 			static Item* CreateItem(PropStream& propStream);
 
-			static bool loadItem(
-				xmlNodePtr node,
-				Container* parent
-			);
-			static bool loadContainer(
-				xmlNodePtr node,
-				Container* parent
-			);
+			static bool loadItem(xmlNodePtr node, Container* parent);
+			static bool loadContainer(xmlNodePtr node, Container* parent);
 
 			// Constructor for items
-			Item(
-				const uint16_t type,
-				uint16_t amount = 0
-			);
+			Item(const uint16_t type, uint16_t amount = 0);
 			Item(const Item &i):
 				Thing(), ItemAttributes(i), id(i.id), count(i.count) {}
 			virtual ~Item() {}
@@ -224,24 +212,9 @@
 				return items[id].clientId;
 			}
 
-			static std::string getDescription(
-				const ItemType& it,
-				int32_t lookDistance,
-				const Item* item = NULL,
-				int32_t subType = -1,
-				bool addArticle = true
-			);
-			static std::string getNameDescription(
-				const ItemType& it,
-				const Item* item = NULL,
-				int32_t subType = -1,
-				bool addArticle = true
-			);
-			static std::string getWeightDescription(
-				double weight,
-				bool stackable,
-				uint32_t count = 1
-			);
+			static std::string getDescription(const ItemType& it, int32_t lookDistance, const Item* item = NULL, int32_t subType = -1, bool addArticle = true);
+			static std::string getNameDescription(const ItemType& it, const Item* item = NULL, int32_t subType = -1, bool addArticle = true);
+			static std::string getWeightDescription(double weight, bool stackable, uint32_t count = 1);
 
 			virtual std::string getDescription(int32_t lookDistance) const {
 				return getDescription(items[id], lookDistance, this);
@@ -257,17 +230,10 @@
 			const Player* getHoldingPlayer() const;
 
 			// serialization
-			virtual Attr_ReadValue readAttr(
-				AttrTypes_t attr,
-				PropStream& propStream
-			);
+			virtual Attr_ReadValue readAttr(AttrTypes_t attr, PropStream& propStream);
 			virtual bool unserializeAttr(PropStream& propStream);
 			virtual bool serializeAttr(PropWriteStream& propWriteStream) const;
-			virtual bool unserializeItemNode(
-				FileLoader&,
-				NODE,
-				PropStream& propStream
-			) {
+			virtual bool unserializeItemNode(FileLoader&, NODE, PropStream& propStream) {
 				return unserializeAttr(propStream);
 			}
 
@@ -310,10 +276,7 @@
 			}
 			std::string getWriter() const;
 
-			void setActionId(
-				int32_t aid,
-				bool callEvent = true
-			);
+			void setActionId(int32_t aid, bool callEvent = true);
 			void resetActionId(bool callEvent = true);
 			int32_t getActionId() const;
 
@@ -521,20 +484,13 @@
 			}
 
 			virtual void onRemoved();
-			virtual bool onTradeEvent(
-				TradeEvents_t,
-				Player*,
-				Player*
-			) {
+			virtual bool onTradeEvent(TradeEvents_t, Player*, Player*) {
 				return true;
 			}
 
 			void setDefaultSubtype();
 			virtual void __startDecaying();
-			static uint32_t countByType(
-				const Item* item,
-				int32_t checkType
-			);
+			static uint32_t countByType(const Item* item, int32_t checkType);
 
 		protected:
 			uint16_t id;
@@ -751,10 +707,7 @@
 		return DECAYING_FALSE;
 	}
 
-	inline uint32_t Item::countByType(
-		const Item* item,
-		int32_t checkType
-	) {
+	inline uint32_t Item::countByType(const Item* item, int32_t checkType) {
 		if (checkType != -1 && checkType != (int32_t)item->getSubType()) {
 			return 0;
 		}

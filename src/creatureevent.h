@@ -70,10 +70,7 @@
 
 			// global events
 			bool playerLogin(Player* player);
-			bool playerLogout(
-				Player* player,
-				bool forceLogout
-			);
+			bool playerLogout(Player* player, bool forceLogout);
 
 			CreatureEvent* getEventByName(const std::string& name);
 
@@ -84,11 +81,7 @@
 			virtual void clear();
 
 			virtual Event* getEvent(const std::string& nodeName);
-			virtual bool registerEvent(
-				Event* event,
-				xmlNodePtr p,
-				bool override
-			);
+			virtual bool registerEvent(Event* event, xmlNodePtr p, bool override);
 
 			virtual LuaInterface& getInterface() {
 				return m_interface;
@@ -127,144 +120,33 @@
 
 			// scripting
 			uint32_t executeLogin(Player* player);
-			uint32_t executeLogout(
-				Player* player,
-				bool forceLogout
-			);
-			uint32_t executeChannelJoin(
-				Player* player,
-				uint16_t channelId,
-				UsersMap usersMap
-			);
-			uint32_t executeChannelLeave(
-				Player* player,
-				uint16_t channelId,
-				UsersMap usersMap
-			);
-			uint32_t executeAdvance(
-				Player* player,
-				skills_t skill,
-				uint32_t oldLevel,
-				uint32_t newLevel
-			);
-			uint32_t executeLook(
-				Player* player,
-				Thing* thing,
-				const Position& position,
-				int16_t stackpos,
-				int32_t lookDistance
-			);
-			uint32_t executeMailSend(
-				Player* player,
-				Player* receiver,
-				Item* item,
-				bool openBox
-			);
-			uint32_t executeMailReceive(
-				Player* player,
-				Player* sender,
-				Item* item,
-				bool openBox
-			);
-			uint32_t executeTradeRequest(
-				Player* player,
-				Player* target,
-				Item* item
-			);
-			uint32_t executeTradeAccept(
-				Player* player,
-				Player* target,
-				Item* item,
-				Item* targetItem
-			);
-			uint32_t executeTextEdit(
-				Player* player,
-				Item* item,
-				std::string newText
-			);
-			uint32_t executeReportBug(
-				Player* player,
-				std::string comment
-			);
-			uint32_t executeThink(
-				Creature* creature,
-				uint32_t interval
-			);
-			uint32_t executeDirection(
-				Creature* creature,
-				Direction old,
-				Direction current
-			);
-			uint32_t executeOutfit(
-				Creature* creature,
-				const Outfit_t& old,
-				const Outfit_t& current
-			);
-			uint32_t executeStatsChange(
-				Creature* creature,
-				Creature* attacker,
-				StatsChange_t type,
-				CombatType_t combat,
-				int32_t value
-			);
-			uint32_t executeCombatArea(
-				Creature* creature,
-				Tile* tile,
-				bool isAggressive
-			);
-			uint32_t executePush(
-				Player* player,
-				Creature* target
-			);
-			uint32_t executeTarget(
-				Creature* creature,
-				Creature* target
-			);
-			uint32_t executeFollow(
-				Creature* creature,
-				Creature* target
-			);
-			uint32_t executeCombat(
-				Creature* creature,
-				Creature* target
-			);
-			uint32_t executeAttack(
-				Creature* creature,
-				Creature* target
-			);
-			uint32_t executeCast(
-				Creature* creature,
-				Creature* target = NULL
-			);
-			uint32_t executeKill(
-				Creature* creature,
-				Creature* target,
-				const DeathEntry& entry
-			);
-			uint32_t executeDeath(
-				Creature* creature,
-				Item* corpse,
-				DeathList deathList
-			);
-			uint32_t executePrepareDeath(
-				Creature* creature,
-				DeathList deathList
-			);
-			uint32_t executeMove(
-				Creature* creature,
-				const Position& fromPosition,
-				const Position& toPosition
-			);
-			uint32_t executeMoveItem(
-				Player* player,
-				Item* item,
-				uint8_t count,
-				const Position& fromPos,
-				const Position& toPos,
-				Item* toContainer,
-				Item* fromContainer,
-				int16_t fstack
-			);
+			uint32_t executeLogout(Player* player, bool forceLogout);
+			uint32_t executeChannelJoin(Player* player, uint16_t channelId, UsersMap usersMap);
+			uint32_t executeChannelLeave(Player* player, uint16_t channelId, UsersMap usersMap);
+			uint32_t executeAdvance(Player* player, skills_t skill, uint32_t oldLevel, uint32_t newLevel);
+			uint32_t executeLook(Player* player, Thing* thing, const Position& position, int16_t stackpos, int32_t lookDistance);
+			uint32_t executeMailSend(Player* player, Player* receiver, Item* item, bool openBox);
+			uint32_t executeMailReceive(Player* player, Player* sender, Item* item, bool openBox);
+			uint32_t executeTradeRequest(Player* player, Player* target, Item* item);
+			uint32_t executeTradeAccept(Player* player, Player* target, Item* item, Item* targetItem);
+			uint32_t executeTextEdit(Player* player, Item* item, std::string newText);
+			uint32_t executeReportBug(Player* player, std::string comment);
+			uint32_t executeThink(Creature* creature, uint32_t interval);
+			uint32_t executeDirection(Creature* creature, Direction old, Direction current);
+			uint32_t executeOutfit(Creature* creature, const Outfit_t& old, const Outfit_t& current);
+			uint32_t executeStatsChange(Creature* creature, Creature* attacker, StatsChange_t type, CombatType_t combat, int32_t value);
+			uint32_t executeCombatArea(Creature* creature, Tile* tile, bool isAggressive);
+			uint32_t executePush(Player* player, Creature* target);
+			uint32_t executeTarget(Creature* creature, Creature* target);
+			uint32_t executeFollow(Creature* creature, Creature* target);
+			uint32_t executeCombat(Creature* creature, Creature* target);
+			uint32_t executeAttack(Creature* creature, Creature* target);
+			uint32_t executeCast(Creature* creature, Creature* target = NULL);
+			uint32_t executeKill(Creature* creature, Creature* target, const DeathEntry& entry);
+			uint32_t executeDeath(Creature* creature, Item* corpse, DeathList deathList);
+			uint32_t executePrepareDeath(Creature* creature, DeathList deathList);
+			uint32_t executeMove(Creature* creature, const Position& fromPosition, const Position& toPosition);
+			uint32_t executeMoveItem(Player* player, Item* item, uint8_t count, const Position& fromPos, const Position& toPos, Item* toContainer, Item* fromContainer, int16_t fstack);
 
 		protected:
 			virtual std::string getScriptEventName() const;

@@ -25,10 +25,7 @@ Depot::Depot(uint16_t type):
 		depotLimit = 1000;
 	}
 
-Attr_ReadValue Depot::readAttr(
-	AttrTypes_t attr,
-	PropStream& propStream
-) {
+Attr_ReadValue Depot::readAttr(AttrTypes_t attr, PropStream& propStream) {
 	if (attr != ATTR_DEPOT_ID) {
 		return Item::readAttr(attr, propStream);
 	}
@@ -42,12 +39,7 @@ Attr_ReadValue Depot::readAttr(
 	return ATTR_READ_CONTINUE;
 }
 
-ReturnValue Depot::__queryAdd(
-	int32_t index,
-	const Thing* thing,
-	uint32_t count,
-	uint32_t flags
-) const {
+ReturnValue Depot::__queryAdd(int32_t index, const Thing* thing, uint32_t count, uint32_t flags) const {
 	const Item* item = thing->getItem();
 	if (!item) {
 		return RET_NOTPOSSIBLE;
@@ -76,36 +68,17 @@ ReturnValue Depot::__queryAdd(
 	return Container::__queryAdd(index, thing, count, flags);
 }
 
-ReturnValue Depot::__queryMaxCount(
-	int32_t index,
-	const Thing* thing,
-	uint32_t count,
-	uint32_t& maxQueryCount,
-	uint32_t flags
-) const {
+ReturnValue Depot::__queryMaxCount(int32_t index, const Thing* thing, uint32_t count, uint32_t& maxQueryCount, uint32_t flags) const {
 	return Container::__queryMaxCount(index, thing, count, maxQueryCount, flags);
 }
 
-void Depot::postAddNotification(
-	Creature* actor,
-	Thing* thing,
-	const Cylinder* oldParent,
-	int32_t index,
-	cylinderlink_t
-) {
+void Depot::postAddNotification(Creature* actor, Thing* thing, const Cylinder* oldParent, int32_t index, cylinderlink_t) {
 	if (getParent()) {
 		getParent()->postAddNotification(actor, thing, oldParent, index, LINK_PARENT);
 	}
 }
 
-void Depot::postRemoveNotification(
-	Creature* actor,
-	Thing* thing,
-	const Cylinder* newParent,
-	int32_t index,
-	bool isCompleteRemoval,
-	cylinderlink_t
-) {
+void Depot::postRemoveNotification(Creature* actor, Thing* thing, const Cylinder* newParent, int32_t index, bool isCompleteRemoval, cylinderlink_t) {
 	if (getParent()) {
 		getParent()->postRemoveNotification(actor, thing, newParent, index, isCompleteRemoval, LINK_PARENT);
 	}

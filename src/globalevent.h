@@ -58,11 +58,7 @@
 			virtual void clear();
 
 			virtual Event* getEvent(const std::string& nodeName);
-			virtual bool registerEvent(
-				Event* event,
-				xmlNodePtr p,
-				bool override
-			);
+			virtual bool registerEvent(Event* event, xmlNodePtr p, bool override);
 
 			virtual LuaInterface& getInterface() {
 				return m_interface;
@@ -79,11 +75,7 @@
 
 			virtual bool configureEvent(xmlNodePtr p);
 
-			int32_t executeRecord(
-				uint32_t current,
-				uint32_t old,
-				Player* player
-			);
+			int32_t executeRecord(uint32_t current, uint32_t old, Player* player);
 			int32_t executeEvent();
 
 			GlobalEvent_t getEventType() const {

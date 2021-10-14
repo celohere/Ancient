@@ -43,10 +43,7 @@ extern ConfigManager g_config;
 extern MoveEvents* g_moveEvents;
 
 Items Item::items;
-Item* Item::CreateItem(
-	const uint16_t type,
-	uint16_t amount
-) {
+Item* Item::CreateItem(const uint16_t type, uint16_t amount) {
 	const ItemType& it = Item::items[type];
 	if (it.group == ITEM_GROUP_DEPRECATED) {
 		#ifdef __DEBUG__
@@ -102,10 +99,7 @@ Item* Item::CreateItem(PropStream& propStream) {
 	return Item::CreateItem(items.getRandomizedItem(type), 0);
 }
 
-bool Item::loadItem(
-	xmlNodePtr node,
-	Container* parent
-) {
+bool Item::loadItem(xmlNodePtr node, Container* parent) {
 	if (xmlStrcmp(node->name, (const xmlChar*)"item")) {
 		return false;
 	}
@@ -165,10 +159,7 @@ bool Item::loadItem(
 	return true;
 }
 
-bool Item::loadContainer(
-	xmlNodePtr parentNode,
-	Container* parent
-) {
+bool Item::loadContainer(xmlNodePtr parentNode, Container* parent) {
 	xmlNodePtr node = parentNode->children;
 	while (node) {
 		if (node->type != XML_ELEMENT_NODE) {
@@ -184,9 +175,7 @@ bool Item::loadContainer(
 	return true;
 }
 
-Item::Item(
-	const uint16_t type,
-	uint16_t amount
+Item::Item(const uint16_t type, uint16_t amount
 ):ItemAttributes(), id(type) {
 	raid = NULL;
 	loadedFromMap = false;
@@ -320,10 +309,7 @@ void Item::setSubType(uint16_t n) {
 	}
 }
 
-Attr_ReadValue Item::readAttr(
-	AttrTypes_t attr,
-	PropStream& propStream
-) {
+Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream) {
 	switch (attr) {
 		case ATTR_COUNT: {
 			uint8_t _count;
@@ -770,13 +756,7 @@ double Item::getWeight() const {
 	return items[id].weight;
 }
 
-std::string Item::getDescription(
-	const ItemType& it,
-	int32_t lookDistance,
-	const Item* item,
-	int32_t subType,
-	bool addArticle
-) {
+std::string Item::getDescription(const ItemType& it, int32_t lookDistance, const Item* item, int32_t subType, bool addArticle) {
 	std::stringstream s;
 	s << getNameDescription(it, item, subType, addArticle);
 	if (item) {
@@ -1485,12 +1465,7 @@ std::string Item::getDescription(
 	return s.str();
 }
 
-std::string Item::getNameDescription(
-	const ItemType& it,
-	const Item* item,
-	int32_t subType,
-	bool addArticle
-) {
+std::string Item::getNameDescription(const ItemType& it, const Item* item, int32_t subType, bool addArticle) {
 	if (item) {
 		subType = item->getSubType();
 	}
@@ -1516,11 +1491,7 @@ std::string Item::getNameDescription(
 	return s.str();
 }
 
-std::string Item::getWeightDescription(
-	double weight,
-	bool stackable,
-	uint32_t count
-) {
+std::string Item::getWeightDescription(double weight, bool stackable, uint32_t count) {
 	if (weight <= 0) {
 		return "";
 	}
@@ -1534,10 +1505,7 @@ std::string Item::getWeightDescription(
 	return s.str();
 }
 
-void Item::setActionId(
-	int32_t aid,
-	bool callEvent
-) {
+void Item::setActionId(int32_t aid, bool callEvent) {
 	Tile* tile = NULL;
 	if (callEvent) {
 		tile = getTile();

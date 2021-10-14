@@ -39,11 +39,7 @@ bool Connection::m_logError = true;
 	uint32_t Connection::connectionCount = 0;
 #endif
 
-Connection_ptr ConnectionManager::createConnection(
-	boost::asio::ip::tcp::socket* socket,
-	boost::asio::io_service& io_service,
-	ServicePort_ptr servicer
-) {
+Connection_ptr ConnectionManager::createConnection(boost::asio::ip::tcp::socket* socket, boost::asio::io_service& io_service, ServicePort_ptr servicer) {
 	#ifdef __DEBUG_NET_DETAIL__
 		std::clog << "Creating new Connection" << std::endl;
 	#endif
@@ -101,10 +97,7 @@ void Connection::close() {
 	Dispatcher::getInstance().addTask(createTask(boost::bind(&Connection::closeConnection, this)));
 }
 
-bool ConnectionManager::isDisabled(
-	uint32_t clientIp,
-	int32_t protocolId
-) {
+bool ConnectionManager::isDisabled(uint32_t clientIp, int32_t protocolId) {
 	boost::recursive_mutex::scoped_lock lockClass(m_connectionManagerLock);
 	int32_t maxLoginTries = g_config.getNumber(ConfigManager::LOGIN_TRIES);
 	if (!maxLoginTries || !clientIp) {
@@ -115,11 +108,7 @@ bool ConnectionManager::isDisabled(
 	return it != ipLoginMap.end() && it->second.lastProtocol != protocolId && it->second.loginsAmount > maxLoginTries && (int32_t)time(NULL) < it->second.lastLogin + g_config.getNumber(ConfigManager::LOGIN_TIMEOUT) / 1000;
 }
 
-void ConnectionManager::addAttempt(
-	uint32_t clientIp,
-	int32_t protocolId,
-	bool success
-) {
+void ConnectionManager::addAttempt(uint32_t clientIp, int32_t protocolId, bool success) {
 	boost::recursive_mutex::scoped_lock lockClass(m_connectionManagerLock);
 	if (!clientIp) {
 		return;
@@ -474,10 +463,7 @@ uint32_t Connection::getIP() const {
 	return 0;
 }
 
-void Connection::onWrite(
-	OutputMessage_ptr msg,
-	const boost::system::error_code& error
-) {
+void Connection::onWrite(OutputMessage_ptr msg, const boost::system::error_code& error) {
 	#ifdef __DEBUG_NET_DETAIL__
 		std::clog << "onWrite" << std::endl;
 	#endif
@@ -539,10 +525,7 @@ void Connection::onWriteTimeout() {
 	}
 }
 
-void Connection::handleReadTimeout(
-	boost::weak_ptr<Connection> weak,
-	const boost::system::error_code& error
-) {
+void Connection::handleReadTimeout(boost::weak_ptr<Connection> weak, const boost::system::error_code& error) {
 	if (error == boost::asio::error::operation_aborted || weak.expired()) {
 		return;
 	}
@@ -575,10 +558,7 @@ void Connection::handleWriteError(const boost::system::error_code& error) {
 	m_writeError = true;
 }
 
-void Connection::handleWriteTimeout(
-	boost::weak_ptr<Connection> weak,
-	const boost::system::error_code& error
-) {
+void Connection::handleWriteTimeout(boost::weak_ptr<Connection> weak, const boost::system::error_code& error) {
 	if (error == boost::asio::error::operation_aborted || weak.expired()) {
 		return;
 	}

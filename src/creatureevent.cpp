@@ -52,11 +52,7 @@ Event* CreatureEvents::getEvent(const std::string& nodeName) {
 	return NULL;
 }
 
-bool CreatureEvents::registerEvent(
-	Event* event,
-	xmlNodePtr,
-	bool override
-) {
+bool CreatureEvents::registerEvent(Event* event, xmlNodePtr, bool override) {
 	CreatureEvent* creatureEvent = dynamic_cast<CreatureEvent*>(event);
 	if (!creatureEvent) {
 		return false;
@@ -102,10 +98,7 @@ bool CreatureEvents::playerLogin(Player* player) {
 	return result;
 }
 
-bool CreatureEvents::playerLogout(
-	Player* player,
-	bool forceLogout
-) {
+bool CreatureEvents::playerLogout(Player* player, bool forceLogout) {
 	// fire global event if is registered
 	bool result = true;
 	for (CreatureEventList::iterator it = m_creatureEvents.begin(); it != m_creatureEvents.end(); ++it) {
@@ -481,10 +474,7 @@ uint32_t CreatureEvent::executeLogin(Player* player) {
 	}
 }
 
-uint32_t CreatureEvent::executeLogout(
-	Player* player,
-	bool forceLogout
-) {
+uint32_t CreatureEvent::executeLogout(Player* player, bool forceLogout) {
 	// onLogout(cid, forceLogout)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -530,11 +520,7 @@ uint32_t CreatureEvent::executeLogout(
 	}
 }
 
-uint32_t CreatureEvent::executeChannelJoin(
-	Player* player,
-	uint16_t channelId,
-	UsersMap usersMap
-) {
+uint32_t CreatureEvent::executeChannelJoin(Player* player, uint16_t channelId, UsersMap usersMap) {
 	// onJoinChannel(cid, channel, users)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -592,11 +578,7 @@ uint32_t CreatureEvent::executeChannelJoin(
 	}
 }
 
-uint32_t CreatureEvent::executeChannelLeave(
-	Player* player,
-	uint16_t channelId,
-	UsersMap usersMap
-) {
+uint32_t CreatureEvent::executeChannelLeave(Player* player, uint16_t channelId, UsersMap usersMap) {
 	// onLeaveChannel(cid, channel, users)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -654,12 +636,7 @@ uint32_t CreatureEvent::executeChannelLeave(
 	}
 }
 
-uint32_t CreatureEvent::executeAdvance(
-	Player* player,
-	skills_t skill,
-	uint32_t oldLevel,
-	uint32_t newLevel
-) {
+uint32_t CreatureEvent::executeAdvance(Player* player, skills_t skill, uint32_t oldLevel, uint32_t newLevel) {
 	// onAdvance(cid, skill, oldLevel, newLevel)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -710,12 +687,7 @@ uint32_t CreatureEvent::executeAdvance(
 	}
 }
 
-uint32_t CreatureEvent::executeMailSend(
-	Player* player,
-	Player* receiver,
-	Item* item,
-	bool openBox
-) {
+uint32_t CreatureEvent::executeMailSend(Player* player, Player* receiver, Item* item, bool openBox) {
 	// onSendMail(cid, receiver, item, openBox)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -766,12 +738,7 @@ uint32_t CreatureEvent::executeMailSend(
 	}
 }
 
-uint32_t CreatureEvent::executeMailReceive(
-	Player* player,
-	Player* sender,
-	Item* item,
-	bool openBox
-) {
+uint32_t CreatureEvent::executeMailReceive(Player* player, Player* sender, Item* item, bool openBox) {
 	// onReceiveMail(cid, sender, item, openBox)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -822,11 +789,7 @@ uint32_t CreatureEvent::executeMailReceive(
 	}
 }
 
-uint32_t CreatureEvent::executeTradeRequest(
-	Player* player,
-	Player* target,
-	Item* item
-) {
+uint32_t CreatureEvent::executeTradeRequest(Player* player, Player* target, Item* item) {
 	// onTradeRequest(cid, target, item)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -874,12 +837,7 @@ uint32_t CreatureEvent::executeTradeRequest(
 	}
 }
 
-uint32_t CreatureEvent::executeTradeAccept(
-	Player* player,
-	Player* target,
-	Item* item,
-	Item* targetItem
-) {
+uint32_t CreatureEvent::executeTradeAccept(Player* player, Player* target, Item* item, Item* targetItem) {
 	// onTradeAccept(cid, target, item, targetItem)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -928,13 +886,7 @@ uint32_t CreatureEvent::executeTradeAccept(
 	}
 }
 
-uint32_t CreatureEvent::executeLook(
-	Player* player,
-	Thing* thing,
-	const Position& position,
-	int16_t stackpos,
-	int32_t lookDistance
-) {
+uint32_t CreatureEvent::executeLook(Player* player, Thing* thing, const Position& position, int16_t stackpos, int32_t lookDistance) {
 	// onLook(cid, thing, position, lookDistance)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -985,11 +937,7 @@ uint32_t CreatureEvent::executeLook(
 	}
 }
 
-uint32_t CreatureEvent::executeDirection(
-	Creature* creature,
-	Direction old,
-	Direction current
-) {
+uint32_t CreatureEvent::executeDirection(Creature* creature, Direction old, Direction current) {
 	// onDirection(cid, old, current)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -1037,11 +985,7 @@ uint32_t CreatureEvent::executeDirection(
 	}
 }
 
-uint32_t CreatureEvent::executeOutfit(
-	Creature* creature,
-	const Outfit_t& old,
-	const Outfit_t& current
-) {
+uint32_t CreatureEvent::executeOutfit(Creature* creature, const Outfit_t& old, const Outfit_t& current) {
 	// onOutfit(cid, old, current)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -1089,10 +1033,7 @@ uint32_t CreatureEvent::executeOutfit(
 	}
 }
 
-uint32_t CreatureEvent::executeThink(
-	Creature* creature,
-	uint32_t interval
-) {
+uint32_t CreatureEvent::executeThink(Creature* creature, uint32_t interval) {
 	// onThink(cid, interval)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -1138,13 +1079,7 @@ uint32_t CreatureEvent::executeThink(
 	}
 }
 
-uint32_t CreatureEvent::executeStatsChange(
-	Creature* creature,
-	Creature* attacker,
-	StatsChange_t type,
-	CombatType_t combat,
-	int32_t value
-) {
+uint32_t CreatureEvent::executeStatsChange(Creature* creature, Creature* attacker, StatsChange_t type, CombatType_t combat, int32_t value) {
 	// onStatsChange(cid, attacker, type, combat, value)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -1198,11 +1133,7 @@ uint32_t CreatureEvent::executeStatsChange(
 	}
 }
 
-uint32_t CreatureEvent::executeCombatArea(
-	Creature* creature,
-	Tile* tile,
-	bool aggressive
-) {
+uint32_t CreatureEvent::executeCombatArea(Creature* creature, Tile* tile, bool aggressive) {
 	// onAreaCombat(cid, ground, position, aggressive)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -1253,10 +1184,7 @@ uint32_t CreatureEvent::executeCombatArea(
 	}
 }
 
-uint32_t CreatureEvent::executeCombat(
-	Creature* creature,
-	Creature* target
-) {
+uint32_t CreatureEvent::executeCombat(Creature* creature, Creature* target) {
 	// onCombat(cid, target)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -1302,10 +1230,7 @@ uint32_t CreatureEvent::executeCombat(
 	}
 }
 
-uint32_t CreatureEvent::executeAttack(
-	Creature* creature,
-	Creature* target
-) {
+uint32_t CreatureEvent::executeAttack(Creature* creature, Creature* target) {
 	// onAttack(cid, target)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -1351,10 +1276,7 @@ uint32_t CreatureEvent::executeAttack(
 	}
 }
 
-uint32_t CreatureEvent::executeCast(
-	Creature* creature,
-	Creature* target
-) {
+uint32_t CreatureEvent::executeCast(Creature* creature, Creature* target) {
 	// onCast(cid[, target])
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -1405,11 +1327,7 @@ uint32_t CreatureEvent::executeCast(
 	}
 }
 
-uint32_t CreatureEvent::executeKill(
-	Creature* creature,
-	Creature* target,
-	const DeathEntry& entry
-) {
+uint32_t CreatureEvent::executeKill(Creature* creature, Creature* target, const DeathEntry& entry) {
 	// onKill(cid, target, damage, flags)
 	if (m_interface->reserveEnv()) {
 		uint32_t flags = 0;
@@ -1483,11 +1401,7 @@ uint32_t CreatureEvent::executeKill(
 	}
 }
 
-uint32_t CreatureEvent::executeDeath(
-	Creature* creature,
-	Item* corpse,
-	DeathList deathList
-) {
+uint32_t CreatureEvent::executeDeath(Creature* creature, Item* corpse, DeathList deathList) {
 	// onDeath(cid, corpse, deathList)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -1555,10 +1469,7 @@ uint32_t CreatureEvent::executeDeath(
 	}
 }
 
-uint32_t CreatureEvent::executePrepareDeath(
-	Creature* creature,
-	DeathList deathList
-) {
+uint32_t CreatureEvent::executePrepareDeath(Creature* creature, DeathList deathList) {
 	// onPrepareDeath(cid, deathList)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -1625,11 +1536,7 @@ uint32_t CreatureEvent::executePrepareDeath(
 	}
 }
 
-uint32_t CreatureEvent::executeMove(
-	Creature* creature,
-	const Position& fromPosition,
-	const Position& toPosition
-) {
+uint32_t CreatureEvent::executeMove(Creature* creature, const Position& fromPosition, const Position& toPosition) {
 	// onMove(cid, old, current)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -1677,16 +1584,7 @@ uint32_t CreatureEvent::executeMove(
 	}
 }
 
-uint32_t CreatureEvent::executeMoveItem(
-	Player* player,
-	Item* item,
-	uint8_t count,
-	const Position& fromPos,
-	const Position& toPos,
-	Item* toContainer,
-	Item* fromContainer,
-	int16_t fstack
-) {
+uint32_t CreatureEvent::executeMoveItem(Player* player, Item* item, uint8_t count, const Position& fromPos, const Position& toPos, Item* toContainer, Item* fromContainer, int16_t fstack) {
 	// onMoveItem(cid, item, count, toContainer, fromContainer, fromPos, toPos)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -1742,11 +1640,7 @@ uint32_t CreatureEvent::executeMoveItem(
 	}
 }
 
-uint32_t CreatureEvent::executeTextEdit(
-	Player* player,
-	Item* item,
-	std::string newText
-) {
+uint32_t CreatureEvent::executeTextEdit(Player* player, Item* item, std::string newText) {
 	// onTextEdit(cid, item, newText)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -1794,10 +1688,7 @@ uint32_t CreatureEvent::executeTextEdit(
 	}
 }
 
-uint32_t CreatureEvent::executeReportBug(
-	Player* player,
-	std::string comment
-) {
+uint32_t CreatureEvent::executeReportBug(Player* player, std::string comment) {
 	// onReportBug(cid, comment)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -1843,10 +1734,7 @@ uint32_t CreatureEvent::executeReportBug(
 	}
 }
 
-uint32_t CreatureEvent::executePush(
-	Player* player,
-	Creature* target
-) {
+uint32_t CreatureEvent::executePush(Player* player, Creature* target) {
 	// onPush(cid, target)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -1892,10 +1780,7 @@ uint32_t CreatureEvent::executePush(
 	}
 }
 
-uint32_t CreatureEvent::executeTarget(
-	Creature* creature,
-	Creature* target
-) {
+uint32_t CreatureEvent::executeTarget(Creature* creature, Creature* target) {
 	// onTarget(cid, target)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();
@@ -1941,10 +1826,7 @@ uint32_t CreatureEvent::executeTarget(
 	}
 }
 
-uint32_t CreatureEvent::executeFollow(
-	Creature* creature,
-	Creature* target
-) {
+uint32_t CreatureEvent::executeFollow(Creature* creature, Creature* target) {
 	// onFollow(cid, target)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();

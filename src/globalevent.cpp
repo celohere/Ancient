@@ -55,11 +55,7 @@ Event* GlobalEvents::getEvent(const std::string& nodeName) {
 	return NULL;
 }
 
-bool GlobalEvents::registerEvent(
-	Event* event,
-	xmlNodePtr,
-	bool override
-) {
+bool GlobalEvents::registerEvent(Event* event, xmlNodePtr, bool override) {
 	GlobalEvent* globalEvent = dynamic_cast<GlobalEvent*>(event);
 	if (!globalEvent) {
 		return false;
@@ -282,11 +278,7 @@ std::string GlobalEvent::getScriptEventParams() const {
 	return "";
 }
 
-int32_t GlobalEvent::executeRecord(
-	uint32_t current,
-	uint32_t old,
-	Player* player
-) {
+int32_t GlobalEvent::executeRecord(uint32_t current, uint32_t old, Player* player) {
 	// onRecord(current, old, cid)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();

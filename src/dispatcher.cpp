@@ -86,10 +86,7 @@ void Dispatcher::dispatcherThread(void* p) {
 	#endif
 }
 
-void Dispatcher::addTask(
-	Task* task,
-	bool front
-) {
+void Dispatcher::addTask(Task* task, bool front) {
 	bool signal = false;
 	m_taskLock.lock();
 	if (Dispatcher::m_threadState == Dispatcher::STATE_RUNNING) {

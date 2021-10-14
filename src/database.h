@@ -173,10 +173,7 @@
 				* @param long stream length
 				* @return quoted string
 				*/
-				DATABASE_VIRTUAL std::string escapeBlob(
-					const char*,
-					uint32_t
-				) {
+				DATABASE_VIRTUAL std::string escapeBlob(const char*, uint32_t) {
 					return "''";
 				}
 
@@ -255,10 +252,7 @@
 				*\returns a PropStream that is initiated with the blob data field, if not exist it returns NULL.
 				*\param s The name of the field
 				*/
-				DATABASE_VIRTUAL const char* getDataStream(
-					const std::string&,
-					uint64_t&
-				) {
+				DATABASE_VIRTUAL const char* getDataStream(const std::string&, uint64_t&) {
 					return 0;
 				}
 

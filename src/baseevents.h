@@ -34,11 +34,7 @@
 			bool loadFromXml();
 			bool reload();
 
-			bool parseEventNode(
-				xmlNodePtr p,
-				std::string scriptsPath,
-				bool override
-			);
+			bool parseEventNode(xmlNodePtr p, std::string scriptsPath, bool override);
 			bool isLoaded() const {
 				return m_loaded;
 			}
@@ -47,10 +43,7 @@
 			virtual std::string getScriptBaseName() const = 0;
 			virtual void clear() = 0;
 
-			virtual bool registerEvent(
-				Event* event,
-				xmlNodePtr p,
-				bool override
+			virtual bool registerEvent(Event* event, xmlNodePtr p, bool override
 			) = 0;
 			virtual Event* getEvent(const std::string& nodeName) = 0;
 
@@ -80,14 +73,8 @@
 			bool loadBuffer(const std::string& buffer);
 			bool checkBuffer(const std::string& buffer);
 
-			bool loadScript(
-				const std::string& script,
-				bool file
-			);
-			bool checkScript(
-				const std::string& script,
-				bool file
-			);
+			bool loadScript(const std::string& script, bool file);
+			bool checkScript(const std::string& script, bool file);
 
 			virtual bool loadFunction(const std::string&) {
 				return false;
@@ -109,10 +96,7 @@
 			CallBack();
 			virtual ~CallBack() {}
 
-			bool loadCallBack(
-				LuaInterface* _interface,
-				std::string name
-			);
+			bool loadCallBack(LuaInterface* _interface, std::string name);
 
 		protected:
 			int32_t m_scriptId;

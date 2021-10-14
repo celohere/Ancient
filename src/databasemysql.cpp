@@ -185,10 +185,7 @@ DBResult* DatabaseMySQL::storeQuery(const std::string &query) {
 	return NULL;
 }
 
-std::string DatabaseMySQL::escapeBlob(
-	const char* s,
-	uint32_t length
-) {
+std::string DatabaseMySQL::escapeBlob(const char* s, uint32_t length) {
 	if (!s || !strlen(s)) {
 		return "''";
 	}
@@ -248,10 +245,7 @@ std::string MySQLResult::getDataString(const std::string& s) {
 	return std::string(); // Failed
 }
 
-const char* MySQLResult::getDataStream(
-	const std::string& s,
-	uint64_t& size
-) {
+const char* MySQLResult::getDataStream(const std::string& s, uint64_t& size) {
 	size = 0;
 	listNames_t::iterator it = m_listNames.find(s);
 	if (it == m_listNames.end()) {

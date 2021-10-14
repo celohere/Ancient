@@ -38,10 +38,7 @@
 				return this;
 			}
 
-			virtual Attr_ReadValue readAttr(
-				AttrTypes_t attr,
-				PropStream& propStream
-			);
+			virtual Attr_ReadValue readAttr(AttrTypes_t attr, PropStream& propStream);
 			virtual bool serializeAttr(PropWriteStream& propWriteStream) const;
 
 			virtual bool canRemove() const {
@@ -89,10 +86,7 @@
 			}
 
 			BedItem* getBedBySleeper(uint32_t guid);
-			void setBedSleeper(
-				BedItem* bed,
-				uint32_t guid
-			) {
+			void setBedSleeper(BedItem* bed, uint32_t guid) {
 				BedSleepersMap[guid] = bed;
 			}
 

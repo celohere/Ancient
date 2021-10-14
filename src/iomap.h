@@ -99,17 +99,8 @@
 			IOMap() {}
 			virtual ~IOMap() {}
 
-			static Tile* createTile(
-				Item*& ground,
-				Item* item,
-				uint16_t px,
-				uint16_t py,
-				uint16_t pz
-			);
-			bool loadMap(
-				Map* map,
-				const std::string& identifier
-			);
+			static Tile* createTile(Item*& ground, Item* item, uint16_t px, uint16_t py, uint16_t pz);
+			bool loadMap(Map* map, const std::string& identifier);
 
 			/* Load the spawns
 			* \param map pointer to the Map class

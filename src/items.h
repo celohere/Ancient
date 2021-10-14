@@ -189,10 +189,7 @@
 
 			A getElement(uint32_t id);
 			const A getElement(uint32_t id) const;
-			void addElement(
-				A a,
-				uint32_t pos
-			);
+			void addElement(A a, uint32_t pos);
 
 			uint32_t size() {
 				return m_size;
@@ -232,10 +229,7 @@
 	}
 
 	template<typename A>
-	void Array<A>::addElement(
-		A a,
-		uint32_t pos
-	) {
+	void Array<A>::addElement(A a, uint32_t pos) {
 		#define INCREMENT 5000
 		if (pos >= m_size) {
 			m_data = (A*)realloc(m_data, sizeof(A) * (pos + INCREMENT));
@@ -264,10 +258,7 @@
 			bool reload();
 			int32_t loadFromOtb(std::string);
 			bool loadFromXml();
-			void parseItemNode(
-				xmlNodePtr itemNode,
-				uint32_t id
-			);
+			void parseItemNode(xmlNodePtr itemNode, uint32_t id);
 
 			void addItemType(ItemType* iType);
 			ItemType& getItemType(int32_t id);
@@ -305,12 +296,7 @@
 			uint8_t m_randomizationChance;
 			void clear();
 
-			void parseRandomizationBlock(
-				int32_t id,
-				int32_t fromId,
-				int32_t toId,
-				int32_t chance
-			);
+			void parseRandomizationBlock(int32_t id, int32_t fromId, int32_t toId, int32_t chance);
 
 			Array<ItemType*> items;
 			RandomizationMap randomizationMap;

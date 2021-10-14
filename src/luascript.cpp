@@ -176,10 +176,7 @@ bool ScriptEnviroment::loadGameState() {
 	return true;
 }
 
-bool ScriptEnviroment::setCallbackId(
-	int32_t callbackId,
-	LuaInterface* interface
-) {
+bool ScriptEnviroment::setCallbackId(int32_t callbackId, LuaInterface* interface) {
 	if (!m_callbackId) {
 		m_callbackId = callbackId;
 		m_interface = interface;
@@ -193,13 +190,7 @@ bool ScriptEnviroment::setCallbackId(
 	return false;
 }
 
-void ScriptEnviroment::getInfo(
-	int32_t& scriptId,
-	std::string& desc,
-	LuaInterface*& interface,
-	int32_t& callbackId,
-	bool& timerEvent
-) {
+void ScriptEnviroment::getInfo(int32_t& scriptId, std::string& desc, LuaInterface*& interface, int32_t& callbackId, bool& timerEvent) {
 	scriptId = m_scriptId;
 	desc = m_event;
 	interface = m_interface;
@@ -266,10 +257,7 @@ uint32_t ScriptEnviroment::addThing(Thing* thing) {
 	return m_lastUID;
 }
 
-void ScriptEnviroment::insertThing(
-	uint32_t uid,
-	Thing* thing
-) {
+void ScriptEnviroment::insertThing(uint32_t uid, Thing* thing) {
 	if (!m_localMap[uid]) {
 		m_localMap[uid] = thing;
 	} else {
@@ -404,17 +392,11 @@ Condition* ScriptEnviroment::getConditionObject(uint32_t conditionId) {
 	return NULL;
 }
 
-void ScriptEnviroment::addTempItem(
-	ScriptEnviroment* env,
-	Item* item
-) {
+void ScriptEnviroment::addTempItem(ScriptEnviroment* env, Item* item) {
 	m_tempItems[env].push_back(item);
 }
 
-void ScriptEnviroment::removeTempItem(
-	ScriptEnviroment* env,
-	Item* item
-) {
+void ScriptEnviroment::removeTempItem(ScriptEnviroment* env, Item* item) {
 	ItemList itemList = m_tempItems[env];
 	ItemList::iterator it = std::find(itemList.begin(), itemList.end(), item);
 	if (it != itemList.end()) {
@@ -464,10 +446,7 @@ DBResult* ScriptEnviroment::getResultByID(uint32_t id) {
 	return NULL;
 }
 
-bool ScriptEnviroment::getStorage(
-	const std::string& key,
-	std::string& value
-) const {
+bool ScriptEnviroment::getStorage(const std::string& key, std::string& value) const {
 	StorageMap::const_iterator it = m_storageMap.find(key);
 	if (it != m_storageMap.end()) {
 		value = it->second;
@@ -478,11 +457,7 @@ bool ScriptEnviroment::getStorage(
 	return false;
 }
 
-void ScriptEnviroment::streamVariant(
-	std::stringstream& stream,
-	const std::string& local,
-	const LuaVariant& var
-) {
+void ScriptEnviroment::streamVariant(std::stringstream& stream, const std::string& local, const LuaVariant& var) {
 	if (!local.empty()) {
 		stream << "local " << local << " = {" << std::endl;
 	}
@@ -517,12 +492,7 @@ void ScriptEnviroment::streamVariant(
 	}
 }
 
-void ScriptEnviroment::streamThing(
-	std::stringstream& stream,
-	const std::string& local,
-	Thing* thing,
-	uint32_t id
-) {
+void ScriptEnviroment::streamThing(std::stringstream& stream, const std::string& local, Thing* thing, uint32_t id) {
 	if (!local.empty()) {
 		stream << "local " << local << " = {" << std::endl;
 	}
@@ -575,12 +545,7 @@ void ScriptEnviroment::streamThing(
 	}
 }
 
-void ScriptEnviroment::streamPosition(
-	std::stringstream& stream,
-	const std::string& local,
-	const Position& position,
-	uint32_t stackpos
-) {
+void ScriptEnviroment::streamPosition(std::stringstream& stream, const std::string& local, const Position& position, uint32_t stackpos) {
 	if (!local.empty()) {
 		stream << "local " << local << " = {" << std::endl;
 	}
@@ -595,11 +560,7 @@ void ScriptEnviroment::streamPosition(
 	}
 }
 
-void ScriptEnviroment::streamOutfit(
-	std::stringstream& stream,
-	const std::string& local,
-	const Outfit_t& outfit
-) {
+void ScriptEnviroment::streamOutfit(std::stringstream& stream, const std::string& local, const Outfit_t& outfit) {
 	if (!local.empty()) {
 		stream << "local " << local << " = {" << std::endl;
 	}
@@ -709,10 +670,7 @@ bool LuaInterface::reInitState() {
 	return initState();
 }
 
-bool LuaInterface::loadBuffer(
-	const std::string& text,
-	Npc* npc
-) {
+bool LuaInterface::loadBuffer(const std::string& text, Npc* npc) {
 	// loads buffer as a chunk at stack top
 	int32_t ret = luaL_loadbuffer(m_luaState, text.c_str(), text.length(), "LuaInterface::loadBuffer");
 	if (ret) {
@@ -745,10 +703,7 @@ bool LuaInterface::loadBuffer(
 	return true;
 }
 
-bool LuaInterface::loadFile(
-	const std::string& file,
-	Npc* npc
-) {
+bool LuaInterface::loadFile(const std::string& file, Npc* npc) {
 	// loads file as a chunk at stack top
 	int32_t ret = luaL_loadfile(m_luaState, file.c_str());
 	if (ret) {
@@ -781,11 +736,7 @@ bool LuaInterface::loadFile(
 	return true;
 }
 
-bool LuaInterface::loadDirectory(
-	const std::string& dir,
-	Npc* npc,
-	bool recursively
-) {
+bool LuaInterface::loadDirectory(const std::string& dir, Npc* npc, bool recursively) {
 	StringVec files;
 	for (boost::filesystem::directory_iterator it(dir), end; it != end; ++it) {
 		std::string s = it->leaf();
@@ -850,10 +801,7 @@ std::string LuaInterface::getScript(int32_t scriptId) {
 	return m_loadingFile;
 }
 
-void LuaInterface::error(
-	const char* function,
-	const std::string& desc
-) {
+void LuaInterface::error(const char* function, const std::string& desc) {
 	int32_t script, callback;
 	bool timer;
 	std::string event;
@@ -1032,10 +980,7 @@ void LuaInterface::dumpStack(lua_State* L/* = NULL*/) {
 	}
 }
 
-void LuaInterface::pushVariant(
-	lua_State* L,
-	const LuaVariant& var
-) {
+void LuaInterface::pushVariant(lua_State* L, const LuaVariant& var) {
 	lua_newtable(L);
 	setField(L, "type", var.type);
 	switch (var.type) {
@@ -1063,11 +1008,7 @@ void LuaInterface::pushVariant(
 	}
 }
 
-void LuaInterface::pushThing(
-	lua_State* L,
-	Thing* thing,
-	uint32_t id
-) {
+void LuaInterface::pushThing(lua_State* L, Thing* thing, uint32_t id) {
 	lua_newtable(L);
 	if (thing && thing->getItem()) {
 		const Item* item = thing->getItem();
@@ -1113,11 +1054,7 @@ void LuaInterface::pushThing(
 	}
 }
 
-void LuaInterface::pushPosition(
-	lua_State* L,
-	const Position& position,
-	uint32_t stackpos
-) {
+void LuaInterface::pushPosition(lua_State* L, const Position& position, uint32_t stackpos) {
 	lua_newtable(L);
 	setField(L, "x", position.x);
 	setField(L, "y", position.y);
@@ -1125,10 +1062,7 @@ void LuaInterface::pushPosition(
 	setField(L, "stackpos", stackpos);
 }
 
-void LuaInterface::pushOutfit(
-	lua_State* L,
-	const Outfit_t& outfit
-) {
+void LuaInterface::pushOutfit(lua_State* L, const Outfit_t& outfit) {
 	lua_newtable(L);
 	setField(L, "lookType", outfit.lookType);
 	setField(L, "lookTypeEx", outfit.lookTypeEx);
@@ -1139,10 +1073,7 @@ void LuaInterface::pushOutfit(
 	setField(L, "lookAddons", outfit.lookAddons);
 }
 
-void LuaInterface::pushCallback(
-	lua_State* L,
-	int32_t callback
-) {
+void LuaInterface::pushCallback(lua_State* L, int32_t callback) {
 	lua_rawgeti(L, LUA_REGISTRYINDEX, callback);
 }
 
@@ -1178,10 +1109,7 @@ LuaVariant LuaInterface::popVariant(lua_State* L) {
 	return var;
 }
 
-void LuaInterface::popPosition(
-	lua_State* L,
-	PositionEx& position
-) {
+void LuaInterface::popPosition(lua_State* L, PositionEx& position) {
 	if (!lua_isboolean(L, -1)) {
 		position.x = getField(L, "x");
 		position.y = getField(L, "y");
@@ -1193,11 +1121,7 @@ void LuaInterface::popPosition(
 	lua_pop(L, 1); // table
 }
 
-void LuaInterface::popPosition(
-	lua_State* L,
-	Position& position,
-	uint32_t& stackpos
-) {
+void LuaInterface::popPosition(lua_State* L, Position& position, uint32_t& stackpos) {
 	stackpos = 0;
 	if (!lua_isboolean(L, -1)) {
 		position.x = getField(L, "x");
@@ -1257,78 +1181,46 @@ Outfit_t LuaInterface::popOutfit(lua_State* L) {
 	return outfit;
 }
 
-void LuaInterface::setField(
-	lua_State* L,
-	const char* index,
-	int32_t val
-) {
+void LuaInterface::setField(lua_State* L, const char* index, int32_t val) {
 	lua_pushstring(L, index);
 	lua_pushnumber(L, val);
 	pushTable(L);
 }
 
-void LuaInterface::setField(
-	lua_State* L,
-	const char* index,
-	const std::string& val
-) {
+void LuaInterface::setField(lua_State* L, const char* index, const std::string& val) {
 	lua_pushstring(L, index);
 	lua_pushstring(L, val.c_str());
 	pushTable(L);
 }
 
-void LuaInterface::setFieldBool(
-	lua_State* L,
-	const char* index,
-	bool val
-) {
+void LuaInterface::setFieldBool(lua_State* L, const char* index, bool val) {
 	lua_pushstring(L, index);
 	lua_pushboolean(L, val);
 	pushTable(L);
 }
 
-void LuaInterface::setFieldFloat(
-	lua_State* L,
-	const char* index,
-	double val
-) {
+void LuaInterface::setFieldFloat(lua_State* L, const char* index, double val) {
 	lua_pushstring(L, index);
 	lua_pushnumber(L, val);
 	pushTable(L);
 }
 
-void LuaInterface::createTable(
-	lua_State* L,
-	const char* index
-) {
+void LuaInterface::createTable(lua_State* L, const char* index) {
 	lua_pushstring(L, index);
 	lua_newtable(L);
 }
 
-void LuaInterface::createTable(
-	lua_State* L,
-	const char* index,
-	int32_t narr,
-	int32_t nrec
-) {
+void LuaInterface::createTable(lua_State* L, const char* index, int32_t narr, int32_t nrec) {
 	lua_pushstring(L, index);
 	lua_createtable(L, narr, nrec);
 }
 
-void LuaInterface::createTable(
-	lua_State* L,
-	int32_t index
-) {
+void LuaInterface::createTable(lua_State* L, int32_t index) {
 	lua_pushnumber(L, index);
 	lua_newtable(L);
 }
 
-void LuaInterface::createTable(
-	lua_State* L,
-	int32_t index,
-	int32_t narr,
-	int32_t nrec
-) {
+void LuaInterface::createTable(lua_State* L, int32_t index, int32_t narr, int32_t nrec) {
 	lua_pushnumber(L, index);
 	lua_createtable(L, narr, nrec);
 }
@@ -1337,10 +1229,7 @@ void LuaInterface::pushTable(lua_State* L) {
 	lua_settable(L, -3);
 }
 
-int64_t LuaInterface::getField(
-	lua_State* L,
-	const char* key
-) {
+int64_t LuaInterface::getField(lua_State* L, const char* key) {
 	lua_pushstring(L, key);
 	lua_gettable(L, -2); // get table[key]
 
@@ -1349,10 +1238,7 @@ int64_t LuaInterface::getField(
 	return result;
 }
 
-uint64_t LuaInterface::getFieldUnsigned(
-	lua_State* L,
-	const char* key
-) {
+uint64_t LuaInterface::getFieldUnsigned(lua_State* L, const char* key) {
 	lua_pushstring(L, key);
 	lua_gettable(L, -2); // get table[key]
 
@@ -1361,10 +1247,7 @@ uint64_t LuaInterface::getFieldUnsigned(
 	return result;
 }
 
-bool LuaInterface::getFieldBool(
-	lua_State* L,
-	const char* key
-) {
+bool LuaInterface::getFieldBool(lua_State* L, const char* key) {
 	lua_pushstring(L, key);
 	lua_gettable(L, -2); // get table[key]
 
@@ -1373,10 +1256,7 @@ bool LuaInterface::getFieldBool(
 	return result;
 }
 
-std::string LuaInterface::getFieldString(
-	lua_State* L,
-	const char* key
-) {
+std::string LuaInterface::getFieldString(lua_State* L, const char* key) {
 	lua_pushstring(L, key);
 	lua_gettable(L, -2); // get table[key]
 
@@ -1385,11 +1265,7 @@ std::string LuaInterface::getFieldString(
 	return result;
 }
 
-std::string LuaInterface::getGlobalString(
-	lua_State* L,
-	const std::string& _identifier,
-	const std::string& _default
-) {
+std::string LuaInterface::getGlobalString(lua_State* L, const std::string& _identifier, const std::string& _default) {
 	lua_getglobal(L, _identifier.c_str());
 	if (!lua_isstring(L, -1)) {
 		lua_pop(L, 1);
@@ -1403,11 +1279,7 @@ std::string LuaInterface::getGlobalString(
 	return ret;
 }
 
-bool LuaInterface::getGlobalBool(
-	lua_State* L,
-	const std::string& _identifier,
-	bool _default
-) {
+bool LuaInterface::getGlobalBool(lua_State* L, const std::string& _identifier, bool _default) {
 	lua_getglobal(L, _identifier.c_str());
 	if (!lua_isboolean(L, -1)) {
 		lua_pop(L, 1);
@@ -1419,19 +1291,11 @@ bool LuaInterface::getGlobalBool(
 	return val;
 }
 
-int32_t LuaInterface::getGlobalNumber(
-	lua_State* L,
-	const std::string& _identifier,
-	const int32_t _default
-) {
+int32_t LuaInterface::getGlobalNumber(lua_State* L, const std::string& _identifier, const int32_t _default) {
 	return (int32_t)LuaInterface::getGlobalDouble(L, _identifier, _default);
 }
 
-double LuaInterface::getGlobalDouble(
-	lua_State* L,
-	const std::string& _identifier,
-	const double _default
-) {
+double LuaInterface::getGlobalDouble(lua_State* L, const std::string& _identifier, const double _default) {
 	lua_getglobal(L, _identifier.c_str());
 	if (!lua_isnumber(L, -1)) {
 		lua_pop(L, 1);
@@ -1443,19 +1307,12 @@ double LuaInterface::getGlobalDouble(
 	return val;
 }
 
-void LuaInterface::getValue(
-	const std::string& key,
-	lua_State* L,
-	lua_State* _L
-) {
+void LuaInterface::getValue(const std::string& key, lua_State* L, lua_State* _L) {
 	lua_getglobal(L, key.c_str());
 	moveValue(L, _L);
 }
 
-void LuaInterface::moveValue(
-	lua_State* from,
-	lua_State* to
-) {
+void LuaInterface::moveValue(lua_State* from, lua_State* to) {
 	switch (lua_type(from, -1)) {
 		case LUA_TNIL: {
 			lua_pushnil(to);
@@ -2642,10 +2499,7 @@ const luaL_Reg LuaInterface::luaStdTable[] = {
 	{NULL, NULL}
 };
 
-int32_t LuaInterface::internalGetPlayerInfo(
-	lua_State* L,
-	PlayerInfo_t info
-) {
+int32_t LuaInterface::internalGetPlayerInfo(lua_State* L, PlayerInfo_t info) {
 	ScriptEnviroment* env = getEnv();
 	const Player* player = env->getPlayerByUID(popNumber(L));
 	if (!player) {
@@ -5464,11 +5318,7 @@ int32_t LuaInterface::luaCreateCombatObject(lua_State* L) {
 	return 1;
 }
 
-bool LuaInterface::getArea(
-	lua_State* L,
-	std::list<uint32_t>& list,
-	uint32_t& rows
-) {
+bool LuaInterface::getArea(lua_State* L, std::list<uint32_t>& list, uint32_t& rows) {
 	rows = 0;
 	uint32_t i = 0;
 

@@ -96,28 +96,13 @@
 			bool unserializeMap(PropStream& stream);
 
 			void eraseAttribute(const std::string& key);
-			void setAttribute(
-				const std::string& key,
-				boost::any value
-			);
+			void setAttribute(const std::string& key, boost::any value);
 			boost::any getAttribute(const std::string& key) const;
 
-			void setAttribute(
-				const std::string& key,
-				const std::string& value
-			);
-			void setAttribute(
-				const std::string& key,
-				int32_t value
-			);
-			void setAttribute(
-				const std::string& key,
-				float value
-			);
-			void setAttribute(
-				const std::string& key,
-				bool value
-			);
+			void setAttribute(const std::string& key, const std::string& value);
+			void setAttribute(const std::string& key, int32_t value);
+			void setAttribute(const std::string& key, float value);
+			void setAttribute(const std::string& key, bool value);
 
 			const std::string* getStringAttribute(const std::string& key) const;
 			const int32_t* getIntegerAttribute(const std::string& key) const;

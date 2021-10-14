@@ -29,10 +29,7 @@
 extern Game g_game;
 extern ConfigManager g_config;
 
-Attr_ReadValue BedItem::readAttr(
-	AttrTypes_t attr,
-	PropStream& propStream
-) {
+Attr_ReadValue BedItem::readAttr(AttrTypes_t attr, PropStream& propStream) {
 	switch (attr) {
 		case ATTR_SLEEPERGUID: {
 			uint32_t _sleeper;

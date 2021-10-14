@@ -27,10 +27,7 @@
 		public:
 			Task(const boost::function<void (void)>& f):
 				m_expiration(boost::date_time::not_a_date_time), m_f(f) {}
-			Task(
-				uint32_t ms,
-				const boost::function<void (void)>& f
-			):m_expiration(boost::get_system_time() + boost::posix_time::milliseconds(ms)), m_f(f) {}
+			Task(uint32_t ms, const boost::function<void (void)>& f):m_expiration(boost::get_system_time() + boost::posix_time::milliseconds(ms)), m_f(f) {}
 
 			virtual ~Task() {}
 			void operator()() {
@@ -56,10 +53,7 @@
 		return new Task(f);
 	}
 
-	inline Task* createTask(
-		uint32_t expiration,
-		boost::function<void (void)> f
-	) {
+	inline Task* createTask(uint32_t expiration, boost::function<void (void)> f) {
 		return new Task(expiration, f);
 	}
 
@@ -71,10 +65,7 @@
 				return dispatcher;
 			}
 
-			void addTask(
-				Task* task,
-				bool front = false
-			);
+			void addTask(Task* task, bool front = false);
 
 			void stop();
 			void shutdown();

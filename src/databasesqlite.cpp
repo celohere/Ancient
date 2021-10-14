@@ -164,10 +164,7 @@ std::string DatabaseSQLite::escapeString(const std::string& s) {
 	return r;
 }
 
-std::string DatabaseSQLite::escapeBlob(
-	const char* s,
-	uint32_t length
-) {
+std::string DatabaseSQLite::escapeBlob(const char* s, uint32_t length) {
 	std::string buf = "x'";
 	char* hex = new char[2 + 1]; // need one extra byte for null-character
 	for (uint32_t i = 0; i < length; i++) {
@@ -211,10 +208,7 @@ std::string SQLiteResult::getDataString(const std::string& s) {
 	return std::string(""); // Failed
 }
 
-const char* SQLiteResult::getDataStream(
-	const std::string& s,
-	uint64_t& size
-) {
+const char* SQLiteResult::getDataStream(const std::string& s, uint64_t& size) {
 	listNames_t::iterator it = m_listNames.find(s);
 	if (it != m_listNames.end()) {
 		const char* value = (const char*)sqlite3_column_blob(m_handle, it->second);

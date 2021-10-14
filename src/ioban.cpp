@@ -27,10 +27,7 @@
 
 extern Game g_game;
 
-bool IOBan::isIpBanished(
-	uint32_t ip,
-	uint32_t mask
-) const {
+bool IOBan::isIpBanished(uint32_t ip, uint32_t mask) const {
 	if (!ip) {
 		return false;
 	}
@@ -60,10 +57,7 @@ bool IOBan::isIpBanished(
 	return ret;
 }
 
-bool IOBan::isPlayerBanished(
-	uint32_t playerId,
-	PlayerBan_t type
-) const {
+bool IOBan::isPlayerBanished(uint32_t playerId, PlayerBan_t type) const {
 	Database* db = Database::getInstance();
 	DBResult* result;
 
@@ -77,18 +71,12 @@ bool IOBan::isPlayerBanished(
 	return true;
 }
 
-bool IOBan::isPlayerBanished(
-	std::string name,
-	PlayerBan_t type
-) const {
+bool IOBan::isPlayerBanished(std::string name, PlayerBan_t type) const {
 	uint32_t _guid;
 	return IOLoginData::getInstance()->getGuidByName(_guid, name) && isPlayerBanished(_guid, type);
 }
 
-bool IOBan::isAccountBanished(
-	uint32_t account,
-	uint32_t playerId
-) const {
+bool IOBan::isAccountBanished(uint32_t account, uint32_t playerId) const {
 	Database* db = Database::getInstance();
 	DBResult* result;
 
@@ -113,15 +101,7 @@ bool IOBan::isAccountBanished(
 	return false;
 }
 
-bool IOBan::addIpBanishment(
-	uint32_t ip,
-	int64_t banTime,
-	uint32_t reasonId,
-	std::string comment,
-	uint32_t gamemaster,
-	uint32_t mask,
-	std::string statement
-) const {
+bool IOBan::addIpBanishment(uint32_t ip, int64_t banTime, uint32_t reasonId, std::string comment, uint32_t gamemaster, uint32_t mask, std::string statement) const {
 	if (isIpBanished(ip)) {
 		return false;
 	}
@@ -140,16 +120,7 @@ bool IOBan::addIpBanishment(
 	return db->query(query.str());
 }
 
-bool IOBan::addPlayerBanishment(
-	uint32_t playerId,
-	int64_t banTime,
-	uint32_t reasonId,
-	ViolationAction_t actionId,
-	std::string comment,
-	uint32_t gamemaster,
-	PlayerBan_t type,
-	std::string statement
-) const {
+bool IOBan::addPlayerBanishment(uint32_t playerId, int64_t banTime, uint32_t reasonId, ViolationAction_t actionId, std::string comment, uint32_t gamemaster, PlayerBan_t type, std::string statement) const {
 	if (isPlayerBanished(playerId, type)) {
 		return false;
 	}
@@ -163,30 +134,12 @@ bool IOBan::addPlayerBanishment(
 	return db->query(query.str());
 }
 
-bool IOBan::addPlayerBanishment(
-	std::string name,
-	int64_t banTime,
-	uint32_t reasonId,
-	ViolationAction_t actionId,
-	std::string comment,
-	uint32_t gamemaster,
-	PlayerBan_t type,
-	std::string statement
-) const {
+bool IOBan::addPlayerBanishment(std::string name, int64_t banTime, uint32_t reasonId, ViolationAction_t actionId, std::string comment, uint32_t gamemaster, PlayerBan_t type, std::string statement) const {
 	uint32_t _guid;
 	return IOLoginData::getInstance()->getGuidByName(_guid, name) && addPlayerBanishment(_guid, banTime, reasonId, actionId, comment, gamemaster, type, statement);
 }
 
-bool IOBan::addAccountBanishment(
-	uint32_t account,
-	int64_t banTime,
-	uint32_t reasonId,
-	ViolationAction_t actionId,
-	std::string comment,
-	uint32_t gamemaster,
-	uint32_t playerId,
-	std::string statement
-) const {
+bool IOBan::addAccountBanishment(uint32_t account, int64_t banTime, uint32_t reasonId, ViolationAction_t actionId, std::string comment, uint32_t gamemaster, uint32_t playerId, std::string statement) const {
 	if (isAccountBanished(account)) {
 		return false;
 	}
@@ -200,14 +153,7 @@ bool IOBan::addAccountBanishment(
 	return db->query(query.str());
 }
 
-bool IOBan::addNotation(
-	uint32_t account,
-	uint32_t reasonId,
-	std::string comment,
-	uint32_t gamemaster,
-	uint32_t playerId,
-	std::string statement
-) const {
+bool IOBan::addNotation(uint32_t account, uint32_t reasonId, std::string comment, uint32_t gamemaster, uint32_t playerId, std::string statement) const {
 	Database* db = Database::getInstance();
 	DBQuery query;
 
@@ -217,14 +163,7 @@ bool IOBan::addNotation(
 	return db->query(query.str());
 }
 
-bool IOBan::addStatement(
-	uint32_t playerId,
-	uint32_t reasonId,
-	std::string comment,
-	uint32_t gamemaster,
-	int16_t channelId,
-	std::string statement
-) const {
+bool IOBan::addStatement(uint32_t playerId, uint32_t reasonId, std::string comment, uint32_t gamemaster, int16_t channelId, std::string statement) const {
 	Database* db = Database::getInstance();
 	DBQuery query;
 
@@ -243,22 +182,12 @@ bool IOBan::addStatement(
 	return db->query(query.str());
 }
 
-bool IOBan::addStatement(
-	std::string name,
-	uint32_t reasonId,
-	std::string comment,
-	uint32_t gamemaster,
-	int16_t channelId,
-	std::string statement
-) const {
+bool IOBan::addStatement(std::string name, uint32_t reasonId, std::string comment, uint32_t gamemaster, int16_t channelId, std::string statement) const {
 	uint32_t _guid;
 	return IOLoginData::getInstance()->getGuidByName(_guid, name) && addStatement(_guid, reasonId, comment, gamemaster, channelId, statement);
 }
 
-bool IOBan::removeIpBanishment(
-	uint32_t ip,
-	uint32_t mask
-) const {
+bool IOBan::removeIpBanishment(uint32_t ip, uint32_t mask) const {
 	Database* db = Database::getInstance();
 	DBQuery query;
 
@@ -266,10 +195,7 @@ bool IOBan::removeIpBanishment(
 	return db->query(query.str());
 }
 
-bool IOBan::removePlayerBanishment(
-	uint32_t guid,
-	PlayerBan_t type
-) const {
+bool IOBan::removePlayerBanishment(uint32_t guid, PlayerBan_t type) const {
 	Database* db = Database::getInstance();
 	DBQuery query;
 
@@ -277,18 +203,12 @@ bool IOBan::removePlayerBanishment(
 	return db->query(query.str());
 }
 
-bool IOBan::removePlayerBanishment(
-	std::string name,
-	PlayerBan_t type
-) const {
+bool IOBan::removePlayerBanishment(std::string name, PlayerBan_t type) const {
 	uint32_t _guid;
 	return IOLoginData::getInstance()->getGuidByName(_guid, name) && removePlayerBanishment(_guid, type);
 }
 
-bool IOBan::removeAccountBanishment(
-	uint32_t account,
-	uint32_t playerId
-) const {
+bool IOBan::removeAccountBanishment(uint32_t account, uint32_t playerId) const {
 	Database* db = Database::getInstance();
 	DBQuery query;
 
@@ -301,10 +221,7 @@ bool IOBan::removeAccountBanishment(
 	return db->query(query.str());
 }
 
-bool IOBan::removeNotations(
-	uint32_t account,
-	uint32_t playerId
-) const {
+bool IOBan::removeNotations(uint32_t account, uint32_t playerId) const {
 	Database* db = Database::getInstance();
 	DBQuery query;
 
@@ -317,10 +234,7 @@ bool IOBan::removeNotations(
 	return db->query(query.str());
 }
 
-bool IOBan::removeStatements(
-	uint32_t playerId,
-	int16_t channelId
-) const {
+bool IOBan::removeStatements(uint32_t playerId, int16_t channelId) const {
 	Database* db = Database::getInstance();
 	DBQuery query;
 
@@ -333,18 +247,12 @@ bool IOBan::removeStatements(
 	return db->query(query.str());
 }
 
-bool IOBan::removeStatements(
-	std::string name,
-	int16_t channelId
-) const {
+bool IOBan::removeStatements(std::string name, int16_t channelId) const {
 	uint32_t _guid;
 	return IOLoginData::getInstance()->getGuidByName(_guid, name) && removeStatements(_guid, channelId);
 }
 
-uint32_t IOBan::getNotationsCount(
-	uint32_t account,
-	uint32_t playerId
-) const {
+uint32_t IOBan::getNotationsCount(uint32_t account, uint32_t playerId) const {
 	Database* db = Database::getInstance();
 	DBResult* result;
 
@@ -364,10 +272,7 @@ uint32_t IOBan::getNotationsCount(
 	return count;
 }
 
-uint32_t IOBan::getStatementsCount(
-	uint32_t playerId,
-	int16_t channelId
-) const {
+uint32_t IOBan::getStatementsCount(uint32_t playerId, int16_t channelId) const {
 	Database* db = Database::getInstance();
 	DBResult* result;
 
@@ -387,10 +292,7 @@ uint32_t IOBan::getStatementsCount(
 	return count;
 }
 
-uint32_t IOBan::getStatementsCount(
-	std::string name,
-	int16_t channelId
-) const {
+uint32_t IOBan::getStatementsCount(std::string name, int16_t channelId) const {
 	uint32_t _guid;
 	if (!IOLoginData::getInstance()->getGuidByName(_guid, name)) {
 		return 0;
@@ -433,11 +335,7 @@ bool IOBan::getData(Ban& ban) const {
 	return true;
 }
 
-BansVec IOBan::getList(
-	Ban_t type,
-	uint32_t value,
-	uint32_t param
-) {
+BansVec IOBan::getList(Ban_t type, uint32_t value, uint32_t param) {
 	Database* db = Database::getInstance();
 	DBResult* result;
 

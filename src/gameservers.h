@@ -25,13 +25,7 @@
 		public:
 			GameServer():
 				name("Ancient"), address(LOCALHOST), port(7172), versionMin(CLIENT_VERSION_MIN), versionMax(CLIENT_VERSION_MAX) {}
-			GameServer(
-				std::string _name,
-				uint32_t _versionMin,
-				uint32_t _versionMax,
-				uint32_t _address,
-				uint32_t _port
-			):name(_name), address(_address), port(_port), versionMin(_versionMin), versionMax(_versionMax) {}
+			GameServer(std::string _name, uint32_t _versionMin, uint32_t _versionMax, uint32_t _address, uint32_t _port):name(_name), address(_address), port(_port), versionMin(_versionMin), versionMax(_versionMax) {}
 			virtual ~GameServer() {}
 
 			std::string getName() const {

@@ -62,13 +62,7 @@ typedef uint32_t flags_t;
 	|--- OTBM_ITEM_DEF (not implemented)
 */
 
-Tile* IOMap::createTile(
-	Item*& ground,
-	Item* item,
-	uint16_t px,
-	uint16_t py,
-	uint16_t pz
-) {
+Tile* IOMap::createTile(Item*& ground, Item* item, uint16_t px, uint16_t py, uint16_t pz) {
 	Tile* tile = NULL;
 	if (ground) {
 		if ((item && item->isBlocking(NULL)) || ground->isBlocking(NULL)) { // tile is blocking with possibly some decoration, should be static
@@ -89,10 +83,7 @@ Tile* IOMap::createTile(
 	return tile;
 }
 
-bool IOMap::loadMap(
-	Map* map,
-	const std::string& identifier
-) {
+bool IOMap::loadMap(Map* map, const std::string& identifier) {
 	FileLoader f;
 	if (!f.openFile(identifier.c_str(), false, true)) {
 		std::stringstream ss;

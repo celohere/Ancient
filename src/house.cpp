@@ -91,10 +91,7 @@ void House::setOwner(uint32_t guid) {
 	updateDoorDescription();
 }
 
-bool House::setOwnerEx(
-	uint32_t guid,
-	bool transfer
-) {
+bool House::setOwnerEx(uint32_t guid, bool transfer) {
 	if (owner == guid) {
 		return true;
 	}
@@ -160,10 +157,7 @@ void House::updateDoorDescription(std::string _name) {
 	}
 }
 
-void House::removePlayer(
-	Player* player,
-	bool ignoreRights
-) {
+void House::removePlayer(Player* player, bool ignoreRights) {
 	if (!ignoreRights && player->hasFlag(PlayerFlag_CanEditHouses)) {
 		return;
 	}
@@ -200,10 +194,7 @@ void House::removePlayers(bool ignoreInvites) {
 	}
 }
 
-bool House::kickPlayer(
-	Player* player,
-	Player* target
-) {
+bool House::kickPlayer(Player* player, Player* target) {
 	if (!target || target->isRemoved()) {
 		return false;
 	}
@@ -335,10 +326,7 @@ AccessHouseLevel_t House::getHouseAccessLevel(const Player* player) {
 	return HOUSE_NO_INVITED;
 }
 
-bool House::canEditAccessList(
-	uint32_t listId,
-	const Player* player
-) {
+bool House::canEditAccessList(uint32_t listId, const Player* player) {
 	switch (getHouseAccessLevel(player)) {
 		case HOUSE_OWNER: {
 			return true;
@@ -355,10 +343,7 @@ bool House::canEditAccessList(
 	return false;
 }
 
-bool House::getAccessList(
-	uint32_t listId,
-	std::string& list
-) const {
+bool House::getAccessList(uint32_t listId, std::string& list) const {
 	if (listId == GUEST_LIST) {
 		guestList.getList(list);
 		return true;
@@ -379,11 +364,7 @@ bool House::getAccessList(
 	return false;
 }
 
-void House::setAccessList(
-	uint32_t listId,
-	const std::string& textlist,
-	bool teleport
-) {
+void House::setAccessList(uint32_t listId, const std::string& textlist, bool teleport) {
 	if (listId == GUEST_LIST) {
 		guestList.parseList(textlist);
 	} else if (listId == SUBOWNER_LIST) {
@@ -419,11 +400,7 @@ TransferItem* TransferItem::createTransferItem(House* house) {
 	return transferItem;
 }
 
-bool TransferItem::onTradeEvent(
-	TradeEvents_t event,
-	Player* owner,
-	Player* seller
-) {
+bool TransferItem::onTradeEvent(TradeEvents_t event, Player* owner, Player* seller) {
 	switch (event) {
 		case ON_TRADE_TRANSFER: {
 			if (house) {
@@ -526,10 +503,7 @@ bool AccessList::addPlayer(std::string& name) {
 	return true;
 }
 
-bool AccessList::addGuild(
-	const std::string& guildName,
-	const std::string& rankName
-) {
+bool AccessList::addGuild(const std::string& guildName, const std::string& rankName) {
 	uint32_t guildId;
 	if (!IOGuild::getInstance()->getGuildId(guildId, guildName)) {
 		return false;
@@ -593,10 +567,7 @@ Door::~Door() {
 	delete accessList;
 }
 
-Attr_ReadValue Door::readAttr(
-	AttrTypes_t attr,
-	PropStream& propStream
-) {
+Attr_ReadValue Door::readAttr(AttrTypes_t attr, PropStream& propStream) {
 	if (attr != ATTR_HOUSEDOORID) {
 		return Item::readAttr(attr, propStream);
 	}
@@ -798,12 +769,7 @@ void Houses::payHouses() {
 	std::clog << "Houses paid in " << (OTSYS_TIME() - start) / (1000.) << " seconds." << std::endl;
 }
 
-bool Houses::payRent(
-	Player* player,
-	House* house,
-	uint32_t bid,
-	time_t _time
-) {
+bool Houses::payRent(Player* player, House* house, uint32_t bid, time_t _time) {
 	if (rentPeriod == RENTPERIOD_NEVER || !house->getOwner() || house->getPaidUntil() > _time || !house->getRent() || player->hasCustomFlag(PlayerCustomFlag_IgnoreHouseRent)) {
 		return true;
 	}
@@ -861,11 +827,7 @@ bool Houses::payRent(
 	return true;
 }
 
-bool Houses::payHouse(
-	House* house,
-	time_t _time,
-	uint32_t bid
-) {
+bool Houses::payHouse(House* house, time_t _time, uint32_t bid) {
 	if (rentPeriod == RENTPERIOD_NEVER || !house->getOwner() || house->getPaidUntil() > _time || !house->getRent()) {
 		return true;
 	}
@@ -990,10 +952,7 @@ bool Houses::payHouse(
 	return paid;
 }
 
-House* Houses::getHouse(
-	uint32_t houseId,
-	bool add
-) {
+House* Houses::getHouse(uint32_t houseId, bool add) {
 	HouseMap::iterator it = houseMap.find(houseId);
 	if (it != houseMap.end()) {
 		return it->second;

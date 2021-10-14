@@ -94,33 +94,15 @@
 			FileLoader();
 			virtual ~FileLoader();
 
-			bool openFile(
-				std::string name,
-				bool write,
-				bool caching = false);
-			const uint8_t* getProps(
-				const NODE,
-				uint32_t &size
-			);
-			bool getProps(
-				const NODE,
-				PropStream& props
-			);
-			NODE getChildNode(
-				const NODE& parent,
-				uint32_t &type
-			) const;
-			NODE getNextNode(
-				const NODE& prev,
-				uint32_t &type
-			) const;
+			bool openFile(std::string name, bool write, bool caching = false);
+			const uint8_t* getProps(const NODE, uint32_t &size);
+			bool getProps(const NODE, PropStream& props);
+			NODE getChildNode(const NODE& parent, uint32_t &type) const;
+			NODE getNextNode(const NODE& prev, uint32_t &type) const;
 
 			void startNode(uint8_t type);
 			void endNode();
-			int32_t setProps(
-				void* data,
-				uint16_t size
-			);
+			int32_t setProps(void* data, uint16_t size);
 
 			int32_t getError() const {
 				return m_lastError;
@@ -131,28 +113,17 @@
 
 		protected:
 			enum SPECIAL_BYTES {
-				NODE_START = 0xFE,
-				NODE_END = 0xFF,
-				ESCAPE_CHAR = 0xFD,
-			};
+				NODE_START = 0xFE, NODE_END = 0xFF, ESCAPE_CHAR = 0xFD, };
 			bool parseNode(NODE node);
 
 			inline bool readByte(int32_t &value);
-			inline bool readBytes(
-				unsigned char* buffer,
-				int32_t size,
-				int32_t pos
-			);
+			inline bool readBytes(unsigned char* buffer, int32_t size, int32_t pos);
 			inline bool checks(const NODE& node);
 			inline bool safeSeek(uint32_t pos);
 			inline bool safeTell(int32_t &pos);
 
 		public:
-			inline bool writeData(
-				const void* data,
-				int32_t size,
-				bool unescape
-			) {
+			inline bool writeData(const void* data, int32_t size, bool unescape) {
 				for (int32_t i = 0; i < size; ++i) {
 					uint8_t c = *(((uint8_t*)data) + i);
 					if (unescape && (c == NODE_START || c == NODE_END || c == ESCAPE_CHAR)) {
@@ -223,10 +194,7 @@
 			}
 			virtual ~PropStream() {}
 
-			void init(
-				const char* a,
-				uint32_t size
-			) {
+			void init(const char* a, uint32_t size) {
 				p = a;
 				end = a + size;
 			}

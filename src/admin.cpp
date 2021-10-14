@@ -506,11 +506,7 @@
 		return ret;
 	}
 
-	Item* Admin::createMail(
-		const std::string xmlData,
-		std::string& name,
-		uint32_t& depotId
-	) {
+	Item* Admin::createMail(const std::string xmlData, std::string& name, uint32_t& depotId) {
 		xmlDocPtr doc = xmlParseMemory(xmlData.c_str(), xmlData.length());
 		if (!doc) {
 			return NULL;
@@ -591,10 +587,7 @@
 		return NULL;
 	}
 
-	void ProtocolAdmin::addLogLine(
-		LogType_t type,
-		std::string message
-	) {
+	void ProtocolAdmin::addLogLine(LogType_t type, std::string message) {
 		if (g_config.getBool(ConfigManager::ADMIN_LOGS)) {
 			LOG_MESSAGE(type, message, "ADMIN " + convertIPAddress(getIP()))
 		}

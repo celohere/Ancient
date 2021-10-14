@@ -436,10 +436,7 @@ double ConfigManager::getDouble(uint32_t _what) const {
 	return 0;
 }
 
-bool ConfigManager::setString(
-	uint32_t _what,
-	const std::string& _value
-) {
+bool ConfigManager::setString(uint32_t _what, const std::string& _value) {
 	if (_what < LAST_STRING_CONFIG) {
 		m_confString[_what] = _value;
 		return true;
@@ -449,10 +446,7 @@ bool ConfigManager::setString(
 	return false;
 }
 
-bool ConfigManager::setNumber(
-	uint32_t _what,
-	int32_t _value
-) {
+bool ConfigManager::setNumber(uint32_t _what, int32_t _value) {
 	if (_what < LAST_NUMBER_CONFIG) {
 		m_confNumber[_what] = _value;
 		return true;
@@ -462,10 +456,7 @@ bool ConfigManager::setNumber(
 	return false;
 }
 
-bool ConfigManager::setBool(
-	uint32_t _what,
-	bool _value
-) {
+bool ConfigManager::setBool(uint32_t _what, bool _value) {
 	if (_what < LAST_BOOL_CONFIG) {
 		m_confBool[_what] = _value;
 		return true;

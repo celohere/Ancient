@@ -62,10 +62,7 @@ void Container::addItem(Item* item) {
 	item->setParent(this);
 }
 
-Attr_ReadValue Container::readAttr(
-	AttrTypes_t attr,
-	PropStream& propStream
-) {
+Attr_ReadValue Container::readAttr(AttrTypes_t attr, PropStream& propStream) {
 	switch (attr) {
 		case ATTR_CONTAINER_ITEMS: {
 			uint32_t count;
@@ -84,11 +81,7 @@ Attr_ReadValue Container::readAttr(
 	return Item::readAttr(attr, propStream);
 }
 
-bool Container::unserializeItemNode(
-	FileLoader& f,
-	NODE node,
-	PropStream& propStream
-) {
+bool Container::unserializeItemNode(FileLoader& f, NODE node, PropStream& propStream) {
 	if (!Item::unserializeItemNode(f, node, propStream)) {
 		return false;
 	}
@@ -204,13 +197,7 @@ void Container::onAddContainerItem(Item* item) {
 	}
 }
 
-void Container::onUpdateContainerItem(
-	uint32_t index,
-	Item* oldItem,
-	const ItemType& oldType,
-	Item* newItem,
-	const ItemType& newType
-) {
+void Container::onUpdateContainerItem(uint32_t index, Item* oldItem, const ItemType& oldType, Item* newItem, const ItemType& newType) {
 	const Position& cylinderMapPos = getPosition();
 	SpectatorVec list;
 
@@ -233,10 +220,7 @@ void Container::onUpdateContainerItem(
 	}
 }
 
-void Container::onRemoveContainerItem(
-	uint32_t index,
-	Item* item
-) {
+void Container::onRemoveContainerItem(uint32_t index, Item* item) {
 	const Position& cylinderMapPos = getPosition();
 	SpectatorVec list;
 
@@ -259,12 +243,7 @@ void Container::onRemoveContainerItem(
 	}
 }
 
-ReturnValue Container::__queryAdd(
-	int32_t index,
-	const Thing* thing,
-	uint32_t count,
-	uint32_t flags
-) const {
+ReturnValue Container::__queryAdd(int32_t index, const Thing* thing, uint32_t count, uint32_t flags) const {
 	if (((flags & FLAG_CHILDISOWNER) == FLAG_CHILDISOWNER)) {
 		// a child container is querying, since we are the top container (not carried by a player)
 		// just return with no error.
@@ -303,13 +282,7 @@ ReturnValue Container::__queryAdd(
 	return RET_NOERROR;
 }
 
-ReturnValue Container::__queryMaxCount(
-	int32_t index,
-	const Thing* thing,
-	uint32_t count,
-	uint32_t& maxQueryCount,
-	uint32_t flags
-) const {
+ReturnValue Container::__queryMaxCount(int32_t index, const Thing* thing, uint32_t count, uint32_t& maxQueryCount, uint32_t flags) const {
 	const Item* item = thing->getItem();
 	if (!item) {
 		maxQueryCount = 0;
@@ -363,11 +336,7 @@ ReturnValue Container::__queryMaxCount(
 	return RET_NOERROR;
 }
 
-ReturnValue Container::__queryRemove(
-	const Thing* thing,
-	uint32_t count,
-	uint32_t flags
-) const {
+ReturnValue Container::__queryRemove(const Thing* thing, uint32_t count, uint32_t flags) const {
 	int32_t index = __getIndexOfThing(thing);
 	if (index == -1) {
 		return RET_NOTPOSSIBLE;
@@ -388,12 +357,7 @@ ReturnValue Container::__queryRemove(
 	return RET_NOERROR;
 }
 
-Cylinder* Container::__queryDestination(
-	int32_t& index,
-	const Thing* thing,
-	Item** destItem,
-	uint32_t& flags
-) {
+Cylinder* Container::__queryDestination(int32_t& index, const Thing* thing, Item** destItem, uint32_t& flags) {
 	if (index == 254 /*move up*/) {
 		index = INDEX_WHEREEVER;
 		*destItem = NULL;
@@ -453,18 +417,11 @@ Cylinder* Container::__queryDestination(
 	return this;
 }
 
-void Container::__addThing(
-	Creature* actor,
-	Thing* thing
-) {
+void Container::__addThing(Creature* actor, Thing* thing) {
 	return __addThing(actor, 0, thing);
 }
 
-void Container::__addThing(
-	Creature*,
-	int32_t index,
-	Thing* thing
-) {
+void Container::__addThing(Creature*, int32_t index, Thing* thing) {
 	if (index >= (int32_t)capacity()) {
 		#ifdef __DEBUG_MOVESYS__
 			std::clog << "Failure: [Container::__addThing], index:" << index << ", index >= capacity()" << std::endl;
@@ -503,11 +460,7 @@ void Container::__addThing(
 	}
 }
 
-void Container::__updateThing(
-	Thing* thing,
-	uint16_t itemId,
-	uint32_t count
-) {
+void Container::__updateThing(Thing* thing, uint16_t itemId, uint32_t count) {
 	int32_t index = __getIndexOfThing(thing);
 	if (index == -1) {
 		#ifdef __DEBUG_MOVESYS__
@@ -545,10 +498,7 @@ void Container::__updateThing(
 	}
 }
 
-void Container::__replaceThing(
-	uint32_t index,
-	Thing* thing
-) {
+void Container::__replaceThing(uint32_t index, Thing* thing) {
 	Item* item = thing->getItem();
 	if (!item) {
 		#ifdef __DEBUG_MOVESYS__
@@ -594,10 +544,7 @@ void Container::__replaceThing(
 	itemlist.erase(cit);
 }
 
-void Container::__removeThing(
-	Thing* thing,
-	uint32_t count
-) {
+void Container::__removeThing(Thing* thing, uint32_t count) {
 	Item* item = thing->getItem();
 	if (!item) {
 		#ifdef __DEBUG_MOVESYS__
@@ -691,10 +638,7 @@ int32_t Container::__getLastIndex() const {
 	return size();
 }
 
-uint32_t Container::__getItemTypeCount(
-	uint16_t itemId,
-	int32_t subType
-) const {
+uint32_t Container::__getItemTypeCount(uint16_t itemId, int32_t subType) const {
 	uint32_t count = 0;
 	for (ItemList::const_iterator it = itemlist.begin(); it != itemlist.end(); ++it) {
 		if ((*it) && (*it)->getID() == itemId && (subType == -1 || subType == (*it)->getSubType())) {
@@ -711,13 +655,7 @@ std::map<uint32_t, uint32_t>& Container::__getAllItemTypeCount(std::map<uint32_t
 	return countMap;
 }
 
-void Container::postAddNotification(
-	Creature* actor,
-	Thing* thing,
-	const Cylinder* oldParent,
-	int32_t index,
-	cylinderlink_t
-) {
+void Container::postAddNotification(Creature* actor, Thing* thing, const Cylinder* oldParent, int32_t index, cylinderlink_t) {
 	Cylinder* topParent = getTopParent();
 	if (!topParent->getCreature()) {
 		if (topParent == this) {
@@ -733,14 +671,7 @@ void Container::postAddNotification(
 	}
 }
 
-void Container::postRemoveNotification(
-	Creature* actor,
-	Thing* thing,
-	const Cylinder* newParent,
-	int32_t index,
-	bool isCompleteRemoval,
-	cylinderlink_t
-) {
+void Container::postRemoveNotification(Creature* actor, Thing* thing, const Cylinder* newParent, int32_t index, bool isCompleteRemoval, cylinderlink_t) {
 	Cylinder* topParent = getTopParent();
 	if (!topParent->getCreature()) {
 		if (topParent == this) {
@@ -760,10 +691,7 @@ void Container::__internalAddThing(Thing* thing) {
 	__internalAddThing(0, thing);
 }
 
-void Container::__internalAddThing(
-	uint32_t _index,
-	Thing* thing
-) {
+void Container::__internalAddThing(uint32_t _index, Thing* thing) {
 	#ifdef __DEBUG_MOVESYS__
 		std::clog << "[Container::__internalAddThing] index: " << _index << std::endl;
 	#endif

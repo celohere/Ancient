@@ -67,11 +67,7 @@
 				* if FLAG_NOLIMIT is set blocking items/container limits is ignored
 			* \returns ReturnValue holds the return value
 			*/
-			virtual ReturnValue __queryAdd(
-				int32_t index,
-				const Thing* Item,
-				uint32_t count,
-				uint32_t flags
+			virtual ReturnValue __queryAdd(int32_t index, const Thing* Item, uint32_t count, uint32_t flags
 			) const = 0;
 
 			/**
@@ -84,12 +80,7 @@
 			* \param flags optional flags to modifiy the default behaviour
 			* \returns ReturnValue holds the return value
 			*/
-			virtual ReturnValue __queryMaxCount(
-				int32_t index,
-				const Thing* thing,
-				uint32_t count,
-				uint32_t& maxQueryCount,
-				uint32_t flags
+			virtual ReturnValue __queryMaxCount(int32_t index, const Thing* thing, uint32_t count, uint32_t& maxQueryCount, uint32_t flags
 			) const = 0;
 
 			/**
@@ -99,10 +90,7 @@
 			* \param flags optional flags to modifiy the default behaviour
 			* \returns ReturnValue holds the return value
 			*/
-			virtual ReturnValue __queryRemove(
-				const Thing* thing,
-				uint32_t count,
-				uint32_t flags
+			virtual ReturnValue __queryRemove(const Thing* thing, uint32_t count, uint32_t flags
 			) const = 0;
 
 			/**
@@ -115,11 +103,7 @@
 				* this method can modifiy the flags
 			* \returns Cylinder returns the destination cylinder
 			*/
-			virtual Cylinder* __queryDestination(
-				int32_t& index,
-				const Thing* thing,
-				Item** destItem,
-				uint32_t& flags
+			virtual Cylinder* __queryDestination(int32_t& index, const Thing* thing, Item** destItem, uint32_t& flags
 			) = 0;
 
 			/**
@@ -127,9 +111,7 @@
 			* \param actor is creature adding the object (can be NULL)
 			* \param item is the object to add
 			*/
-			virtual void __addThing(
-				Creature* actor,
-				Thing* thing
+			virtual void __addThing(Creature* actor, Thing* thing
 			) = 0;
 
 			/**
@@ -138,10 +120,7 @@
 			* \param index points to the destination index (inventory slot/container position)
 			* \param item is the object to add
 			*/
-			virtual void __addThing(
-				Creature* actor,
-				int32_t index,
-				Thing* thing
+			virtual void __addThing(Creature* actor, int32_t index, Thing* thing
 			) = 0;
 
 			/**
@@ -150,10 +129,7 @@
 			* \param itemId is the new item id
 			* \param count is the new count value
 			*/
-			virtual void __updateThing(
-				Thing* thing,
-				uint16_t itemId,
-				uint32_t count
+			virtual void __updateThing(Thing* thing, uint16_t itemId, uint32_t count
 			) = 0;
 
 			/**
@@ -161,9 +137,7 @@
 			* \param index is the position to change (inventory slot/container position)
 			* \param thing is the object to update
 			*/
-			virtual void __replaceThing(
-				uint32_t index,
-				Thing* thing
+			virtual void __replaceThing(uint32_t index, Thing* thing
 			) = 0;
 
 			/**
@@ -171,9 +145,7 @@
 			* \param thing is the object to delete
 			* \param count is the new count value
 			*/
-			virtual void __removeThing(
-				Thing* thing,
-				uint32_t count
+			virtual void __removeThing(Thing* thing, uint32_t count
 			) = 0;
 
 			/**
@@ -183,12 +155,7 @@
 			* \param index is the objects new index value
 			* \param link holds the relation the object has to the cylinder
 			*/
-			virtual void postAddNotification(
-				Creature* actor,
-				Thing* thing,
-				const Cylinder* oldParent,
-				int32_t index,
-				cylinderlink_t link = LINK_OWNER
+			virtual void postAddNotification(Creature* actor, Thing* thing, const Cylinder* oldParent, int32_t index, cylinderlink_t link = LINK_OWNER
 			) = 0;
 
 			/**
@@ -199,13 +166,7 @@
 			* \param isCompleteRemoval indicates if the item was completely removed or just partially (stackables)
 			* \param link holds the relation the object has to the cylinder
 			*/
-			virtual void postRemoveNotification(
-				Creature* actor,
-				Thing* thing,
-				const Cylinder* newParent,
-				int32_t index,
-				bool isCompleteRemoval,
-				cylinderlink_t link = LINK_OWNER
+			virtual void postRemoveNotification(Creature* actor, Thing* thing, const Cylinder* newParent, int32_t index, bool isCompleteRemoval, cylinderlink_t link = LINK_OWNER
 			) = 0;
 
 			/**
@@ -248,10 +209,7 @@
 			* \param itemCount if set to true it will only count items and not other subtypes like charges
 			* \param returns the amount of items of the asked item type
 			*/
-			virtual uint32_t __getItemTypeCount(
-				uint16_t,
-				int32_t = -1
-			) const {
+			virtual uint32_t __getItemTypeCount(uint16_t, int32_t = -1) const {
 				return 0;
 			}
 
@@ -276,10 +234,7 @@
 			* \param thing is the object to add
 			* \param index points to the destination index (inventory slot/container position)
 			*/
-			virtual void __internalAddThing(
-				uint32_t,
-				Thing*
-			) {}
+			virtual void __internalAddThing(uint32_t, Thing*) {}
 
 			virtual void __startDecaying() {}
 	};
@@ -320,76 +275,26 @@
 				return NULL;
 			}
 
-			virtual ReturnValue __queryAdd(
-				int32_t,
-				const Thing*,
-				uint32_t,
-				uint32_t
-			) const {
+			virtual ReturnValue __queryAdd(int32_t, const Thing*, uint32_t, uint32_t) const {
 				return RET_NOTPOSSIBLE;
 			}
-			virtual ReturnValue __queryMaxCount(
-				int32_t,
-				const Thing*,
-				uint32_t,
-				uint32_t&,
-				uint32_t
-			) const {
+			virtual ReturnValue __queryMaxCount(int32_t, const Thing*, uint32_t, uint32_t&, uint32_t) const {
 				return RET_NOTPOSSIBLE;
 			}
-			virtual ReturnValue __queryRemove(
-				const Thing* thing,
-				uint32_t,
-				uint32_t
-			) const {
+			virtual ReturnValue __queryRemove(const Thing* thing, uint32_t, uint32_t) const {
 				return (thing->getParent() == this ? RET_NOERROR : RET_NOTPOSSIBLE);
 			}
-			virtual Cylinder* __queryDestination(
-				int32_t&,
-				const Thing*,
-				Item**,
-				uint32_t&
-			) {
+			virtual Cylinder* __queryDestination(int32_t&, const Thing*, Item**, uint32_t&) {
 				return NULL;
 			}
 
-			virtual void __addThing(
-				Creature*,
-				Thing*
-			) {}
-			virtual void __addThing(
-				Creature*,
-				int32_t,
-				Thing*
-			) {}
-			virtual void __updateThing(
-				Thing*,
-				uint16_t,
-				uint32_t
-			) {}
-			virtual void __replaceThing(
-				uint32_t,
-				Thing*
-			) {}
-			virtual void __removeThing(
-				Thing*,
-				uint32_t
-			) {}
+			virtual void __addThing(Creature*, Thing*) {}
+			virtual void __addThing(Creature*, int32_t, Thing*) {}
+			virtual void __updateThing(Thing*, uint16_t, uint32_t) {}
+			virtual void __replaceThing(uint32_t, Thing*) {}
+			virtual void __removeThing(Thing*, uint32_t) {}
 
-			virtual void postAddNotification(
-				Creature*,
-				Thing*,
-				const Cylinder*,
-				int32_t,
-				cylinderlink_t
-			) {}
-			virtual void postRemoveNotification(
-				Creature*,
-				Thing*,
-				const Cylinder*,
-				int32_t,
-				bool,
-				cylinderlink_t
-			) {}
+			virtual void postAddNotification(Creature*, Thing*, const Cylinder*, int32_t, cylinderlink_t) {}
+			virtual void postRemoveNotification(Creature*, Thing*, const Cylinder*, int32_t, bool, cylinderlink_t) {}
 	};
 #endif

@@ -106,10 +106,7 @@ std::string DatabasePgSQL::escapeString(const std::string& s) {
 	return r;
 }
 
-std::string DatabasePgSQL::escapeBlob(
-	const char *s,
-	uint32_t length
-) {
+std::string DatabasePgSQL::escapeBlob(const char *s, uint32_t length) {
 	// remember to quote even empty stream!
 	if (!s) {
 		return std::string("''");
@@ -166,10 +163,7 @@ std::string DatabasePgSQL::_parse(const std::string& s) {
 	return query;
 }
 
-const char* PgSQLResult::getDataStream(
-	const std::string& s,
-	uint64_t& size
-) {
+const char* PgSQLResult::getDataStream(const std::string& s, uint64_t& size) {
 	std::string buf = PQgetvalue(m_handle, m_cursor, PQfnumber(m_handle, s.c_str()));
 	uint8_t* temp = PQunescapeBytea( (const uint8_t*)buf.c_str(), (size_t*)&size);
 

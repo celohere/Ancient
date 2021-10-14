@@ -58,11 +58,7 @@ bool BaseEvents::loadFromXml() {
 	return m_loaded;
 }
 
-bool BaseEvents::parseEventNode(
-	xmlNodePtr p,
-	std::string scriptsPath,
-	bool override
-) {
+bool BaseEvents::parseEventNode(xmlNodePtr p, std::string scriptsPath, bool override) {
 	Event* event = getEvent((const char*)p->name);
 	if (!event) {
 		return false;
@@ -155,10 +151,7 @@ bool Event::checkBuffer(const std::string&) {
 	return true; // TODO
 }
 
-bool Event::loadScript(
-	const std::string& script,
-	bool file
-) {
+bool Event::loadScript(const std::string& script, bool file) {
 	if (!m_interface || m_scriptId != 0) {
 		std::clog << "[Error - Event::loadScript] m_interface == NULL, scriptId = " << m_scriptId << std::endl;
 		return false;
@@ -205,10 +198,7 @@ CallBack::CallBack() {
 	m_loaded = false;
 }
 
-bool CallBack::loadCallBack(
-	LuaInterface* _interface,
-	std::string name
-) {
+bool CallBack::loadCallBack(LuaInterface* _interface, std::string name) {
 	if (!_interface) {
 		std::clog << "Failure: [CallBack::loadCallBack] m_interface == NULL" << std::endl;
 		return false;

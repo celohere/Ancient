@@ -62,10 +62,7 @@
 
 			bool parseList(const std::string& _list);
 			bool addPlayer(std::string& name);
-			bool addGuild(
-				const std::string& guildName,
-				const std::string& rankName
-			);
+			bool addGuild(const std::string& guildName, const std::string& rankName);
 			bool addExpression(const std::string& expression);
 
 			bool isInList(const Player* player);
@@ -99,10 +96,7 @@
 			}
 
 			// serialization
-			virtual Attr_ReadValue readAttr(
-				AttrTypes_t attr,
-				PropStream& propStream
-			);
+			virtual Attr_ReadValue readAttr(AttrTypes_t attr, PropStream& propStream);
 
 			void setDoorId(uint32_t doorId) {
 				setAttribute("doorid", (int32_t)doorId);
@@ -146,11 +140,7 @@
 				}
 			virtual ~TransferItem() {}
 
-			virtual bool onTradeEvent(
-				TradeEvents_t event,
-				Player* owner,
-				Player* seller
-			);
+			virtual bool onTradeEvent(TradeEvents_t event, Player* owner, Player* seller);
 			virtual bool canTransform() const {
 				return false;
 			}
@@ -198,10 +188,7 @@
 			}
 
 			void setOwner(uint32_t guid);
-			bool setOwnerEx(
-				uint32_t guid,
-				bool transfer
-			);
+			bool setOwnerEx(uint32_t guid, bool transfer);
 			uint32_t getOwner() const {
 				return owner;
 			}
@@ -287,27 +274,14 @@
 				syncFlags &= ~(uint32_t)flag;
 			}
 
-			bool canEditAccessList(
-				uint32_t listId,
-				const Player* player
-			);
-			void setAccessList(
-				uint32_t listId,
-				const std::string& textlist,
-				bool teleport = true
-			);
-			bool getAccessList(
-				uint32_t listId,
-				std::string& list
-			) const;
+			bool canEditAccessList(uint32_t listId, const Player* player);
+			void setAccessList(uint32_t listId, const std::string& textlist, bool teleport = true);
+			bool getAccessList(uint32_t listId, std::string& list) const;
 
 			bool isInvited(const Player* player);
 			AccessHouseLevel_t getHouseAccessLevel(const Player* player);
 
-			bool kickPlayer(
-				Player* player,
-				Player* target
-			);
+			bool kickPlayer(Player* player, Player* target);
 			void updateDoorDescription(std::string _name = "");
 			void clean();
 
@@ -342,10 +316,7 @@
 		private:
 			bool transferToDepot();
 
-			void removePlayer(
-				Player* player,
-				bool ignoreRights
-			);
+			void removePlayer(Player* player, bool ignoreRights);
 			void removePlayers(bool ignoreInvites);
 
 			bool guild, pendingTransfer;
@@ -371,17 +342,8 @@
 			bool loadFromXml(std::string filename);
 
 			void payHouses();
-			bool payHouse(
-				House* house,
-				time_t _time,
-				uint32_t bid
-			);
-			bool payRent(
-				Player* player,
-				House* house,
-				uint32_t bid,
-				time_t _time = 0
-			);
+			bool payHouse(House* house, time_t _time, uint32_t bid);
+			bool payRent(Player* player, House* house, uint32_t bid, time_t _time = 0);
 
 			HouseMap::iterator getHouseBegin() {
 				return houseMap.begin();
@@ -390,10 +352,7 @@
 				return houseMap.end();
 			}
 
-			House* getHouse(
-				uint32_t houseId,
-				bool add = false
-			);
+			House* getHouse(uint32_t houseId, bool add = false);
 			House* getHouseByPlayer(Player* player);
 
 			House* getHouseByPlayerId(uint32_t playerId);

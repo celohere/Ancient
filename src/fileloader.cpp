@@ -52,11 +52,7 @@ FileLoader::~FileLoader() {
 	}
 }
 
-bool FileLoader::openFile(
-	std::string name,
-	bool write,
-	bool caching
-) {
+bool FileLoader::openFile(std::string name, bool write, bool caching) {
 	uint32_t version = 0;
 	if (write) {
 		#ifdef __USE_ZLIB__
@@ -253,10 +249,7 @@ bool FileLoader::parseNode(NODE node) {
 	return false;
 }
 
-const uint8_t* FileLoader::getProps(
-	const NODE node,
-	uint32_t &size
-) {
+const uint8_t* FileLoader::getProps(const NODE node, uint32_t &size) {
 	if (!node) {
 		return NULL;
 	}
@@ -291,10 +284,7 @@ const uint8_t* FileLoader::getProps(
 	return m_buffer;
 }
 
-bool FileLoader::getProps(
-	const NODE node,
-	PropStream &props
-) {
+bool FileLoader::getProps(const NODE node, PropStream &props) {
 	uint32_t size;
 	if (const uint8_t* a = getProps(node, size)) {
 		props.init((char*)a, size);
@@ -305,10 +295,7 @@ bool FileLoader::getProps(
 	return false;
 }
 
-int32_t FileLoader::setProps(
-	void* data,
-	uint16_t size
-) {
+int32_t FileLoader::setProps(void* data, uint16_t size) {
 	// data
 	if (!writeData(data, size, true)) {
 		return getError();
@@ -327,10 +314,7 @@ void FileLoader::endNode() {
 	writeData(&nodeEnd, sizeof(nodeEnd), false);
 }
 
-NODE FileLoader::getChildNode(
-	const NODE& parent,
-	uint32_t &type
-) const {
+NODE FileLoader::getChildNode(const NODE& parent, uint32_t &type) const {
 	if (!parent) {
 		type = m_root->type;
 		return m_root;
@@ -343,10 +327,7 @@ NODE FileLoader::getChildNode(
 	return child;
 }
 
-NODE FileLoader::getNextNode(
-	const NODE& prev,
-	uint32_t &type
-) const {
+NODE FileLoader::getNextNode(const NODE& prev, uint32_t &type) const {
 	if (!prev) {
 		return NO_NODE;
 	}
@@ -397,11 +378,7 @@ inline bool FileLoader::readByte(int32_t &value) {
 	return false;
 }
 
-inline bool FileLoader::readBytes(
-	uint8_t* buffer,
-	int32_t size,
-	int32_t pos
-) {
+inline bool FileLoader::readBytes(uint8_t* buffer, int32_t size, int32_t pos) {
 	if (m_use_cache) {
 		// seek at pos
 		uint32_t reading, remain = size, bufferPos = 0;

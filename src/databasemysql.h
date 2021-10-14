@@ -50,10 +50,7 @@
 			DATABASE_VIRTUAL std::string escapeString(const std::string &s) {
 				return escapeBlob(s.c_str(), s.length());
 			}
-			DATABASE_VIRTUAL std::string escapeBlob(
-				const char* s,
-				uint32_t length
-			);
+			DATABASE_VIRTUAL std::string escapeBlob(const char* s, uint32_t length);
 
 			DATABASE_VIRTUAL uint64_t getLastInsertId() {
 				return (uint64_t)mysql_insert_id(&m_handle);
@@ -75,10 +72,7 @@
 			DATABASE_VIRTUAL int32_t getDataInt(const std::string& s);
 			DATABASE_VIRTUAL int64_t getDataLong(const std::string& s);
 			DATABASE_VIRTUAL std::string getDataString(const std::string& s);
-			DATABASE_VIRTUAL const char* getDataStream(
-				const std::string& s,
-				uint64_t& size
-			);
+			DATABASE_VIRTUAL const char* getDataStream(const std::string& s, uint64_t& size);
 
 			DATABASE_VIRTUAL void free();
 			DATABASE_VIRTUAL bool next();

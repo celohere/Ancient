@@ -72,15 +72,8 @@
 				return NULL;
 			}
 
-			Attr_ReadValue readAttr(
-				AttrTypes_t attr,
-				PropStream& propStream
-			);
-			bool unserializeItemNode(
-				FileLoader& f,
-				NODE node,
-				PropStream& propStream
-			);
+			Attr_ReadValue readAttr(AttrTypes_t attr, PropStream& propStream);
+			bool unserializeItemNode(FileLoader& f, NODE node, PropStream& propStream);
 
 			std::string getContentDescription() const;
 			uint32_t getItemHoldingCount() const;
@@ -158,55 +151,18 @@
 				return NULL;
 			}
 
-			virtual ReturnValue __queryAdd(
-				int32_t index,
-				const Thing* thing,
-				uint32_t count,
-				uint32_t flags
-			) const;
-			virtual ReturnValue __queryMaxCount(
-				int32_t index,
-				const Thing* thing,
-				uint32_t count,
-				uint32_t& maxQueryCount,
-				uint32_t flags
-			) const;
-			virtual ReturnValue __queryRemove(
-				const Thing* thing,
-				uint32_t count,
-				uint32_t flags
-			) const;
-			virtual Cylinder* __queryDestination(
-				int32_t& index,
-				const Thing* thing,
-				Item** destItem,
-				uint32_t& flags
-			);
+			virtual ReturnValue __queryAdd(int32_t index, const Thing* thing, uint32_t count, uint32_t flags) const;
+			virtual ReturnValue __queryMaxCount(int32_t index, const Thing* thing, uint32_t count, uint32_t& maxQueryCount, uint32_t flags) const;
+			virtual ReturnValue __queryRemove(const Thing* thing, uint32_t count, uint32_t flags) const;
+			virtual Cylinder* __queryDestination(int32_t& index, const Thing* thing, Item** destItem, uint32_t& flags);
 
-			virtual void __addThing(
-				Creature* actor,
-				Thing* thing
-			);
-			virtual void __addThing(
-				Creature* actor,
-				int32_t index,
-				Thing* thing
-			);
+			virtual void __addThing(Creature* actor, Thing* thing);
+			virtual void __addThing(Creature* actor, int32_t index, Thing* thing);
 
-			virtual void __updateThing(
-				Thing* thing,
-				uint16_t itemId,
-				uint32_t count
-			);
-			virtual void __replaceThing(
-				uint32_t index,
-				Thing* thing
-			);
+			virtual void __updateThing(Thing* thing, uint16_t itemId, uint32_t count);
+			virtual void __replaceThing(uint32_t index, Thing* thing);
 
-			virtual void __removeThing(
-				Thing* thing,
-				uint32_t count
-			);
+			virtual void __removeThing(Thing* thing, uint32_t count);
 
 			virtual int32_t __getIndexOfThing(const Thing* thing) const;
 			virtual Thing* __getThing(uint32_t index) const;
@@ -214,51 +170,20 @@
 			virtual int32_t __getFirstIndex() const;
 			virtual int32_t __getLastIndex() const;
 
-			virtual uint32_t __getItemTypeCount(
-				uint16_t itemId,
-				int32_t subType = -1
-			) const;
-			virtual std::map<uint32_t, uint32_t>& __getAllItemTypeCount(
-				std::map<uint32_t,
-				uint32_t>& countMap
-			) const;
+			virtual uint32_t __getItemTypeCount(uint16_t itemId, int32_t subType = -1) const;
+			virtual std::map<uint32_t, uint32_t>& __getAllItemTypeCount(std::map<uint32_t, uint32_t>& countMap) const;
 
-			virtual void postAddNotification(
-				Creature* actor,
-				Thing* thing,
-				const Cylinder* oldParent,
-				int32_t index,
-				cylinderlink_t link = LINK_OWNER
-			);
-			virtual void postRemoveNotification(
-				Creature* actor,
-				Thing* thing,
-				const Cylinder* newParent,
-				int32_t index,
-				bool isCompleteRemoval,
-				cylinderlink_t link = LINK_OWNER
-			);
+			virtual void postAddNotification(Creature* actor, Thing* thing, const Cylinder* oldParent, int32_t index, cylinderlink_t link = LINK_OWNER);
+			virtual void postRemoveNotification(Creature* actor, Thing* thing, const Cylinder* newParent, int32_t index, bool isCompleteRemoval, cylinderlink_t link = LINK_OWNER);
 
 			virtual void __internalAddThing(Thing* thing);
-			virtual void __internalAddThing(
-				uint32_t index,
-				Thing* thing
-			);
+			virtual void __internalAddThing(uint32_t index, Thing* thing);
 			virtual void __startDecaying();
 
 		private:
 			void onAddContainerItem(Item* item);
-			void onUpdateContainerItem(
-				uint32_t index,
-				Item* oldItem,
-				const ItemType& oldType,
-				Item* newItem,
-				const ItemType& newType
-			);
-			void onRemoveContainerItem(
-				uint32_t index,
-				Item* item
-			);
+			void onUpdateContainerItem(uint32_t index, Item* oldItem, const ItemType& oldType, Item* newItem, const ItemType& newType);
+			void onRemoveContainerItem(uint32_t index, Item* item);
 
 			Container* getParentContainer();
 			void updateItemWeight(double diff);

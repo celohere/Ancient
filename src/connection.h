@@ -61,22 +61,11 @@
 				return &instance;
 			}
 
-			Connection_ptr createConnection(
-				boost::asio::ip::tcp::socket* socket,
-				boost::asio::io_service& io_service,
-				ServicePort_ptr servicers
-			);
+			Connection_ptr createConnection(boost::asio::ip::tcp::socket* socket, boost::asio::io_service& io_service, ServicePort_ptr servicers);
 			void releaseConnection(Connection_ptr connection);
 
-			bool isDisabled(
-				uint32_t clientIp,
-				int32_t protocolId
-			);
-			void addAttempt(
-				uint32_t clientIp,
-				int32_t protocolId,
-				bool success
-			);
+			bool isDisabled(uint32_t clientIp, int32_t protocolId);
+			void addAttempt(uint32_t clientIp, int32_t protocolId, bool success);
 
 			bool acceptConnection(uint32_t clientIp);
 			void shutdown();
@@ -111,11 +100,7 @@
 			#endif
 
 		private:
-			Connection(
-				boost::asio::ip::tcp::socket* socket,
-				boost::asio::io_service& io_service,
-				ServicePort_ptr servicePort
-			):m_socket(socket), m_readTimer(io_service), m_writeTimer(io_service), m_service(io_service), m_servicePort(servicePort) {
+			Connection(boost::asio::ip::tcp::socket* socket, boost::asio::io_service& io_service, ServicePort_ptr servicePort):m_socket(socket), m_readTimer(io_service), m_writeTimer(io_service), m_service(io_service), m_servicePort(servicePort) {
 				m_refCount = m_pendingWrite = m_pendingRead = 0;
 				m_connectionState = CONNECTION_STATE_OPEN;
 				m_receivedFirst = m_writeError = m_readError = false;
@@ -157,23 +142,14 @@
 			void parseHeader(const boost::system::error_code& error);
 			void parsePacket(const boost::system::error_code& error);
 
-			void onWrite(
-				OutputMessage_ptr msg,
-				const boost::system::error_code& error
-			);
+			void onWrite(OutputMessage_ptr msg, const boost::system::error_code& error);
 			void onStop();
 
 			void handleReadError(const boost::system::error_code& error);
 			void handleWriteError(const boost::system::error_code& error);
 
-			static void handleReadTimeout(
-				boost::weak_ptr<Connection> weak,
-				const boost::system::error_code& error
-			);
-			static void handleWriteTimeout(
-				boost::weak_ptr<Connection> weak,
-				const boost::system::error_code& error
-			);
+			static void handleReadTimeout(boost::weak_ptr<Connection> weak, const boost::system::error_code& error);
+			static void handleWriteTimeout(boost::weak_ptr<Connection> weak, const boost::system::error_code& error);
 
 			void closeConnection();
 			void deleteConnection();

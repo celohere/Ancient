@@ -47,10 +47,7 @@
 			DATABASE_VIRTUAL DBResult* storeQuery(const std::string& query);
 
 			DATABASE_VIRTUAL std::string escapeString(const std::string& s);
-			DATABASE_VIRTUAL std::string escapeBlob(
-				const char *s,
-				uint32_t length
-			);
+			DATABASE_VIRTUAL std::string escapeBlob(const char *s, uint32_t length);
 
 			DATABASE_VIRTUAL uint64_t getLastInsertId();
 			DATABASE_VIRTUAL DatabaseEngine_t getDatabaseEngine() {
@@ -75,10 +72,7 @@
 			DATABASE_VIRTUAL std::string getDataString(const std::string& s) {
 				return std::string(PQgetvalue(m_handle, m_cursor, PQfnumber(m_handle, s.c_str())));
 			}
-			DATABASE_VIRTUAL const char* getDataStream(
-				const std::string& s,
-				uint64_t& size
-			);
+			DATABASE_VIRTUAL const char* getDataStream(const std::string& s, uint64_t& size);
 
 			DATABASE_VIRTUAL void free();
 			DATABASE_VIRTUAL bool next();

@@ -53,17 +53,11 @@
 				const_pointer address(const_reference x) const {
 					return &x;
 				}
-				pointer allocate(
-					size_type n,
-					void* hint32_t = 0
-				) {
+				pointer allocate(size_type n, void* hint32_t = 0) {
 					return static_cast<T*>(std::malloc(n * sizeof(T)));
 				}
 
-				void deallocate(
-					pointer p,
-					size_type n
-				) {
+				void deallocate(pointer p, size_type n) {
 					std::free(static_cast<void*>(p));
 				}
 
@@ -71,10 +65,7 @@
 					return std::numeric_limits<size_type>::max() / sizeof(T);
 				}
 
-				void construct(
-					pointer p,
-					const T& val
-				) {
+				void construct(pointer p, const T& val) {
 					new(static_cast<void*>(p))T(val);
 				}
 
@@ -83,24 +74,15 @@
 				}
 		};
 
-		void* operator new(
-			size_t bytes,
-			int32_t dummy
-		);
+		void* operator new(size_t bytes, int32_t dummy);
 		void* operator new(size_t bytes);
 		void* operator new[](size_t bytes);
 		void operator delete(void* p);
 		void operator delete[](void* p);
 
 		#ifdef _MSC_VER
-			void operator delete(
-				void* p,
-				int32_t dummy
-			);
-			void operator delete[](
-				void* p,
-				int32_t dummy
-			);
+			void operator delete(void* p, int32_t dummy);
+			void operator delete[](void* p, int32_t dummy);
 		#endif
 
 		#ifdef __OTSERV_ALLOCATOR_STATS__
@@ -218,10 +200,7 @@
 				}
 
 			private:
-				void addPool(
-					size_t size,
-					size_t nextSize
-				) {
+				void addPool(size_t size, size_t nextSize) {
 					pools[size] = new(0) boost::pool<boost::default_user_allocator_malloc_free>(size, nextSize);
 
 					#ifdef __OTSERV_ALLOCATOR_STATS__

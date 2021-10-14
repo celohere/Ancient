@@ -43,10 +43,7 @@ void ItemAttributes::eraseAttribute(const std::string& key) {
 	}
 }
 
-void ItemAttributes::setAttribute(
-	const std::string& key,
-	boost::any value
-) {
+void ItemAttributes::setAttribute(const std::string& key, boost::any value) {
 	createAttributes();
 	(*attributes)[key].set(value);
 }
@@ -63,34 +60,22 @@ boost::any ItemAttributes::getAttribute(const std::string& key) const {
 	return boost::any();
 }
 
-void ItemAttributes::setAttribute(
-	const std::string& key,
-	const std::string& value
-) {
+void ItemAttributes::setAttribute(const std::string& key, const std::string& value) {
 	createAttributes();
 	(*attributes)[key].set(value);
 }
 
-void ItemAttributes::setAttribute(
-	const std::string& key,
-	int32_t value
-) {
+void ItemAttributes::setAttribute(const std::string& key, int32_t value) {
 	createAttributes();
 	(*attributes)[key].set(value);
 }
 
-void ItemAttributes::setAttribute(
-	const std::string& key,
-	float value
-) {
+void ItemAttributes::setAttribute(const std::string& key, float value) {
 	createAttributes();
 	(*attributes)[key].set(value);
 }
 
-void ItemAttributes::setAttribute(
-	const std::string& key,
-	bool value
-) {
+void ItemAttributes::setAttribute(const std::string& key, bool value) {
 	createAttributes();
 	(*attributes)[key].set(value);
 }

@@ -147,11 +147,7 @@
 			uint16_t getPolicy() const;
 			uint32_t getOptions() const;
 
-			static Item* createMail(
-				const std::string xmlData,
-				std::string& name,
-				uint32_t& depotId
-			);
+			static Item* createMail(const std::string xmlData, std::string& name, uint32_t& depotId);
 			bool allow(uint32_t ip) const;
 
 			bool isEncypted() const {

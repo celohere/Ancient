@@ -80,11 +80,7 @@ Event* Actions::getEvent(const std::string& nodeName) {
 	return NULL;
 }
 
-bool Actions::registerEvent(
-	Event* event,
-	xmlNodePtr p,
-	bool override
-) {
+bool Actions::registerEvent(Event* event, xmlNodePtr p, bool override) {
 	Action* action = dynamic_cast<Action*>(event);
 	if (!action) {
 		return false;
@@ -272,10 +268,7 @@ bool Actions::registerEvent(
 	return success;
 }
 
-ReturnValue Actions::canUse(
-	const Player* player,
-	const Position& pos
-) {
+ReturnValue Actions::canUse(const Player* player, const Position& pos) {
 	const Position& playerPos = player->getPosition();
 	if (pos.x == 0xFFFF) {
 		return RET_NOERROR;
@@ -289,11 +282,7 @@ ReturnValue Actions::canUse(
 	return RET_NOERROR;
 }
 
-ReturnValue Actions::canUse(
-	const Player* player,
-	const Position& pos,
-	const Item* item
-) {
+ReturnValue Actions::canUse(const Player* player, const Position& pos, const Item* item) {
 	Action* action = NULL;
 	if ((action = getAction(item, ACTION_UNIQUEID))) {
 		return action->canExecuteAction(player, pos);
@@ -309,11 +298,7 @@ ReturnValue Actions::canUse(
 	return RET_NOERROR;
 }
 
-ReturnValue Actions::canUseFar(
-	const Creature* creature,
-	const Position& toPos,
-	bool checkLineOfSight
-) {
+ReturnValue Actions::canUseFar(const Creature* creature, const Position& toPos, bool checkLineOfSight) {
 	if (toPos.x == 0xFFFF) {
 		return RET_NOERROR;
 	}
@@ -331,10 +316,7 @@ ReturnValue Actions::canUseFar(
 	return RET_NOERROR;
 }
 
-Action* Actions::getAction(
-	const Item* item,
-	ActionType_t type
-) const {
+Action* Actions::getAction(const Item* item, ActionType_t type) const {
 	if (item->getUniqueId() && (type == ACTION_ANY || type == ACTION_UNIQUEID)) {
 		ActionUseMap::const_iterator it = uniqueItemMap.find(item->getUniqueId());
 		if (it != uniqueItemMap.end()) {
@@ -364,23 +346,11 @@ Action* Actions::getAction(
 	return NULL;
 }
 
-bool Actions::executeUse(
-	Action* action,
-	Player* player,
-	Item* item,
-	const PositionEx& posEx,
-	uint32_t creatureId
-) {
+bool Actions::executeUse(Action* action, Player* player, Item* item, const PositionEx& posEx, uint32_t creatureId) {
 	return action->executeUse(player, item, posEx, posEx, false, creatureId);
 }
 
-ReturnValue Actions::internalUseItem(
-	Player* player,
-	const Position& pos,
-	uint8_t index,
-	Item* item,
-	uint32_t creatureId
-) {
+ReturnValue Actions::internalUseItem(Player* player, const Position& pos, uint8_t index, Item* item, uint32_t creatureId) {
 	if (Door* door = item->getDoor()) {
 		if (!door->canUse(player)) {
 			return RET_CANNOTUSETHISOBJECT;
@@ -509,11 +479,7 @@ ReturnValue Actions::internalUseItem(
 	return RET_CANNOTUSETHISOBJECT;
 }
 
-bool Actions::useItem(
-	Player* player,
-	const Position& pos,
-	uint8_t index, Item* item
-) {
+bool Actions::useItem(Player* player, const Position& pos, uint8_t index, Item* item) {
 	if (!player->canDoAction()) {
 		return false;
 	}
@@ -531,26 +497,11 @@ bool Actions::useItem(
 	return false;
 }
 
-bool Actions::executeUseEx(
-	Action* action,
-	Player* player,
-	Item* item,
-	const PositionEx& fromPosEx,
-	const PositionEx& toPosEx,
-	bool isHotkey,
-	uint32_t creatureId
-) {
+bool Actions::executeUseEx(Action* action, Player* player, Item* item, const PositionEx& fromPosEx, const PositionEx& toPosEx, bool isHotkey, uint32_t creatureId) {
 	return action->executeUse(player, item, fromPosEx, toPosEx, isHotkey, creatureId) || action->hasOwnErrorHandler();
 }
 
-ReturnValue Actions::internalUseItemEx(
-	Player* player,
-	const PositionEx& fromPosEx,
-	const PositionEx& toPosEx,
-	Item* item,
-	bool isHotkey,
-	uint32_t creatureId
-) {
+ReturnValue Actions::internalUseItemEx(Player* player, const PositionEx& fromPosEx, const PositionEx& toPosEx, Item* item, bool isHotkey, uint32_t creatureId) {
 	Action* action = NULL;
 	if ((action = getAction(item, ACTION_UNIQUEID))) {
 		ReturnValue ret = action->canExecuteAction(player, toPosEx);
@@ -614,15 +565,7 @@ ReturnValue Actions::internalUseItemEx(
 	return RET_CANNOTUSETHISOBJECT;
 }
 
-bool Actions::useItemEx(
-	Player* player,
-	const Position& fromPos,
-	const Position& toPos,
-	uint8_t toStackPos,
-	Item* item,
-	bool isHotkey,
-	uint32_t creatureId
-) {
+bool Actions::useItemEx(Player* player, const Position& fromPos, const Position& toPos, uint8_t toStackPos, Item* item, bool isHotkey, uint32_t creatureId) {
 	if (!player->canDoAction()) {
 		return false;
 	}
@@ -692,14 +635,7 @@ bool Action::loadFunction(const std::string& functionName) {
 	return true;
 }
 
-bool Action::increaseItemId(
-	Player* player,
-	Item* item,
-	const PositionEx&,
-	const PositionEx&,
-	bool,
-	uint32_t
-) {
+bool Action::increaseItemId(Player* player, Item* item, const PositionEx&, const PositionEx&, bool, uint32_t) {
 	if (!player || !item) {
 		return false;
 	}
@@ -709,14 +645,7 @@ bool Action::increaseItemId(
 	return true;
 }
 
-bool Action::decreaseItemId(
-	Player* player,
-	Item* item,
-	const PositionEx&,
-	const PositionEx&,
-	bool,
-	uint32_t
-) {
+bool Action::decreaseItemId(Player* player, Item* item, const PositionEx&, const PositionEx&, bool, uint32_t) {
 	if (!player || !item) {
 		return false;
 	}
@@ -726,24 +655,14 @@ bool Action::decreaseItemId(
 	return true;
 }
 
-ReturnValue Action::canExecuteAction(
-	const Player* player,
-	const Position& toPos
-) {
+ReturnValue Action::canExecuteAction(const Player* player, const Position& toPos) {
 	if (!getAllowFarUse()) {
 		return g_actions->canUse(player, toPos);
 	}
 	return g_actions->canUseFar(player, toPos, getCheckLineOfSight());
 }
 
-bool Action::executeUse(
-	Player* player,
-	Item* item,
-	const PositionEx& fromPos,
-	const PositionEx& toPos,
-	bool extendedUse,
-	uint32_t
-) {
+bool Action::executeUse(Player* player, Item* item, const PositionEx& fromPos, const PositionEx& toPos, bool extendedUse, uint32_t) {
 	// onUse(cid, item, fromPosition, itemEx, toPosition)
 	if (m_interface->reserveEnv()) {
 		ScriptEnviroment* env = m_interface->getEnv();

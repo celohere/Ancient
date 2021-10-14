@@ -42,16 +42,8 @@
 	boost::recursive_mutex mapLock;
 
 	#ifdef WINDOWS
-		void printPointer(
-			std::ostream* output,
-			uint32_t p
-		);
-		EXCEPTION_DISPOSITION __cdecl _SEHHandler(
-			struct _EXCEPTION_RECORD *ExceptionRecord,
-			void* EstablisherFrame,
-			struct _CONTEXT *ContextRecord,
-			void* DispatcherContext
-		);
+		void printPointer(std::ostream* output, uint32_t p);
+		EXCEPTION_DISPOSITION __cdecl _SEHHandler(struct _EXCEPTION_RECORD *ExceptionRecord, void* EstablisherFrame, struct _CONTEXT *ContextRecord, void* DispatcherContext);
 	#endif
 
 	ExceptionHandler::ExceptionHandler() {
@@ -113,10 +105,7 @@
 		return true;
 	}
 
-	char* getFunctionName(
-		unsigned long addr,
-		unsigned long& start
-	) {
+	char* getFunctionName(unsigned long addr, unsigned long& start) {
 		FunctionMap::iterator functions;
 		if (addr < offMin || addr > offMax) {
 			return NULL;
@@ -135,12 +124,7 @@
 	}
 
 	#ifdef WINDOWS
-		EXCEPTION_DISPOSITION __cdecl _SEHHandler(
-			struct _EXCEPTION_RECORD *ExceptionRecord,
-			void* EstablisherFrame,
-			struct _CONTEXT *ContextRecord,
-			void* DispatcherContext
-		) {
+		EXCEPTION_DISPOSITION __cdecl _SEHHandler(struct _EXCEPTION_RECORD *ExceptionRecord, void* EstablisherFrame, struct _CONTEXT *ContextRecord, void* DispatcherContext) {
 			uint32_t *esp, *next_ret, stack_val, *stacklimit, *stackstart, nparameters = 0, file, foundRetAddress = 0;
 			_MEMORY_BASIC_INFORMATION mbi;
 
@@ -307,10 +291,7 @@
 			return ExceptionContinueSearch;
 		}
 
-		void printPointer(
-			std::ostream* output,
-			uint32_t p
-		) {
+		void printPointer(std::ostream* output, uint32_t p) {
 			*output << p;
 			if (!IsBadReadPtr((void*)p, 4)) {
 				*output << " -> " << *(uint32_t*)p;

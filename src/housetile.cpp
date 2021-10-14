@@ -25,21 +25,13 @@
 extern ConfigManager g_config;
 extern Game g_game;
 
-HouseTile::HouseTile(
-	int32_t x,
-	int32_t y,
-	int32_t z,
-	House* _house
+HouseTile::HouseTile(int32_t x, int32_t y, int32_t z, House* _house
 ):DynamicTile(x, y, z) {
 	house = _house;
 	setFlag(TILESTATE_HOUSE);
 }
 
-void HouseTile::__addThing(
-	Creature* actor,
-	int32_t index,
-	Thing* thing
-) {
+void HouseTile::__addThing(Creature* actor, int32_t index, Thing* thing) {
 	Tile::__addThing(actor, index, thing);
 	if (!thing->getParent()) {
 		return;
@@ -50,10 +42,7 @@ void HouseTile::__addThing(
 	}
 }
 
-void HouseTile::__internalAddThing(
-	uint32_t index,
-	Thing* thing
-) {
+void HouseTile::__internalAddThing(uint32_t index, Thing* thing) {
 	Tile::__internalAddThing(index, thing);
 	if (!thing->getParent()) {
 		return;
@@ -77,12 +66,7 @@ void HouseTile::updateHouse(Item* item) {
 	}
 }
 
-ReturnValue HouseTile::__queryAdd(
-	int32_t index,
-	const Thing* thing,
-	uint32_t count,
-	uint32_t flags
-) const {
+ReturnValue HouseTile::__queryAdd(int32_t index, const Thing* thing, uint32_t count, uint32_t flags) const {
 	if (const Creature* creature = thing->getCreature()) {
 		if (const Player* player = creature->getPlayer()) {
 			if (!house->isInvited(player)) {
@@ -100,12 +84,7 @@ ReturnValue HouseTile::__queryAdd(
 	return Tile::__queryAdd(index, thing, count, flags);
 }
 
-Cylinder* HouseTile::__queryDestination(
-	int32_t& index,
-	const Thing* thing,
-	Item** destItem,
-	uint32_t& flags
-) {
+Cylinder* HouseTile::__queryDestination(int32_t& index, const Thing* thing, Item** destItem, uint32_t& flags) {
 	if (const Creature* creature = thing->getCreature()) {
 		if (const Player* player = creature->getPlayer()) {
 			if (!house->isInvited(player) && !player->hasFlag(PlayerFlag_CanEditHouses)) {

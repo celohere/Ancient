@@ -38,17 +38,7 @@
 
 	class ChatChannel {
 		public:
-			ChatChannel(
-				uint16_t id,
-				const std::string& name,
-				uint16_t flags,
-				uint32_t access = 0,
-				uint32_t level = 1,
-				Condition* condition = NULL,
-				int32_t conditionId = -1,
-				const std::string& conditionMessage = "",
-				VocationMap* vocationMap = NULL
-			);
+			ChatChannel(uint16_t id, const std::string& name, uint16_t flags, uint32_t access = 0, uint32_t level = 1, Condition* condition = NULL, int32_t conditionId = -1, const std::string& conditionMessage = "", VocationMap* vocationMap = NULL);
 			virtual ~ChatChannel() {
 				delete m_condition;
 				delete m_vocationMap;
@@ -95,17 +85,8 @@
 			bool addUser(Player* player);
 			bool removeUser(Player* player);
 
-			bool talk(
-				Player* player,
-				SpeakClasses type,
-				const std::string& text,
-				uint32_t _time = 0
-			);
-			bool talk(
-				std::string nick,
-				SpeakClasses type,
-				std::string text
-			);
+			bool talk(Player* player, SpeakClasses type, const std::string& text, uint32_t _time = 0);
+			bool talk(std::string nick, SpeakClasses type, std::string text);
 
 		protected:
 			uint16_t m_id, m_flags;
@@ -122,11 +103,7 @@
 
 	class PrivateChatChannel : public ChatChannel {
 		public:
-			PrivateChatChannel(
-				uint16_t id,
-				std::string name,
-				uint16_t flags
-			);
+			PrivateChatChannel(uint16_t id, std::string name, uint16_t flags);
 			virtual ~PrivateChatChannel() {}
 
 			virtual uint32_t getOwner() {
@@ -138,14 +115,8 @@
 
 			bool isInvited(const Player* player);
 
-			void invitePlayer(
-				Player* player,
-				Player* invitePlayer
-			);
-			void excludePlayer(
-				Player* player,
-				Player* excludePlayer
-			);
+			void invitePlayer(Player* player, Player* invitePlayer);
+			void excludePlayer(Player* player, Player* excludePlayer);
 
 			bool addInvited(Player* player);
 			bool removeInvited(Player* player);
@@ -170,40 +141,19 @@
 			bool loadFromXml();
 			bool parseChannelNode(xmlNodePtr p);
 
-			ChatChannel* createChannel(
-				Player* player,
-				uint16_t channelId
-			);
-			bool deleteChannel(
-				Player* player,
-				uint16_t channelId
-			);
+			ChatChannel* createChannel(Player* player, uint16_t channelId);
+			bool deleteChannel(Player* player, uint16_t channelId);
 
-			ChatChannel* addUserToChannel(
-				Player* player, uint16_t channelId);
-			bool removeUserFromChannel(
-				Player* player,
-				uint16_t channelId
-			);
+			ChatChannel* addUserToChannel(Player* player, uint16_t channelId);
+			bool removeUserFromChannel(Player* player, uint16_t channelId);
 			void removeUserFromAllChannels(Player* player);
 
-			bool talkToChannel(
-				Player* player,
-				SpeakClasses type,
-				const std::string& text,
-				uint16_t channelId
-			);
+			bool talkToChannel(Player* player, SpeakClasses type, const std::string& text, uint16_t channelId);
 
-			ChatChannel* getChannel(
-				Player* player,
-				uint16_t channelId
-			);
+			ChatChannel* getChannel(Player* player, uint16_t channelId);
 			ChatChannel* getChannelById(uint16_t channelId);
 
-			std::string getChannelName(
-				Player* player,
-				uint16_t channelId
-			);
+			std::string getChannelName(Player* player, uint16_t channelId);
 			ChannelList getChannelList(Player* player);
 
 			PrivateChatChannel* getPrivateChannel(Player* player);

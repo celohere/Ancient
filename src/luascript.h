@@ -84,14 +84,8 @@
 			static bool saveGameState();
 			static bool loadGameState();
 
-			bool getStorage(
-				const std::string& key,
-				std::string& value
-			) const;
-			void setStorage(
-				const std::string& key,
-				const std::string& value
-			) {
+			bool getStorage(const std::string& key, std::string& value) const;
+			void setStorage(const std::string& key, const std::string& value) {
 				m_storageMap[key] = value;
 			}
 			void eraseStorage(const std::string& key) {
@@ -101,20 +95,14 @@
 			int32_t getScriptId() const {
 				return m_scriptId;
 			};
-			void setScriptId(
-				int32_t scriptId,
-				LuaInterface* interface
-			) {
+			void setScriptId(int32_t scriptId, LuaInterface* interface) {
 				m_scriptId = scriptId; m_interface = interface;
 			}
 
 			int32_t getCallbackId() const {
 				return m_callbackId;
 			};
-			bool setCallbackId(
-				int32_t callbackId,
-				LuaInterface* interface
-			);
+			bool setCallbackId(int32_t callbackId, LuaInterface* interface);
 
 			std::string getEvent() const {
 				return m_event;
@@ -154,20 +142,11 @@
 			Player* getPlayerByUID(uint32_t uid);
 
 			uint32_t addThing(Thing* thing);
-			void insertThing(
-				uint32_t uid,
-				Thing* thing
-			);
+			void insertThing(uint32_t uid, Thing* thing);
 			void removeThing(uint32_t uid);
 
-			static void addTempItem(
-				ScriptEnviroment* env,
-				Item* item
-			);
-			static void removeTempItem(
-				ScriptEnviroment* env,
-				Item* item
-			);
+			static void addTempItem(ScriptEnviroment* env, Item* item);
+			static void removeTempItem(ScriptEnviroment* env, Item* item);
 			static void removeTempItem(Item* item);
 
 			DBResult* getResultByID(uint32_t id);
@@ -197,47 +176,19 @@
 			LuaInterface* getInterface() {
 				return m_interface;
 			}
-			void getInfo(
-				int32_t& scriptId,
-				std::string& desc,
-				LuaInterface*& interface,
-				int32_t& callbackId,
-				bool& timerEvent
-			);
+			void getInfo(int32_t& scriptId, std::string& desc, LuaInterface*& interface, int32_t& callbackId, bool& timerEvent);
 			void reset();
 			void resetCallback() {
 				m_callbackId = 0;
 			}
 
-			void streamVariant(
-				std::stringstream& stream,
-				const std::string& local,
-				const LuaVariant& var
-			);
-			void streamThing(
-				std::stringstream& stream,
-				const std::string& local,
-				Thing* thing,
-				uint32_t id = 0
-			);
-			void streamPosition(
-				std::stringstream& stream,
-				const std::string& local,
-				const PositionEx& position
-			) {
+			void streamVariant(std::stringstream& stream, const std::string& local, const LuaVariant& var);
+			void streamThing(std::stringstream& stream, const std::string& local, Thing* thing, uint32_t id = 0);
+			void streamPosition(std::stringstream& stream, const std::string& local, const PositionEx& position) {
 				streamPosition(stream, local, position, position.stackpos);
 			}
-			void streamPosition(
-				std::stringstream& stream,
-				const std::string& local,
-				const Position& position,
-				uint32_t stackpos
-			);
-			void streamOutfit(
-				std::stringstream& stream,
-				const std::string& local,
-				const Outfit_t& outfit
-			);
+			void streamPosition(std::stringstream& stream, const std::string& local, const Position& position, uint32_t stackpos);
+			void streamOutfit(std::stringstream& stream, const std::string& local, const Outfit_t& outfit);
 
 		private:
 			typedef std::map<uint64_t, Thing*> ThingMap;
@@ -322,19 +273,9 @@
 				}
 			}
 
-			bool loadBuffer(
-				const std::string& text,
-				Npc* npc = NULL
-			);
-			bool loadFile(
-				const std::string& file,
-				Npc* npc = NULL
-			);
-			bool loadDirectory(
-				const std::string& dir,
-				Npc* npc = NULL,
-				bool recursively = false
-			);
+			bool loadBuffer(const std::string& text, Npc* npc = NULL);
+			bool loadFile(const std::string& file, Npc* npc = NULL);
+			bool loadDirectory(const std::string& dir, Npc* npc = NULL, bool recursively = false);
 
 			std::string getName() const {
 				return m_interfaceName;
@@ -360,45 +301,18 @@
 			void dumpStack(lua_State* L = NULL);
 
 			// push/pop common structures
-			static void pushThing(
-				lua_State* L,
-				Thing* thing,
-				uint32_t id = 0
-			);
-			static void pushVariant(
-				lua_State* L,
-				const LuaVariant& var
-			);
-			static void pushPosition(
-				lua_State* L,
-				const PositionEx& position
-			) {
+			static void pushThing(lua_State* L, Thing* thing, uint32_t id = 0);
+			static void pushVariant(lua_State* L, const LuaVariant& var);
+			static void pushPosition(lua_State* L, const PositionEx& position) {
 				pushPosition(L, position, position.stackpos);
 			}
-			static void pushPosition(
-				lua_State* L,
-				const Position& position,
-				uint32_t stackpos
-			);
-			static void pushOutfit(
-				lua_State* L,
-				const Outfit_t& outfit
-			);
-			static void pushCallback(
-				lua_State* L,
-				int32_t callback
-			);
+			static void pushPosition(lua_State* L, const Position& position, uint32_t stackpos);
+			static void pushOutfit(lua_State* L, const Outfit_t& outfit);
+			static void pushCallback(lua_State* L, int32_t callback);
 
 			static LuaVariant popVariant(lua_State* L);
-			static void popPosition(
-				lua_State* L,
-				PositionEx& position
-			);
-			static void popPosition(
-				lua_State* L,
-				Position& position,
-				uint32_t& stackpos
-			);
+			static void popPosition(lua_State* L, PositionEx& position);
+			static void popPosition(lua_State* L, Position& position, uint32_t& stackpos);
 			static bool popBoolean(lua_State* L);
 			static int64_t popNumber(lua_State* L);
 			static double popFloatNumber(lua_State* L);
@@ -406,109 +320,37 @@
 			static int32_t popCallback(lua_State* L);
 			static Outfit_t popOutfit(lua_State* L);
 
-			static int64_t getField(
-				lua_State* L,
-				const char* key
-			);
-			static uint64_t getFieldUnsigned(
-				lua_State* L,
-				const char* key
-			);
-			static std::string getFieldString(
-				lua_State* L,
-				const char* key
-			);
-			static bool getFieldBool(
-				lua_State* L,
-				const char* key
-			);
+			static int64_t getField(lua_State* L, const char* key);
+			static uint64_t getFieldUnsigned(lua_State* L, const char* key);
+			static std::string getFieldString(lua_State* L, const char* key);
+			static bool getFieldBool(lua_State* L, const char* key);
 
-			static void setField(
-				lua_State* L,
-				const char* index,
-				int32_t val
-			);
-			static void setField(
-				lua_State* L,
-				const char* index,
-				const std::string& val
-			);
-			static void setFieldBool(
-				lua_State* L,
-				const char* index,
-				bool val
-			);
-			static void setFieldFloat(
-				lua_State* L,
-				const char* index,
-				double val
-			);
+			static void setField(lua_State* L, const char* index, int32_t val);
+			static void setField(lua_State* L, const char* index, const std::string& val);
+			static void setFieldBool(lua_State* L, const char* index, bool val);
+			static void setFieldFloat(lua_State* L, const char* index, double val);
 
-			static void createTable(
-				lua_State* L,
-				const char* index
-			);
-			static void createTable(
-				lua_State* L,
-				const char* index,
-				int32_t narr,
-				int32_t nrec
-			);
-			static void createTable(
-				lua_State* L,
-				int32_t index
-			);
-			static void createTable(
-				lua_State* L,
-				int32_t index,
-				int32_t narr,
-				int32_t nrec
-			);
+			static void createTable(lua_State* L, const char* index);
+			static void createTable(lua_State* L, const char* index, int32_t narr, int32_t nrec);
+			static void createTable(lua_State* L, int32_t index);
+			static void createTable(lua_State* L, int32_t index, int32_t narr, int32_t nrec);
 			static void pushTable(lua_State* L);
 
-			static std::string getGlobalString(
-				lua_State* L,
-				const std::string& _identifier,
-				const std::string& _default = ""
-			);
-			static bool getGlobalBool(
-				lua_State* L,
-				const std::string& _identifier,
-				bool _default = false
-			);
-			static int32_t getGlobalNumber(
-				lua_State* L,
-				const std::string& _identifier,
-				const int32_t _default = 0
-			);
-			static double getGlobalDouble(
-				lua_State* L,
-				const std::string& _identifier,
-				const double _default = 0
-			);
+			static std::string getGlobalString(lua_State* L, const std::string& _identifier, const std::string& _default = "");
+			static bool getGlobalBool(lua_State* L, const std::string& _identifier, bool _default = false);
+			static int32_t getGlobalNumber(lua_State* L, const std::string& _identifier, const int32_t _default = 0);
+			static double getGlobalDouble(lua_State* L, const std::string& _identifier, const double _default = 0);
 
-			static void getValue(
-				const std::string& key,
-				lua_State* L,
-				lua_State* _L
-			);
-			static void moveValue(
-				lua_State* from,
-				lua_State* to
-			);
+			static void getValue(const std::string& key, lua_State* L, lua_State* _L);
+			static void moveValue(lua_State* from, lua_State* to);
 
-			static void error(
-				const char* function, const std::string& desc);
+			static void error(const char* function, const std::string& desc);
 
 		protected:
 			virtual bool closeState();
 
 			static std::string getError(ErrorCode_t code);
-			static bool getArea(
-				lua_State* L,
-				std::list<uint32_t>& list,
-				uint32_t& rows
-			);
+			static bool getArea(lua_State* L, std::list<uint32_t>& list, uint32_t& rows);
 
 			virtual void registerFunctions();
 
@@ -956,10 +798,7 @@
 				PlayerInfoTradeState
 			};
 
-			static int32_t internalGetPlayerInfo(
-				lua_State* L,
-				PlayerInfo_t info
-			);
+			static int32_t internalGetPlayerInfo(lua_State* L, PlayerInfo_t info);
 
 			int32_t m_runningEvent;
 			uint32_t m_lastTimer;

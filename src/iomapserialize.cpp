@@ -210,10 +210,7 @@ bool IOMapSerialize::saveHouses() {
 	return trans.commit();
 }
 
-bool IOMapSerialize::saveHouse(
-	Database* db,
-	House* house
-) {
+bool IOMapSerialize::saveHouse(Database* db, House* house) {
 	DBQuery query;
 	query << "UPDATE `houses` SET `owner` = " << house->getOwner() << ", `paid` = " << house->getPaidUntil() << ", `warnings` = " << house->getRentWarnings() << ", `lastwarning` = " << house->getLastWarning() << ", `clear` = 0 WHERE `id` = " << house->getId() << " AND `world_id` = " << g_config.getNumber(ConfigManager::WORLD_ID) << db->getUpdateLimiter();
 	if (!db->query(query.str())) {
@@ -465,12 +462,7 @@ bool IOMapSerialize::saveMapBinary(Map*) {
 	return transaction.commit();
 }
 
-bool IOMapSerialize::loadItems(
-	Database*,
-	DBResult* result,
-	Cylinder* parent,
-	bool depotTransfer
-) {
+bool IOMapSerialize::loadItems(Database*, DBResult* result, Cylinder* parent, bool depotTransfer) {
 	ItemMap itemMap;
 	Tile* tile = NULL;
 	if (!parent->getItem()) {
@@ -571,12 +563,7 @@ bool IOMapSerialize::loadItems(
 	return true;
 }
 
-bool IOMapSerialize::saveItems(
-	Database* db,
-	uint32_t& tileId,
-	uint32_t houseId,
-	const Tile* tile
-) {
+bool IOMapSerialize::saveItems(Database* db, uint32_t& tileId, uint32_t houseId, const Tile* tile) {
 	int32_t thingCount = tile->getThingCount();
 	if (!thingCount) {
 		return true;
@@ -657,10 +644,7 @@ bool IOMapSerialize::saveItems(
 	return query_insert.execute();
 }
 
-bool IOMapSerialize::loadContainer(
-	PropStream& propStream,
-	Container* container
-) {
+bool IOMapSerialize::loadContainer(PropStream& propStream, Container* container) {
 	while (container->serializationCount > 0) {
 		if (!loadItem(propStream, container, false)) {
 			std::clog << "[Warning - IOMapSerialize::loadContainer] Unserialization error [0] for item in container " << container->getID() << std::endl;
@@ -679,11 +663,7 @@ bool IOMapSerialize::loadContainer(
 	return false;
 }
 
-bool IOMapSerialize::loadItem(
-	PropStream& propStream,
-	Cylinder* parent,
-	bool depotTransfer
-) {
+bool IOMapSerialize::loadItem(PropStream& propStream, Cylinder* parent, bool depotTransfer) {
 	Tile* tile = NULL;
 	if (!parent->getItem()) {
 		tile = parent->getTile();
@@ -784,10 +764,7 @@ bool IOMapSerialize::loadItem(
 	return true;
 }
 
-bool IOMapSerialize::saveTile(
-	PropWriteStream& stream,
-	const Tile* tile
-) {
+bool IOMapSerialize::saveTile(PropWriteStream& stream, const Tile* tile) {
 	int32_t tileCount = tile->getThingCount();
 	if (!tileCount) {
 		return true;
@@ -815,10 +792,7 @@ bool IOMapSerialize::saveTile(
 	return true;
 }
 
-bool IOMapSerialize::saveItem(
-	PropWriteStream& stream,
-	const Item* item
-) {
+bool IOMapSerialize::saveItem(PropWriteStream& stream, const Item* item) {
 	stream.addShort(item->getID());
 	item->serializeAttr(stream);
 	if (const Container* container = item->getContainer()) {

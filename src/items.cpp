@@ -475,10 +475,7 @@ bool Items::loadFromXml() {
 	return true;
 }
 
-void Items::parseItemNode(
-	xmlNodePtr itemNode,
-	uint32_t id
-) {
+void Items::parseItemNode(xmlNodePtr itemNode, uint32_t id) {
 	int32_t intValue;
 	std::string strValue;
 
@@ -1496,12 +1493,7 @@ void Items::parseItemNode(
 	}
 }
 
-void Items::parseRandomizationBlock(
-	int32_t id,
-	int32_t fromId,
-	int32_t toId,
-	int32_t chance
-) {
+void Items::parseRandomizationBlock(int32_t id, int32_t fromId, int32_t toId, int32_t chance) {
 	RandomizationMap::iterator it = randomizationMap.find(id);
 	if (it != randomizationMap.end()) {
 		std::clog << "[Warning - Items::parseRandomizationBlock] Duplicated item with id: " << id << std::endl;
