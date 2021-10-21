@@ -52,8 +52,7 @@ AutoList<Player> Player::autoList;
 
 MuteCountMap Player::muteCountMap;
 
-Player::Player(const std::string& _name, ProtocolGame* p
-):Creature(), transferContainer(ITEM_LOCKER), name(_name), nameDescription(_name), client(p) {
+Player::Player(const std::string& _name, ProtocolGame* p):Creature(), transferContainer(ITEM_LOCKER), name(_name), nameDescription(_name), client(p) {
 	if (client) {
 		client->setPlayer(this);
 	}

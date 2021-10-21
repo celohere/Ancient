@@ -289,8 +289,7 @@ bool BaseSpell::castSpell(Creature* creature, Creature* target) {
 	return success;
 }
 
-CombatSpell::CombatSpell(Combat* _combat, bool _needTarget, bool _needDirection
-):Event(&g_spells->getInterface()) {
+CombatSpell::CombatSpell(Combat* _combat, bool _needTarget, bool _needDirection):Event(&g_spells->getInterface()) {
 	combat = _combat;
 	needTarget = _needTarget;
 	needDirection = _needDirection;

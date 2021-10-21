@@ -28,8 +28,7 @@
 extern ConfigManager g_config;
 extern Game g_game;
 
-Condition::Condition(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId
-):id(_id), subId(_subId), ticks(_ticks), endTime(0), conditionType(_type), buff(_buff) {}
+Condition::Condition(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId):id(_id), subId(_subId), ticks(_ticks), endTime(0), conditionType(_type), buff(_buff) {}
 
 bool Condition::setParam(ConditionParam_t param, int32_t value) {
 	switch (param) {
@@ -295,8 +294,7 @@ Icons_t Condition::getIcons() const {
 	return ICON_NONE;
 }
 
-ConditionGeneric::ConditionGeneric(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId
-):Condition(_id, _type, _ticks, _buff, _subId) {}
+ConditionGeneric::ConditionGeneric(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId):Condition(_id, _type, _ticks, _buff, _subId) {}
 
 void ConditionGeneric::addCondition(Creature*, const Condition* addCondition) {
 	if (updateCondition(addCondition)) {
@@ -326,8 +324,7 @@ Icons_t ConditionGeneric::getIcons() const {
 	return ICON_NONE;
 }
 
-ConditionManaShield::ConditionManaShield(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId
-):ConditionGeneric(_id, _type, _ticks, _buff, _subId) {}
+ConditionManaShield::ConditionManaShield(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId):ConditionGeneric(_id, _type, _ticks, _buff, _subId) {}
 
 Icons_t ConditionManaShield::getIcons() const {
 	Icons_t icon = Condition::getIcons();
@@ -337,8 +334,7 @@ Icons_t ConditionManaShield::getIcons() const {
 	return ICON_MANASHIELD;
 }
 
-ConditionAttributes::ConditionAttributes(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId
-):ConditionGeneric(_id, _type, _ticks, _buff, _subId) {
+ConditionAttributes::ConditionAttributes(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId):ConditionGeneric(_id, _type, _ticks, _buff, _subId) {
 	currentSkill = currentStat = 0;
 	memset(skills, 0, sizeof(skills));
 	memset(skillsPercent, 0, sizeof(skillsPercent));
@@ -645,8 +641,7 @@ bool ConditionAttributes::setParam(ConditionParam_t param, int32_t value) {
 	return ret;
 }
 
-ConditionRegeneration::ConditionRegeneration(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId
-):ConditionGeneric(_id, _type, _ticks, _buff, _subId) {
+ConditionRegeneration::ConditionRegeneration(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId):ConditionGeneric(_id, _type, _ticks, _buff, _subId) {
 	internalHealthTicks = internalManaTicks = healthGain = manaGain = 0;
 	healthTicks = manaTicks = 1000;
 }
@@ -781,8 +776,7 @@ bool ConditionRegeneration::setParam(ConditionParam_t param, int32_t value) {
 	return ret;
 }
 
-ConditionSoul::ConditionSoul(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId
-):ConditionGeneric(_id, _type, _ticks, _buff, _subId) {
+ConditionSoul::ConditionSoul(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId):ConditionGeneric(_id, _type, _ticks, _buff, _subId) {
 	internalSoulTicks = soulTicks = soulGain = 0;
 }
 
@@ -872,8 +866,7 @@ bool ConditionSoul::setParam(ConditionParam_t param, int32_t value) {
 	return ret;
 }
 
-ConditionDamage::ConditionDamage(ConditionId_t _id, ConditionType_t _type, bool _buff, uint32_t _subId
-):Condition(_id, _type, 0, _buff, _subId) {
+ConditionDamage::ConditionDamage(ConditionId_t _id, ConditionType_t _type, bool _buff, uint32_t _subId):Condition(_id, _type, 0, _buff, _subId) {
 	tickInterval = 2000;
 	delayed = forceUpdate = false;
 	owner = minDamage = maxDamage = startDamage = periodDamage = periodDamageTick = 0;
@@ -1272,8 +1265,7 @@ void ConditionDamage::generateDamageList(int32_t amount, int32_t start, std::lis
 	}
 }
 
-ConditionSpeed::ConditionSpeed(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId, int32_t changeSpeed
-):ConditionOutfit(_id, _type, _ticks, _buff, _subId) {
+ConditionSpeed::ConditionSpeed(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId, int32_t changeSpeed):ConditionOutfit(_id, _type, _ticks, _buff, _subId) {
 	speedDelta = changeSpeed;
 	mina = minb = maxa = maxb = 0.0f;
 }
@@ -1459,8 +1451,7 @@ Icons_t ConditionSpeed::getIcons() const {
 	return ICON_NONE;
 }
 
-ConditionOutfit::ConditionOutfit(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId
-):Condition(_id, _type, _ticks, _buff, _subId) {}
+ConditionOutfit::ConditionOutfit(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId):Condition(_id, _type, _ticks, _buff, _subId) {}
 
 bool ConditionOutfit::unserializeProp(ConditionAttr_t attr, PropStream& propStream) {
 	Outfit_t outfit;
@@ -1527,8 +1518,7 @@ void ConditionOutfit::addCondition(Creature* creature, const Condition* addCondi
 	changeOutfit(creature);
 }
 
-ConditionLight::ConditionLight(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId, int32_t lightLevel, int32_t lightColor
-):Condition(_id, _type, _ticks, _buff, _subId) {
+ConditionLight::ConditionLight(ConditionId_t _id, ConditionType_t _type, int32_t _ticks, bool _buff, uint32_t _subId, int32_t lightLevel, int32_t lightColor):Condition(_id, _type, _ticks, _buff, _subId) {
 	lightInfo.level = lightLevel;
 	lightInfo.color = lightColor;
 	internalLightTicks = lightChangeInterval = 0;

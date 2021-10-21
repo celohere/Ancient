@@ -31,8 +31,7 @@ extern Chat g_chat;
 
 uint16_t ChatChannel::staticFlags = CHANNELFLAG_ENABLED | CHANNELFLAG_ACTIVE;
 
-PrivateChatChannel::PrivateChatChannel(uint16_t id, std::string name, uint16_t flags
-):ChatChannel(id, name, flags), m_owner(0) {}
+PrivateChatChannel::PrivateChatChannel(uint16_t id, std::string name, uint16_t flags):ChatChannel(id, name, flags), m_owner(0) {}
 
 bool PrivateChatChannel::isInvited(const Player* player) {
 	if (player->getGUID() == m_owner) {
@@ -93,8 +92,7 @@ void PrivateChatChannel::closeChannel() {
 	}
 }
 
-ChatChannel::ChatChannel(uint16_t id, const std::string& name, uint16_t flags, uint32_t access, uint32_t level, Condition* condition, int32_t conditionId, const std::string& conditionMessage, VocationMap* vocationMap
-):m_id(id), m_flags(flags), m_conditionId(conditionId), m_access(access), m_level(level), m_name(name), m_conditionMessage(conditionMessage), m_condition(condition), m_vocationMap(vocationMap) {
+ChatChannel::ChatChannel(uint16_t id, const std::string& name, uint16_t flags, uint32_t access, uint32_t level, Condition* condition, int32_t conditionId, const std::string& conditionMessage, VocationMap* vocationMap):m_id(id), m_flags(flags), m_conditionId(conditionId), m_access(access), m_level(level), m_name(name), m_conditionMessage(conditionMessage), m_condition(condition), m_vocationMap(vocationMap) {
 	if (hasFlag(CHANNELFLAG_LOGGED)) {
 		m_file.reset(new std::ofstream(getFilePath(FILE_TYPE_LOG, (std::string)"chat/" + g_config.getString(ConfigManager::PREFIX_CHANNEL_LOGS) + m_name + (std::string)".log").c_str(), std::ios::app | std::ios::out));
 		if (!m_file->is_open()) {

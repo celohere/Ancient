@@ -175,8 +175,7 @@ bool Item::loadContainer(xmlNodePtr parentNode, Container* parent) {
 	return true;
 }
 
-Item::Item(const uint16_t type, uint16_t amount
-):ItemAttributes(), id(type) {
+Item::Item(const uint16_t type, uint16_t amount):ItemAttributes(), id(type) {
 	raid = NULL;
 	loadedFromMap = false;
 

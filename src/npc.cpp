@@ -2499,8 +2499,7 @@ int32_t NpcScript::luaCloseShopWindow(lua_State* L) {
 	return 1;
 }
 
-NpcEvents::NpcEvents(std::string file, Npc* npc
-):m_npc(npc), m_interface(npc->getInterface()) {
+NpcEvents::NpcEvents(std::string file, Npc* npc):m_npc(npc), m_interface(npc->getInterface()) {
 	if (!m_interface->loadFile(file, npc)) {
 		std::clog << "[Warning - NpcEvents::NpcEvents] Cannot load script: " << file << std::endl << m_interface->getLastError() << std::endl;
 		m_loaded = false;
